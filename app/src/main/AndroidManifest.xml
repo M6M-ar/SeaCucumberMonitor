@@ -25,16 +25,20 @@
             android:name=".GalleryActivity"
             android:exported="false" />
 
-        <activity android:name=".AiMonitorActivity" />
+        <activity
+            android:name=".AiMonitorActivity"
+            android:exported="false"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="user"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
 
         <activity
             android:name=".UsbCameraActivity"
             android:exported="true"
             android:hardwareAccelerated="true"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
             android:screenOrientation="user"
             android:configChanges="orientation|screenSize|keyboardHidden">
-
             <intent-filter>
                 <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
             </intent-filter>
@@ -42,7 +46,6 @@
             <meta-data
                 android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
                 android:resource="@xml/device_filter" />
-
         </activity>
 
         <activity

@@ -1,303 +1,329 @@
-// Tencent is pleased to support the open source community by making ncnn available.
-//
-// Copyright (C) 2021 THL A29 Limited, a Tencent company. All rights reserved.
-//
-// Licensed under the BSD 3-Clause License (the "License"); you may not use this file except
-// in compliance with the License. You may obtain a copy of the License at
-//
-// https://opensource.org/licenses/BSD-3-Clause
-//
-// Unless required by applicable law or agreed to in writing, software distributed
-// under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
-// CONDITIONS OF ANY KIND, either express or implied. See the License for the
-// specific language governing permissions and limitations under the License.
-
-#include <android/asset_manager_jni.h>
-#include <android/native_window_jni.h>
-#include <android/native_window.h>
-
-#include <android/log.h>
-
 #include <jni.h>
+#include <android/asset_manager.h>
+#include <android/asset_manager_jni.h>
+#include <android/bitmap.h>
+#include <android/log.h>
 
 #include <string>
 #include <vector>
-
-#include <platform.h>
-#include <benchmark.h>
-
-#include "yolov8.h"
-
-#include "ndkcamera.h"
+#include <mutex>
 
 #include <opencv2/core/core.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 
-#if __ARM_NEON
-#include <arm_neon.h>
-#endif // __ARM_NEON
+#include "net.h"
+#include "gpu.h"
+#include "yolov8.h"
 
-static int draw_unsupported(cv::Mat& rgb)
-{
-    const char text[] = "unsupported";
+#define LOG_TAG "SeaCucumberYolo"
+#define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, __VA_ARGS__)
+#define LOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
 
-    int baseLine = 0;
-    cv::Size label_size = cv::getTextSize(text, cv::FONT_HERSHEY_SIMPLEX, 1.0, 1, &baseLine);
+static std::mutex g_lock;
+static YOLOv8* g_yolov8 = nullptr;
 
-    int y = (rgb.rows - label_size.height) / 2;
-    int x = (rgb.cols - label_size.width) / 2;
+static const char* YOLO_CLASS_PATH = "com/example/seacucumbermonitor/Yolov8Ncnn";
+static const char* YOLO_OBJ_CLASS_PATH = "com/example/seacucumbermonitor/Yolov8Ncnn$Obj";
 
-    cv::rectangle(rgb, cv::Rect(cv::Point(x, y), cv::Size(label_size.width, label_size.height + baseLine)),
-                    cv::Scalar(255, 255, 255), -1);
+static const char* PARAM_FILE_NAME = "yolov8.param";
+static const char* MODEL_FILE_NAME = "yolov8.bin";
+static const char* DEFAULT_LABEL_NAME = "sea_cucumber";
 
-    cv::putText(rgb, text, cv::Point(x, y + label_size.height),
-                cv::FONT_HERSHEY_SIMPLEX, 1.0, cv::Scalar(0, 0, 0));
-
-    return 0;
-}
-
-static int draw_fps(cv::Mat& rgb)
-{
-    // resolve moving average
-    float avg_fps = 0.f;
-    {
-        static double t0 = 0.f;
-        static float fps_history[10] = {0.f};
-
-        double t1 = ncnn::get_current_time();
-        if (t0 == 0.f)
-        {
-            t0 = t1;
-            return 0;
-        }
-
-        float fps = 1000.f / (t1 - t0);
-        t0 = t1;
-
-        for (int i = 9; i >= 1; i--)
-        {
-            fps_history[i] = fps_history[i - 1];
-        }
-        fps_history[0] = fps;
-
-        if (fps_history[9] == 0.f)
-        {
-            return 0;
-        }
-
-        for (int i = 0; i < 10; i++)
-        {
-            avg_fps += fps_history[i];
-        }
-        avg_fps /= 10.f;
+static bool asset_exists(AAssetManager* mgr, const char* file_name) {
+    if (mgr == nullptr || file_name == nullptr) {
+        return false;
     }
 
-    char text[32];
-    sprintf(text, "FPS=%.2f", avg_fps);
-
-    int baseLine = 0;
-    cv::Size label_size = cv::getTextSize(text, cv::FONT_HERSHEY_SIMPLEX, 0.5, 1, &baseLine);
-
-    int y = 0;
-    int x = rgb.cols - label_size.width;
-
-    cv::rectangle(rgb, cv::Rect(cv::Point(x, y), cv::Size(label_size.width, label_size.height + baseLine)),
-                    cv::Scalar(255, 255, 255), -1);
-
-    cv::putText(rgb, text, cv::Point(x, y + label_size.height),
-                cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 0, 0));
-
-    return 0;
-}
-
-static YOLOv8* g_yolov8 = 0;
-static ncnn::Mutex lock;
-
-class MyNdkCamera : public NdkCameraWindow
-{
-public:
-    virtual void on_image_render(cv::Mat& rgb) const;
-};
-
-void MyNdkCamera::on_image_render(cv::Mat& rgb) const
-{
-    // yolov8
-    {
-        ncnn::MutexLockGuard g(lock);
-
-        if (g_yolov8)
-        {
-            std::vector<Object> objects;
-            g_yolov8->detect(rgb, objects);
-
-            g_yolov8->draw(rgb, objects);
-        }
-        else
-        {
-            draw_unsupported(rgb);
-        }
+    AAsset* asset = AAssetManager_open(mgr, file_name, AASSET_MODE_BUFFER);
+    if (asset == nullptr) {
+        return false;
     }
 
-    draw_fps(rgb);
+    AAsset_close(asset);
+    return true;
 }
 
-static MyNdkCamera* g_camera = 0;
+static void release_detector() {
+    std::lock_guard<std::mutex> guard(g_lock);
 
-extern "C" {
-
-JNIEXPORT jint JNI_OnLoad(JavaVM* vm, void* reserved)
-{
-    __android_log_print(ANDROID_LOG_DEBUG, "ncnn", "JNI_OnLoad");
-
-    g_camera = new MyNdkCamera;
-
-    ncnn::create_gpu_instance();
-
-    return JNI_VERSION_1_4;
-}
-
-JNIEXPORT void JNI_OnUnload(JavaVM* vm, void* reserved)
-{
-    __android_log_print(ANDROID_LOG_DEBUG, "ncnn", "JNI_OnUnload");
-
-    {
-        ncnn::MutexLockGuard g(lock);
-
+    if (g_yolov8 != nullptr) {
         delete g_yolov8;
-        g_yolov8 = 0;
+        g_yolov8 = nullptr;
     }
-
-    ncnn::destroy_gpu_instance();
-
-    delete g_camera;
-    g_camera = 0;
 }
 
-// public native boolean loadModel(AssetManager mgr, int taskid, int modelid, int cpugpu);
-JNIEXPORT jboolean JNICALL Java_com_tencent_yolov8ncnn_YOLOv8Ncnn_loadModel(JNIEnv* env, jobject thiz, jobject assetManager, jint taskid, jint modelid, jint cpugpu)
-{
-    if (taskid < 0 || taskid > 5 || modelid < 0 || modelid > 8 || cpugpu < 0 || cpugpu > 2)
-    {
+static YOLOv8* create_detector() {
+    return new YOLOv8_det_coco;
+}
+
+static cv::Mat bitmap_to_rgb(JNIEnv* env, jobject bitmap) {
+    cv::Mat rgb;
+
+    if (bitmap == nullptr) {
+        return rgb;
+    }
+
+    AndroidBitmapInfo info;
+    int get_info_result = AndroidBitmap_getInfo(env, bitmap, &info);
+    if (get_info_result != ANDROID_BITMAP_RESULT_SUCCESS) {
+        LOGE("AndroidBitmap_getInfo failed: %d", get_info_result);
+        return rgb;
+    }
+
+    void* pixels = nullptr;
+    int lock_result = AndroidBitmap_lockPixels(env, bitmap, &pixels);
+    if (lock_result != ANDROID_BITMAP_RESULT_SUCCESS) {
+        LOGE("AndroidBitmap_lockPixels failed: %d", lock_result);
+        return rgb;
+    }
+
+    if (info.format == ANDROID_BITMAP_FORMAT_RGBA_8888) {
+        cv::Mat rgba(info.height, info.width, CV_8UC4, pixels, info.stride);
+        cv::cvtColor(rgba, rgb, cv::COLOR_RGBA2RGB);
+    } else if (info.format == ANDROID_BITMAP_FORMAT_RGB_565) {
+        cv::Mat rgb565(info.height, info.width, CV_8UC2, pixels, info.stride);
+        cv::cvtColor(rgb565, rgb, cv::COLOR_BGR5652RGB);
+    } else {
+        LOGE("Unsupported bitmap format: %d", info.format);
+    }
+
+    AndroidBitmap_unlockPixels(env, bitmap);
+
+    return rgb;
+}
+
+static jobjectArray objects_to_java(JNIEnv* env, const std::vector<Object>& objects) {
+    jclass obj_class = env->FindClass(YOLO_OBJ_CLASS_PATH);
+    if (obj_class == nullptr) {
+        LOGE("Cannot find Obj class");
+        return nullptr;
+    }
+
+    jmethodID constructor = env->GetMethodID(obj_class, "<init>", "()V");
+    if (constructor == nullptr) {
+        LOGE("Cannot find Obj constructor");
+        env->DeleteLocalRef(obj_class);
+        return nullptr;
+    }
+
+    jfieldID field_x = env->GetFieldID(obj_class, "x", "F");
+    jfieldID field_y = env->GetFieldID(obj_class, "y", "F");
+    jfieldID field_w = env->GetFieldID(obj_class, "w", "F");
+    jfieldID field_h = env->GetFieldID(obj_class, "h", "F");
+    jfieldID field_label = env->GetFieldID(obj_class, "label", "Ljava/lang/String;");
+    jfieldID field_prob = env->GetFieldID(obj_class, "prob", "F");
+
+    if (field_x == nullptr ||
+        field_y == nullptr ||
+        field_w == nullptr ||
+        field_h == nullptr ||
+        field_label == nullptr ||
+        field_prob == nullptr) {
+
+        LOGE("Cannot find Obj fields");
+        env->DeleteLocalRef(obj_class);
+        return nullptr;
+    }
+
+    jobjectArray result_array = env->NewObjectArray(
+            static_cast<jsize>(objects.size()),
+            obj_class,
+            nullptr
+    );
+
+    if (result_array == nullptr) {
+        env->DeleteLocalRef(obj_class);
+        return nullptr;
+    }
+
+    for (size_t i = 0; i < objects.size(); i++) {
+        const Object& obj = objects[i];
+
+        jobject java_obj = env->NewObject(obj_class, constructor);
+        if (java_obj == nullptr) {
+            continue;
+        }
+
+        env->SetFloatField(java_obj, field_x, obj.rect.x);
+        env->SetFloatField(java_obj, field_y, obj.rect.y);
+        env->SetFloatField(java_obj, field_w, obj.rect.width);
+        env->SetFloatField(java_obj, field_h, obj.rect.height);
+        env->SetFloatField(java_obj, field_prob, obj.prob);
+
+        jstring label = env->NewStringUTF(DEFAULT_LABEL_NAME);
+        env->SetObjectField(java_obj, field_label, label);
+
+        env->SetObjectArrayElement(result_array, static_cast<jsize>(i), java_obj);
+
+        env->DeleteLocalRef(label);
+        env->DeleteLocalRef(java_obj);
+    }
+
+    env->DeleteLocalRef(obj_class);
+    return result_array;
+}
+
+static jboolean native_loadModel(
+        JNIEnv* env,
+        jobject thiz,
+        jobject assetManager,
+        jint modelid,
+        jint cpugpu) {
+
+    if (assetManager == nullptr) {
+        LOGE("assetManager is null");
         return JNI_FALSE;
     }
 
     AAssetManager* mgr = AAssetManager_fromJava(env, assetManager);
+    if (mgr == nullptr) {
+        LOGE("AAssetManager_fromJava failed");
+        return JNI_FALSE;
+    }
 
-    __android_log_print(ANDROID_LOG_DEBUG, "ncnn", "loadModel %p", mgr);
+    if (!asset_exists(mgr, PARAM_FILE_NAME)) {
+        LOGE("Model param file not found: %s", PARAM_FILE_NAME);
+        return JNI_FALSE;
+    }
 
-    const char* tasknames[6] =
+    if (!asset_exists(mgr, MODEL_FILE_NAME)) {
+        LOGE("Model bin file not found: %s", MODEL_FILE_NAME);
+        return JNI_FALSE;
+    }
+
+    bool use_gpu = cpugpu == 1;
+
+#if !NCNN_VULKAN
+    if (use_gpu) {
+        LOGE("NCNN Vulkan is not enabled, fallback to CPU");
+        use_gpu = false;
+    }
+#endif
+
+    std::lock_guard<std::mutex> guard(g_lock);
+
+    if (g_yolov8 != nullptr) {
+        delete g_yolov8;
+        g_yolov8 = nullptr;
+    }
+
+    g_yolov8 = create_detector();
+
+    if (g_yolov8 == nullptr) {
+        LOGE("create_detector failed");
+        return JNI_FALSE;
+    }
+
+    int target_size = 640;
+    g_yolov8->set_det_target_size(target_size);
+
+    int ret = g_yolov8->load(mgr, PARAM_FILE_NAME, MODEL_FILE_NAME, use_gpu);
+    if (ret != 0) {
+        LOGE("load model failed, ret=%d", ret);
+
+        delete g_yolov8;
+        g_yolov8 = nullptr;
+
+        return JNI_FALSE;
+    }
+
+    LOGD("load model success: %s / %s, target_size=%d, use_gpu=%d",
+         PARAM_FILE_NAME,
+         MODEL_FILE_NAME,
+         target_size,
+         use_gpu ? 1 : 0);
+
+    return JNI_TRUE;
+}
+
+static jobjectArray native_detect(
+        JNIEnv* env,
+        jobject thiz,
+        jobject bitmap,
+        jboolean use_gpu) {
+
+    if (bitmap == nullptr) {
+        return nullptr;
+    }
+
+    cv::Mat rgb = bitmap_to_rgb(env, bitmap);
+    if (rgb.empty()) {
+        LOGE("bitmap_to_rgb failed");
+        return nullptr;
+    }
+
+    std::vector<Object> objects;
+
     {
-        "",
-        "_oiv7",
-        "_seg",
-        "_pose",
-        "_cls",
-        "_obb"
-    };
+        std::lock_guard<std::mutex> guard(g_lock);
 
-    const char* modeltypes[9] =
-    {
-        "n",
-        "s",
-        "m",
-        "n",
-        "s",
-        "m",
-        "n",
-        "s",
-        "m"
-    };
+        if (g_yolov8 == nullptr) {
+            LOGE("g_yolov8 is null, model not loaded");
+            return nullptr;
+        }
 
-    std::string parampath = std::string("yolov8") + modeltypes[(int)modelid] + tasknames[(int)taskid] + ".ncnn.param";
-    std::string modelpath = std::string("yolov8") + modeltypes[(int)modelid] + tasknames[(int)taskid] + ".ncnn.bin";
-    bool use_gpu = (int)cpugpu == 1;
-    bool use_turnip = (int)cpugpu == 2;
-
-    // reload
-    {
-        ncnn::MutexLockGuard g(lock);
-
-        {
-            static int old_taskid = 0;
-            static int old_modelid = 0;
-            static int old_cpugpu = 0;
-            if (taskid != old_taskid || (modelid % 3) != old_modelid || cpugpu != old_cpugpu)
-            {
-                // taskid or model or cpugpu changed
-                delete g_yolov8;
-                g_yolov8 = 0;
-            }
-            old_taskid = taskid;
-            old_modelid = modelid % 3;
-            old_cpugpu = cpugpu;
-
-            ncnn::destroy_gpu_instance();
-
-            if (use_turnip)
-            {
-                ncnn::create_gpu_instance("libvulkan_freedreno.so");
-            }
-            else if (use_gpu)
-            {
-                ncnn::create_gpu_instance();
-            }
-
-            if (!g_yolov8)
-            {
-                if (taskid == 0) g_yolov8 = new YOLOv8_det_coco;
-                if (taskid == 1) g_yolov8 = new YOLOv8_det_oiv7;
-                if (taskid == 2) g_yolov8 = new YOLOv8_seg;
-                if (taskid == 3) g_yolov8 = new YOLOv8_pose;
-                if (taskid == 4) g_yolov8 = new YOLOv8_cls;
-                if (taskid == 5) g_yolov8 = new YOLOv8_obb;
-
-                g_yolov8->load(mgr, parampath.c_str(), modelpath.c_str(), use_gpu || use_turnip);
-            }
-            int target_size = 320;
-            if ((int)modelid >= 3)
-                target_size = 480;
-            if ((int)modelid >= 6)
-                target_size = 640;
-            g_yolov8->set_det_target_size(target_size);
+        int ret = g_yolov8->detect(rgb, objects);
+        if (ret != 0) {
+            LOGE("detect failed, ret=%d", ret);
+            return nullptr;
         }
     }
 
-    return JNI_TRUE;
+    return objects_to_java(env, objects);
 }
 
-// public native boolean openCamera(int facing);
-JNIEXPORT jboolean JNICALL Java_com_tencent_yolov8ncnn_YOLOv8Ncnn_openCamera(JNIEnv* env, jobject thiz, jint facing)
-{
-    if (facing < 0 || facing > 1)
-        return JNI_FALSE;
+static JNINativeMethod g_methods[] = {
+        {
+                "loadModel",
+                "(Landroid/content/res/AssetManager;II)Z",
+                reinterpret_cast<void*>(native_loadModel)
+        },
+        {
+                "detect",
+                "(Landroid/graphics/Bitmap;Z)[Lcom/example/seacucumbermonitor/Yolov8Ncnn$Obj;",
+                reinterpret_cast<void*>(native_detect)
+        }
+};
 
-    __android_log_print(ANDROID_LOG_DEBUG, "ncnn", "openCamera %d", facing);
+extern "C" jint JNI_OnLoad(JavaVM* vm, void* reserved) {
+    LOGD("JNI_OnLoad");
 
-    g_camera->open((int)facing);
+    JNIEnv* env = nullptr;
 
-    return JNI_TRUE;
+    if (vm->GetEnv(reinterpret_cast<void**>(&env), JNI_VERSION_1_6) != JNI_OK) {
+        LOGE("GetEnv failed");
+        return JNI_ERR;
+    }
+
+    jclass clazz = env->FindClass(YOLO_CLASS_PATH);
+    if (clazz == nullptr) {
+        LOGE("Cannot find class: %s", YOLO_CLASS_PATH);
+        return JNI_ERR;
+    }
+
+    int method_count = sizeof(g_methods) / sizeof(g_methods[0]);
+    int register_result = env->RegisterNatives(clazz, g_methods, method_count);
+
+    env->DeleteLocalRef(clazz);
+
+    if (register_result != JNI_OK) {
+        LOGE("RegisterNatives failed: %d", register_result);
+        return JNI_ERR;
+    }
+
+#if NCNN_VULKAN
+    ncnn::create_gpu_instance();
+#endif
+
+    return JNI_VERSION_1_6;
 }
 
-// public native boolean closeCamera();
-JNIEXPORT jboolean JNICALL Java_com_tencent_yolov8ncnn_YOLOv8Ncnn_closeCamera(JNIEnv* env, jobject thiz)
-{
-    __android_log_print(ANDROID_LOG_DEBUG, "ncnn", "closeCamera");
+extern "C" void JNI_OnUnload(JavaVM* vm, void* reserved) {
+    LOGD("JNI_OnUnload");
 
-    g_camera->close();
+    release_detector();
 
-    return JNI_TRUE;
-}
-
-// public native boolean setOutputWindow(Surface surface);
-JNIEXPORT jboolean JNICALL Java_com_tencent_yolov8ncnn_YOLOv8Ncnn_setOutputWindow(JNIEnv* env, jobject thiz, jobject surface)
-{
-    ANativeWindow* win = ANativeWindow_fromSurface(env, surface);
-
-    __android_log_print(ANDROID_LOG_DEBUG, "ncnn", "setOutputWindow %p", win);
-
-    g_camera->set_window(win);
-
-    return JNI_TRUE;
-}
-
+#if NCNN_VULKAN
+    ncnn::destroy_gpu_instance();
+#endif
 }
