@@ -25,6 +25,8 @@
             android:name=".GalleryActivity"
             android:exported="false" />
 
+        <activity android:name=".AiMonitorActivity" />
+
         <activity
             android:name=".UsbCameraActivity"
             android:exported="true"

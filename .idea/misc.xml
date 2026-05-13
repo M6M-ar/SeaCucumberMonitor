@@ -3,12 +3,21 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Download/SeaCucumberMonitor/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.124" />
         <entry key="..\:/Download/SeaCucumberMonitor/app/src/main/res/drawable/banner_sea_1.xml" value="0.162" />
         <entry key="..\:/Download/SeaCucumberMonitor/app/src/main/res/drawable/banner_sea_2.xml" value="0.162" />
         <entry key="..\:/Download/SeaCucumberMonitor/app/src/main/res/drawable/banner_sea_3.xml" value="0.162" />
+        <entry key="..\:/Download/SeaCucumberMonitor/app/src/main/res/drawable/ic_ai.xml" value="0.124" />
         <entry key="..\:/Download/SeaCucumberMonitor/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
+        <entry key="..\:/Download/SeaCucumberMonitor/app/src/main/res/drawable/ic_pause.xml" value="0.124" />
+        <entry key="..\:/Download/SeaCucumberMonitor/app/src/main/res/drawable/ic_return.xml" value="0.124" />
+        <entry key="..\:/Download/SeaCucumberMonitor/app/src/main/res/drawable/ic_setting.xml" value="0.124" />
+        <entry key="..\:/Download/SeaCucumberMonitor/app/src/main/res/drawable/ic_usb.xml" value="0.124" />
+        <entry key="..\:/Download/SeaCucumberMonitor/app/src/main/res/drawable/selector_banner_dot.xml" value="0.156" />
+        <entry key="..\:/Download/SeaCucumberMonitor/app/src/main/res/layout/activity_ai_monitor.xml" value="0.2" />
         <entry key="..\:/Download/SeaCucumberMonitor/app/src/main/res/layout/activity_gallery.xml" value="0.12590579710144928" />
-        <entry key="..\:/Download/SeaCucumberMonitor/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Download/SeaCucumberMonitor/app/src/main/res/layout/activity_main.xml" value="0.4" />
+        <entry key="..\:/Download/SeaCucumberMonitor/app/src/main/res/layout/activity_main1.xml" value="0.2898550724637681" />
         <entry key="..\:/Download/SeaCucumberMonitor/app/src/main/res/layout/activity_usb_camera.xml" value="0.25" />
         <entry key="..\:/Download/SeaCucumberMonitor/app/src/main/res/xml/xml.xml" value="0.10461956521739131" />
       </map>
