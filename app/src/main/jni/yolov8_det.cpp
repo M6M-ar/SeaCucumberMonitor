@@ -269,8 +269,10 @@ static void generate_proposals(const ncnn::Mat& pred, const std::vector<int>& st
 
 int YOLOv8_det::detect(const cv::Mat& rgb, std::vector<Object>& objects)
 {
-    const int target_size = det_target_size;   // 建议 640
-    const float prob_threshold = 0.25f;
+    objects.clear();
+
+    const int target_size = det_target_size;
+    const float prob_threshold = 0.70f;
     const float nms_threshold = 0.45f;
 
     int img_w = rgb.cols;
@@ -323,85 +325,29 @@ int YOLOv8_det::detect(const cv::Mat& rgb, std::vector<Object>& objects)
     in_pad.substract_mean_normalize(0, norm_vals);
 
     ncnn::Extractor ex = yolov8.create_extractor();
+
     ex.input("in0", in_pad);
 
     ncnn::Mat out;
-    ex.extract("out0", out);
+    int ret = ex.extract("out0", out);
+    if (ret != 0)
+    {
+        return -1;
+    }
 
     std::vector<Object> proposals;
 
-    // 你的模型 out0 已经是解码后的格式：[cx, cy, w, h, score]
-    // 常见形状：w=5, h=8400；如果方向相反，也兼容处理
-    if (out.w == 5)
+    std::vector<int> strides;
+    strides.push_back(8);
+    strides.push_back(16);
+    strides.push_back(32);
+
+    // 这里要求 out0 是原始 YOLOv8 输出：
+    // 单类别模型应为 8400 x 65，65 = 16*4 + 1
+    generate_proposals(out, strides, in_pad, prob_threshold, proposals);
+
+    if (proposals.empty())
     {
-        for (int i = 0; i < out.h; i++)
-        {
-            const float* values = out.row(i);
-
-            float cx = values[0];
-            float cy = values[1];
-            float bw = values[2];
-            float bh = values[3];
-            float score = values[4];
-
-            if (score < prob_threshold)
-                continue;
-
-            float x0 = cx - bw * 0.5f;
-            float y0 = cy - bh * 0.5f;
-            float x1 = cx + bw * 0.5f;
-            float y1 = cy + bh * 0.5f;
-
-            Object obj;
-            obj.rect.x = x0;
-            obj.rect.y = y0;
-            obj.rect.width = x1 - x0;
-            obj.rect.height = y1 - y0;
-            obj.label = 0;
-            obj.prob = score;
-
-            proposals.push_back(obj);
-        }
-    }
-    else if (out.h == 5)
-    {
-        const float* cx_ptr = out.row(0);
-        const float* cy_ptr = out.row(1);
-        const float* w_ptr = out.row(2);
-        const float* h_ptr = out.row(3);
-        const float* score_ptr = out.row(4);
-
-        for (int i = 0; i < out.w; i++)
-        {
-            float cx = cx_ptr[i];
-            float cy = cy_ptr[i];
-            float bw = w_ptr[i];
-            float bh = h_ptr[i];
-            float score = score_ptr[i];
-
-            if (score < prob_threshold)
-                continue;
-
-            float x0 = cx - bw * 0.5f;
-            float y0 = cy - bh * 0.5f;
-            float x1 = cx + bw * 0.5f;
-            float y1 = cy + bh * 0.5f;
-
-            Object obj;
-            obj.rect.x = x0;
-            obj.rect.y = y0;
-            obj.rect.width = x1 - x0;
-            obj.rect.height = y1 - y0;
-            obj.label = 0;
-            obj.prob = score;
-
-            proposals.push_back(obj);
-        }
-    }
-    else
-    {
-        // 输出格式不符合当前模型，直接返回空结果
-        objects.clear();
         return 0;
     }
 
@@ -410,10 +356,9 @@ int YOLOv8_det::detect(const cv::Mat& rgb, std::vector<Object>& objects)
     std::vector<int> picked;
     nms_sorted_bboxes(proposals, picked, nms_threshold, true);
 
-    int count = picked.size();
-    objects.resize(count);
+    objects.resize(picked.size());
 
-    for (int i = 0; i < count; i++)
+    for (size_t i = 0; i < picked.size(); i++)
     {
         objects[i] = proposals[picked[i]];
 
@@ -431,18 +376,7 @@ int YOLOv8_det::detect(const cv::Mat& rgb, std::vector<Object>& objects)
         objects[i].rect.y = y0;
         objects[i].rect.width = x1 - x0;
         objects[i].rect.height = y1 - y0;
-        objects[i].label = 0;
     }
-
-    struct
-    {
-        bool operator()(const Object& a, const Object& b) const
-        {
-            return a.rect.area() > b.rect.area();
-        }
-    } objects_area_greater;
-
-    std::sort(objects.begin(), objects.end(), objects_area_greater);
 
     return 0;
 }

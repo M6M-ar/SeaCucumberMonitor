@@ -159,14 +159,13 @@ public class AiMonitorActivity extends AppCompatActivity {
 
                     long startTime = System.currentTimeMillis();
 
-                    Yolov8Ncnn.Obj[] objects = new Yolov8Ncnn.Obj[0];
+                    Yolov8Ncnn.Obj[] objects = yolov8ncnn.detect(detectBitmap, false);
                     long cost = Math.max(1, System.currentTimeMillis() - startTime);
 
                     runOnUiThread(() -> {
-                        int count = objects == null ? 0 : objects.length;
+                        int count = getValidObjectCount(objects);
                         tvCount.setText(String.valueOf(count));
                         tvFps.setText(String.format(Locale.US, "FPS: %.1f", 1000f / cost));
-
                         drawBoxes(objects, DETECT_WIDTH, DETECT_HEIGHT);
                     });
 
@@ -259,6 +258,32 @@ public class AiMonitorActivity extends AppCompatActivity {
         }
     }
 
+    private int getValidObjectCount(Yolov8Ncnn.Obj[] objects) {
+        if (objects == null) {
+            return 0;
+        }
+
+        int count = 0;
+
+        for (Yolov8Ncnn.Obj obj : objects) {
+            if (obj == null) {
+                continue;
+            }
+
+            if (obj.prob < 0.70f) {
+                continue;
+            }
+
+            if (obj.w <= 0 || obj.h <= 0) {
+                continue;
+            }
+
+            count++;
+        }
+
+        return count;
+    }
+
     private void drawBoxes(Yolov8Ncnn.Obj[] objects, int imageWidth, int imageHeight) {
         int overlayWidth = ivOverlay.getWidth();
         int overlayHeight = ivOverlay.getHeight();
@@ -270,6 +295,30 @@ public class AiMonitorActivity extends AppCompatActivity {
         Bitmap overlayBitmap = Bitmap.createBitmap(overlayWidth, overlayHeight, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(overlayBitmap);
         canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
+
+        int[] overlayLocation = new int[2];
+        int[] cameraLocation = new int[2];
+
+        ivOverlay.getLocationOnScreen(overlayLocation);
+        mCameraView.getLocationOnScreen(cameraLocation);
+
+        float cameraLeft = cameraLocation[0] - overlayLocation[0];
+        float cameraTop = cameraLocation[1] - overlayLocation[1];
+        float cameraWidth = mCameraView.getWidth();
+        float cameraHeight = mCameraView.getHeight();
+
+        if (cameraWidth <= 0 || cameraHeight <= 0) {
+            ivOverlay.setImageBitmap(overlayBitmap);
+            return;
+        }
+
+        float scale = Math.min(cameraWidth / (float) imageWidth, cameraHeight / (float) imageHeight);
+
+        float realDrawWidth = imageWidth * scale;
+        float realDrawHeight = imageHeight * scale;
+
+        float offsetX = cameraLeft + (cameraWidth - realDrawWidth) / 2f;
+        float offsetY = cameraTop + (cameraHeight - realDrawHeight) / 2f;
 
         if (objects != null) {
             Paint boxPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -283,26 +332,36 @@ public class AiMonitorActivity extends AppCompatActivity {
 
             Paint textPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
             textPaint.setColor(Color.WHITE);
-            textPaint.setTextSize(32f);
+            textPaint.setTextSize(28f);
             textPaint.setFakeBoldText(true);
 
-            float scaleX = overlayWidth / (float) imageWidth;
-            float scaleY = overlayHeight / (float) imageHeight;
-
             for (Yolov8Ncnn.Obj obj : objects) {
-                if (obj == null || obj.prob <= 0f) {
+                if (obj == null) {
                     continue;
                 }
 
-                float left = obj.x * scaleX;
-                float top = obj.y * scaleY;
-                float right = (obj.x + obj.w) * scaleX;
-                float bottom = (obj.y + obj.h) * scaleY;
+                if (obj.prob < 0.70f) {
+                    continue;
+                }
 
-                left = clamp(left, 0, overlayWidth);
-                top = clamp(top, 0, overlayHeight);
-                right = clamp(right, 0, overlayWidth);
-                bottom = clamp(bottom, 0, overlayHeight);
+                if (obj.w <= 0 || obj.h <= 0) {
+                    continue;
+                }
+
+                float left = offsetX + obj.x * scale;
+                float top = offsetY + obj.y * scale;
+                float right = offsetX + (obj.x + obj.w) * scale;
+                float bottom = offsetY + (obj.y + obj.h) * scale;
+
+                // 限制框只能画在摄像头显示区域内
+                left = clamp(left, cameraLeft, cameraLeft + cameraWidth);
+                top = clamp(top, cameraTop, cameraTop + cameraHeight);
+                right = clamp(right, cameraLeft, cameraLeft + cameraWidth);
+                bottom = clamp(bottom, cameraTop, cameraTop + cameraHeight);
+
+                if (right <= left || bottom <= top) {
+                    continue;
+                }
 
                 canvas.drawRect(left, top, right, bottom, boxPaint);
 
@@ -313,20 +372,20 @@ public class AiMonitorActivity extends AppCompatActivity {
                 String text = String.format(Locale.US, "%s %.2f", label, obj.prob);
 
                 float textWidth = textPaint.measureText(text);
-                float textHeight = 40f;
+                float textHeight = 36f;
 
                 float textLeft = left;
-                float textTop = Math.max(0, top - textHeight);
+                float textTop = Math.max(cameraTop, top - textHeight);
 
                 canvas.drawRect(
                         textLeft,
                         textTop,
-                        Math.min(textLeft + textWidth + 18f, overlayWidth),
+                        Math.min(textLeft + textWidth + 16f, cameraLeft + cameraWidth),
                         textTop + textHeight,
                         textBgPaint
                 );
 
-                canvas.drawText(text, textLeft + 8f, textTop + 29f, textPaint);
+                canvas.drawText(text, textLeft + 8f, textTop + 26f, textPaint);
             }
         }
 
@@ -414,6 +473,14 @@ public class AiMonitorActivity extends AppCompatActivity {
 
         for (Yolov8Ncnn.Obj obj : objects) {
             if (obj == null) {
+                continue;
+            }
+
+            if (obj.prob < 0.70f) {
+                continue;
+            }
+
+            if (obj.w <= 0 || obj.h <= 0) {
                 continue;
             }
 
