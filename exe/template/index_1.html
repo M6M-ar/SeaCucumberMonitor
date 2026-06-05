@@ -1,0 +1,1426 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>轨迹</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <link href="../static/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../static/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../static/css/animate.css" rel="stylesheet">
+    <link href="../static/css/style.css?v=4.1.0" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../static/css/jquery.bigcolorpicker.css" />
+    <link href="../static/css/sweetalert.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../static/css/ionicons.min.css" />
+    <!-- 全局js -->
+    <script src="../static/js/jquery.min.js?v=2.1.4"></script>
+    <script src="../static/js/bootstrap.min.js?v=3.3.6"></script>
+    <script  src="../static/js/jquery.bigcolorpicker.min.js"></script>
+    <script type="text/javascript" src="../static/js/echarts.min.js"></script>
+    <script src="../static/js/plugins/sweetalert/sweetalert.min.js"></script>
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content">
+    <div class="row">
+        <div class="col-sm-2 sidebar">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content mailbox-content">
+                    <div class="file-manager">
+                        <ul class="category-list" style="padding: 0">
+                            <li style="border-bottom: 1px solid;margin-bottom: 6px;">
+                                <button class="btn btn-default" type="button"  id="add_task">
+                                    <i class="fa fa-plus-square"></i><span class="bold add_task">新建任务</span>
+                                </button>
+                            </li>
+                            <div class="task-list">
+                                <!--<span>任务名称sadsadasd</span>-->
+                                <!--<button class="btn btn-primary " type="button"></i>关闭</button>-->
+                            </div>
+                            <li class="three-li">
+                                <button class="btn btn-default" type="button" data-toggle="modal" data-target="#myModal" >
+                                    <i class="fa fa-plus-square"></i><span class="bold">添加目标</span>
+                                </button>
+                            </li>
+
+                        </ul>
+                        <ul class="list-group add-list">
+
+                        </ul>
+                        <input type='hidden' value='' id='IsGpsHave' />
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="ibox two-big">
+                <div class="ibox-content">
+                    <div class="file-manager">
+                        <ul class="category-list" style="padding: 0">
+                            <li>
+                                <button class="btn btn-default add_fixed_point" type="button" data-toggle="modal" data-target="#fixed_point">
+                                    <i class="fa fa-plus-square"></i><span class="bold">添加定点</span>
+                                </button>
+                            </li>
+                        </ul>
+                        <ul class="list-group add-biaoji">
+                        </ul>
+
+
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-7 gj" style="height: 800px;">
+            <div id="container" style="height: 100%;"></div>
+        </div>
+        <div class="col-sm-3 sd" style="height: 800px;">
+            <div id="shendu" style="height: 100%;"></div>
+        </div>
+        <a class="testbtn"></a>
+    </div>
+</div>
+
+<!--添加新任务框 -->
+<div role="dialog" class="modal fade"  id="batchnum">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" >
+                    &times;
+                </button>
+
+                <form rele="form">
+                    <div class="form-group">
+                        <label for="task_name" class="label-color">任务名称：</label>
+                        <input type="text" placeholder="xxxxxx"  id="task_name" class="form-control"/>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                </button>
+                <button type="button" class="btn btn-primary savebatch" >
+                    添加
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+<!-- 添加目标 -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" >
+                    &times;
+                </button>
+
+                <form rele="form">
+                    <div class="form-group">
+                        <label for="name" class="label-color">名称：</label>
+                        <input type="text" placeholder="xxxxxx"  id="name" class="form-control"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="specified_id" class="label-color">ID：</label>
+                        <input type="text" placeholder="请核实此ID是否与信标ID一致,2~254"  id="specified_id" class="form-control"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="color" class="label-color">颜色：</label>
+                        <a href="javascript:void(0)" id="color" ></a>
+                        <input type="hidden"  id="color1" class="form-control" />
+                    </div>
+
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                </button>
+                <button type="button" class="btn btn-primary savedata">
+                    添加
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+<!--添加定点框 -->
+<div role="dialog" class="modal fade"  id="fixed_point">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" >
+                    &times;
+                </button>
+
+                <form rele="form">
+                    <div class="form-group">
+                        <label for="task_name" class="label-color">定点名称：</label>
+                        <input type="text" placeholder="固定点1"  id="fixedpoint" class="form-control" value="固定点1"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="name" class="label-color">经度：</label>
+                        <input type="text" placeholder="xxxxxx"  id="longitude" class="form-control"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="name" class="label-color">纬度：</label>
+                        <input type="text" placeholder="xxxxxx"  id="latitude" class="form-control"/>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer option_edit">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消
+                </button>
+                <button type="button" class="btn btn-primary savedd" >
+                    添加
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<!--添加定点框 -->
+<div role="dialog" class="modal fade"  id="edit_fixed_point">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" >
+                    &times;
+                </button>
+
+                <form rele="form">
+                    <div class="form-group">
+                        <label for="task_name" class="label-color">任务名称：</label>
+                        <input type="text" placeholder="固定点1"  id="edit_fixedpoint" class="form-control" value="固定点1"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="name" class="label-color">经度：</label>
+                        <input type="text" placeholder="xxxxxx"  id="edit_longitude" class="form-control"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="name" class="label-color">纬度：</label>
+                        <input type="text" placeholder="xxxxxx"  id="edit_latitude" class="form-control"/>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer option_edit">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消
+                </button>
+                <button type="button" class="btn btn-primary edit_savedd" >
+                    修改
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+
+<script>
+    $("#color").bigColorpicker(function (e1,color) {
+        $('#color1').val(color);
+        $('#color').css("background-color",color);
+    });
+    $('.testbtn').on('click',function () {
+        $('.testbtn').toggleClass('btnc');
+        $('.sidebar').toggleClass('side');
+        $('.gj').toggleClass('col-sm-9');
+        $('.gj').toggleClass('col-sm-7');
+        myChart.resize();
+    })
+    var dom = document.getElementById("container");
+    var myChart;
+    option = null;
+    var symbolSize = 10;
+    var inTimer
+    var dataValue={}
+    
+    function load1(){
+        $.ajax({
+            type:'post',
+            url:"/getSiteCfg",
+            data:{},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+                console.log(data)
+            },
+        });
+    }
+
+
+    $(function () {
+      load1()
+        $('.task-list').hide()
+        $('.three-li').hide()
+        $('.two-big').hide()  
+        myChart = echarts.init(dom);
+        myChart.setOption(option);
+        shendu = echarts.init(dom1);
+        shendu.setOption(option1, true);
+         piont_one()
+        window.addEventListener("resize", function () {
+            console.log('窗口绘制')
+            myChart.resize();
+            shendu.resize();
+        });
+    })
+
+    function toogle(th){
+        var ele = $(th).children(".move");
+        var value ='off';
+        if(ele.attr("data-state") == "on"){
+            ele.animate({left: "0"}, 200, function(){
+                ele.attr("data-state", "off");
+            });
+            $(th).removeClass("on").addClass("off");
+
+        }else if(ele.attr("data-state") == "off"){
+            ele.animate({left: '20px'}, 200, function(){
+                $(this).attr("data-state", "on");
+
+            });
+            $(th).removeClass("off").addClass("on");
+            value ='on';
+
+        }
+        open()
+        var rgb = $(th).parent().parent().parent().children(".kuan").css("background-color");
+        rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+        rgb= "#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
+        var num =$(th).parent().parent().parent().find(".num").html();
+        var name = $(th).parent().parent().parent().children(".kuan").siblings("span").text()
+        var task_name= $('.task-list span').text()
+
+        //是否跟踪
+        $.ajax({
+            type:'post',
+            url:"/postTraceTarget",
+            data:{'IsTrace':value,'Colour':rgb,'TargetName':name,'MdmId':num,'TaskName':task_name,'Opt':'modify'},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+
+            },
+        });
+    }
+
+    function hex(x) {
+        return ("0" + parseInt(x).toString(16)).slice(-2);
+    }
+
+    $('#add_task').click(function () {console.log('start1')
+        $('#batchnum').modal('show')
+        $.ajax({
+            type:'post',
+            url:"/postAskForTaskName",
+            data:{},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+                if(data.Data[0].TaskName){
+                    console.log('start2')
+                    $('#task_name').val(data.Data[0].TaskName)
+                }
+            },
+        });
+        // var date = getLangDate()
+
+
+    })
+
+    $('.savebatch').click(function () {
+        var task_name = $('#task_name').val()
+        if(task_name==''){
+          alert('任务名不能为空')
+          return
+        }
+        //添加任务
+        $.ajax({
+            type:'post',
+            url:"/postNewTask",
+            data:{'TaskName':task_name,'Opt':"create"},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+                if(data.Data[0].RtnOK=='OK'){
+                    $(".task-list").show();
+                    $(".three-li").show();
+                    if($("#IsGpsHave").val()=='on'){
+                      $(".two-big").show();
+                    }
+                    
+                    $('#add_task').attr("disabled","true");
+                    w = '<span>'+task_name+'</span><button class="btn btn-primary tsk_colse" type="button"></i>关闭</button>'
+                    $(".task-list").append(w);
+                    $('#batchnum').modal('hide')
+
+                }else {
+                    alert('插入错误或重名，请重新输入')
+                    return
+                }
+            },
+        });
+
+    })
+
+    $(document).on('click','.tsk_colse',function () {
+        var task_name=$(this).parent().find("span").text()
+        swal({
+            title: "您确定要关闭任务吗",
+            text: "关闭任务将停止工作，请谨慎操作！",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "确定",
+            closeOnConfirm: false
+        }, function () {
+            $.ajax({
+                type:'post',
+                url:"/postNewTask",
+                data:{'TaskName':task_name,'Opt':"close"},
+                dataType:'json',
+                success:function(data){ //请求成功回调函数
+                    console.log(data)
+                    if(data.Data[0].RtnOK=='OK'){
+                        $('.task-list').empty()
+                        swal("关闭成功！", "任务已停止工作。", "success");
+                        $(".task-list").hide();
+                        $(".three-li").hide();
+                        $(".two-big").hide();
+                        $('#add_task').attr("disabled",false);
+                       // window.location.reload()
+                        setTimeout(window.location.reload(),2000)
+                    }else{
+                      swal("关闭失败！", "任务重新关闭。", "warning");
+                    }
+                },
+            });
+          
+        });
+
+    })
+
+    $('.add_fixed_point').click(function () {
+        $('#fixedpoint').val(getLangDate)
+    })
+
+    $('.savedd').click(function () {
+        var fixedpoint = $('#fixedpoint').val()
+        var longitude = $('#longitude').val()
+        var latitude = $('#latitude').val()
+        if(longitude==''){
+            alert('值不能为空')
+            return
+        }
+        if(latitude==''){
+            alert('值不能为空')
+            return
+        }
+        var time1 = Date.now();
+        var mao_id='mao'+time1
+        var data=[[Number(longitude),Number(latitude)]]
+        $('.add-biaoji').append(
+            ' <li class="list-group-item"><i class="fa fa-anchor"></i>'+
+            ' <span class="point_name" >'+fixedpoint+'</span>'+
+            '<input type="hidden" id="mao_id" value="'+mao_id+'">'+
+            '<input type="hidden" id="add_longitude" value="'+longitude+'">'+
+            '<input type="hidden" id="add_latitude" value="'+latitude+'">'+
+            ' <button type="button" class="close current" data-toggle="modal" data-target="#layer1" onclick="remove_biaoji(this);">'+
+            '&times;'+
+            '</button>'+
+            '<button type="button" class="close edit" >'+
+            '<i class="fa fa-pencil" style="color: #29a1f7"></i></button> </li>'
+        )
+
+        var fixed  ={
+            id: mao_id,
+            name:fixedpoint,
+            type: 'line',
+            smooth: true,
+            symbolSize: [30,30],
+            // symbolRotate:parseInt(-Math.random() * 100 ),
+            symbol:"image://../static/image/mao.png",
+            // symbol: pathSymbols.rocket,
+            zlevel:9999,
+            // data: info[i].data.slice(-1),
+            data:data,
+        }
+        var option_num = option.series.length
+        option.series[option_num]=fixed
+        myChart.setOption(option)
+        $('#fixed_point').modal('hide');
+        $('#longitude').val('')
+        $('#latitude').val('')
+        var tsak_name=$('.task-list').find('span').text()
+        $.ajax({
+            type:'post',
+            url:"/postNewFixed",
+            data:{'TaskName':tsak_name,'JinDu':longitude,'WeiDu':latitude,'Name':fixedpoint,'OnlyId':mao_id,'Opt':'create'},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+
+            },
+        });
+
+    })
+
+    $(document).on('click','.task_close',function () {
+        $('.task-list').empty();
+    })
+
+    var arrMove=[];
+    var _this = null ;
+    $(document).on('click','.edit',function () {
+        $('#edit_fixed_point').modal('show');
+        $("#edit_longitude").attr("disabled","disabled");
+        $("#edit_latitude").attr("disabled","disabled");
+        $('#edit_longitude').val($(this).parent().find('#add_longitude').val())
+        $('#edit_latitude').val($(this).parent().find('#add_latitude').val())
+        $('#edit_fixedpoint').val($(this).parent().find('.point_name').html())
+        _this=$(this).parents("li")
+        _this.maoid=$(this).parent().find('#mao_id').val()
+        _this.longitude=$(this).parent().find('#add_longitude').val()
+        _this.latitude=$(this).parent().find('#add_latitude').val()
+
+
+    })
+
+    $(document).on('click','.edit_savedd',function () {
+        var fixedpointName= $(this).parent().siblings().find('#edit_fixedpoint').val()
+        _this.find(".point_name").html($(this).parent().siblings().find('#edit_fixedpoint').val())
+        var mao_id=_this.maoid
+        var longitude =_this.longitude
+        var latitude = _this.latitude
+        var data=[[Number(longitude),Number(latitude)]]
+        console.log(mao_id)
+        var options = myChart.getOption().series
+        var i
+        for(i=0;i<options.length;i++){
+            if(options[i].id==mao_id){
+                options[i].name=fixedpointName
+                option.series=options
+                console.log(option.series)
+                myChart.setOption(option,true);
+            }
+        }
+        var tsak_name=$('.task-list').find('span').text()
+        $.ajax({
+            type:'post',
+            url:"/postNewFixed",
+            data:{'Name':fixedpointName,'TaskName':tsak_name,'OnlyId':mao_id,'Opt':'modify'},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+                $('#edit_fixed_point').modal('hide');
+            },
+        });
+
+    })
+
+    function getLangDate() {
+        var dateObj = new Date(); //表示当前系统时间的Date对象
+        var year = dateObj.getFullYear(); //当前系统时间的完整年份值
+        var month = dateObj.getMonth() + 1; //当前系统时间的月份值
+        var date = dateObj.getDate(); //当前系统时间的月份中的日
+        var hour = dateObj.getHours(); //当前系统时间的小时值
+        var minute = dateObj.getMinutes(); //当前系统时间的分钟值
+        var second = dateObj.getSeconds(); //当前系统时间的秒钟值
+        //如果月、日、小时、分、秒的值小于10，在前面补0
+        if (month < 10) {
+            month = "0" + month;
+        }
+        if (date < 10) {
+            date = "0" + date;
+        }
+        if (hour < 10) {
+            hour = "0" + hour;
+        }
+        if (minute < 10) {
+            minute = "0" + minute;
+        }
+        if (second < 10) {
+            second = "0" + second;
+        }
+
+        var newDate = year + month  + date  + hour + minute  + second;
+        return newDate;
+
+    }
+
+
+    $('.savedata').click(function () {
+        var name = $('#name').val();
+        var dataArray = [];
+        var nameArray = [];
+        var specified_id = $('#specified_id').val();
+        var color = $('#color1').val();
+        $('.add-list').children('li').each(function(){
+            var self = $(this).find('.num').text();
+            dataArray.push(self);
+        });
+        $('.add-list').children('li').each(function(){
+            var selfname = $(this).find('.xb_name').text();
+            nameArray.push(selfname);
+        });
+        if(name==''){
+            alert("名称不能为空")
+            return
+        }
+        if(specified_id==''){
+            alert("ID不能为空")
+            return
+        }
+        if(!(/(^[1-9]\d*$)/.test(specified_id))){
+            alert('不是有效的数字，请重新输入！');
+            return
+        }
+
+        if($.inArray(specified_id,dataArray)>=0){
+            alert("ID已重复，请重新输入！");
+            return
+        }
+        if($.inArray(name,nameArray)>=0){
+            alert("名称已重复，请重新输入！");
+            return
+        }
+
+
+        if(color==''){
+            alert("请选择颜色")
+            return
+        }
+        if($('#IsGpsHave').val()=='on'){
+          $(".add-list").append(
+            ' <li class="list-group-item">'+
+            ' <div class="kuan" style="background:  '+color+'"> <span class="num">'+ specified_id +'</span> </div>' +
+            ' <span style="margin: 0px 12px 0px 12px;" class="xb_name">'+ name +'</span>' +
+            '<button type="button" class="close current" data-toggle="modal" data-target="#layer1" onclick="remove_line(this);">' +
+            '&times; ' +
+            '</button> ' +
+            '<div class="track">开始跟踪:' +
+            '<div class="switch"><div class="btn_fath clearfix off" onclick="toogle(this)"><div class="move" data-state="off"></div><div class="btnSwitch btn1">on</div><div class="btnSwitch btn2 ">off</div></div></div>'+
+            ' </div>'+
+            ' <button class="btn btn-default huoqu" type="button"  onclick="oneshot(this);" >获取当前位置'+
+            '</button>'+
+            '</li>'
+        ) 
+        }else{
+           $(".add-list").append(
+            ' <li class="list-group-item">'+
+            ' <div class="kuan" style="background:  '+color+'"> <span class="num">'+ specified_id +'</span> </div>' +
+            ' <span style="margin: 0px 12px 0px 12px;" class="xb_name">'+ name +'</span>' +
+            '<button type="button" class="close current" data-toggle="modal" data-target="#layer1" onclick="remove_line(this);">' +
+            '&times; ' +
+            '</button> ' +
+            '<div class="track">开始跟踪:' +
+            '<div class="switch"><div class="btn_fath clearfix off" onclick="toogle(this)"><div class="move" data-state="off"></div><div class="btnSwitch btn1">on</div><div class="btnSwitch btn2 ">off</div></div></div>'+
+            ' </div>'+
+            ' <button class="btn btn-default huoqu" type="button"  onclick="oneshot(this);" style="display:none">获取当前位置'+
+            '</button>'+
+            '</li>'
+        )
+        }
+
+
+
+
+        // $('.fade').hide();
+        $('#myModal').modal('hide');
+        $('#name').val('');
+        $('#specified_id').val('');
+        var tsak_name = $('.task-list span').html();
+
+        //添加目标
+        $.ajax({
+            type:'post',
+            url:"/postNewTarget",
+            data:{'TaskName':tsak_name,'TargetName':name,'MdmId':specified_id,'Colour':color,'Opt':'create','IsTrace':'off'},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+
+            },
+        });
+    })
+
+    function remove_line(index) {
+        if (confirm("确定要删除改记录吗？")) {
+            currentStep = $(index).parent().remove();
+            var id =  $(index).parent().find('.num').html();
+            var name=$(index).parent().find('.xb_name').text()
+            var tsak_name=$('.task-list').find('span').text()
+            $.ajax({
+                type:'post',
+                url:"/postNewTarget",
+                data:{'TaskName':tsak_name,'TargetName':name,'MdmId':id,'Opt':'delete'},
+                dataType:'json',
+                success:function(data){ //请求成功回调函数
+                    setTimeout(window.location.reload(),2000)
+                },
+            });
+
+        }
+    }
+
+    function remove_biaoji(index) {
+            var id =  $(index).parent().find('.num').html();
+            var mao_id=$(index).parent().find('#mao_id').val()
+            var name=$(index).parent().find('.point_name').text()
+            var tsak_name=$('.task-list').find('span').text()
+            console.log(name)
+        if (confirm("确定要删除改记录吗？")) {
+          $.ajax({
+            type:'post',
+            url:"/postNewFixed",
+            data:{'TaskName':tsak_name,'Name':name,'OnlyId':mao_id,'Opt':'delete'},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+              currentStep = $(index).parent().remove();
+              var options = myChart.getOption();
+              for (var i=0;i<options.series.length;i++){
+                if(options.series[i].id==mao_id){
+                    options.series.splice(i,1);
+                    myChart.setOption(options,true);
+                }
+              }
+              setTimeout(window.location.reload(),3000)
+            },
+        });
+    
+        }
+    }
+
+    function oneshot(t){
+        var tsak_name = $('.task-list span').html();
+        var rgb = $(t).parent().children(".kuan").css("background-color");
+        rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+        rgb= "#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
+        var num = $(t).parent().find(".num").html();
+        var name = $(t).parent().find("span:eq(1)").html();
+        var i
+        var option1;
+        let time1 = Date.now();
+        var  mao_id = 'mao'+time1
+
+
+        var info = myChart.getOption().series
+
+
+        for(i=0;i<info.length;i++){
+            if(info[i].name==name){
+                var xy =info[i].data.slice(-1)
+                $('.add-biaoji').append(
+                    ' <li class="list-group-item"><i class="fa fa-anchor"></i>'+
+                    ' <span class="point_name" >锚点-'+name+'</span>'+
+                    ' <input type="hidden" value="'+mao_id+'" id="mao_id">'+
+                    ' <input type="hidden" value="'+xy[0][0]+'" id="add_longitude">'+
+                    ' <input type="hidden" value="'+xy[0][1]+'" id="add_latitude">'+
+                    ' <button type="button" class="close current" data-toggle="modal" data-target="#layer1" onclick="remove_biaoji(this);">'+
+                    '&times;'+
+                    '</button>'+
+                    '<button type="button" class="close edit" >'+
+                    '<i class="fa fa-pencil" style="color: #29a1f7"></i></button> </li>'
+                )
+                $.ajax({
+                    type:'post',
+                    url:"/postNewFixed",
+                    data:{'TaskName':tsak_name,'Name':'锚点-'+name,'OnlyId':mao_id,'JinDu':xy[0][0],'WeiDu':xy[0][1],'Opt':'create'},
+                    dataType:'json',
+                    success:function(data){ //请求成功回调函数
+
+                    },
+                });
+
+                option1 ={
+                    id: mao_id,
+                    name:'锚点-'+name,
+                    type: 'line',
+                    smooth: true,
+                    symbolSize: [30,30],
+                    // symbolRotate:parseInt(-Math.random() * 100 ),
+                    symbol:"image://../static/image/mao.png",
+                    zlevel:9999,
+                    data: info[i].data.slice(-1),
+                    // data: [[Math.floor(Math.random()*90),0]],
+                }
+                var option_num = option.series.length+1
+                option.series[option_num]=option1
+                myChart.setOption(option)
+            }
+        }
+
+    }
+
+
+
+
+    option = {
+        tooltip: {
+            trigger: 'item',
+            formatter: function (params) {
+                if(params.data[3]==1 && params.data[4]==1 && params.data[5]==1){
+                  return 'id:'+params.seriesId+'<br/>名称:'+params.seriesName+'<br/>坐标点:(' + params.data[7] + ',' + params.data[8]+ ')<br/>GPS坐标:'+params.data[15]+':'+params.data[16]+ ',' +params.data[13]+':'+ params.data[14]+ '<br>时间: ' + params.data[17];
+                }else if(params.data[3]==1 && params.data[4]==0 && params.data[5]==1){
+                  return 'id:'+params.seriesId+'<br/>名称:'+params.seriesName+'<br/>坐标点:(' + params.data[7] + ',' + params.data[8]+ ')<br/>GPS坐标:'+params.data[15]+':'+params.data[16]+ ',' +params.data[13]+':'+ params.data[14]+ '<br>时间: ' + params.data[17];
+                }else if(params.data[3]==1 && params.data[4]==0 && params.data[5]==0){
+                  return 'id:'+params.seriesId+'<br/>名称:'+params.seriesName+'<br/>坐标点:(' + params.data[7] + ',' + params.data[8]+ ')<br>时间: ' + params.data[17];
+                }else if(params.data[3]==0 && params.data[4]==0 && params.data[5]==1){
+                  return 'id:'+params.seriesId+'<br/>名称:'+params.seriesName+'<br/>GPS坐标:'+params.data[15]+':'+params.data[16]+ ',' +params.data[13]+':'+ params.data[14]+ '<br>时间: ' + params.data[17];
+                }else if(params.data[3]==1 && params.data[4]==1 && params.data[5]==0){
+                  return 'id:'+params.seriesId+'<br/>名称:'+params.seriesName+'<br/>坐标点:(' + params.data[7] + ',' + params.data[8]+ ')<br>时间: ' + params.data[17];
+                }else if(params.data.length<3){
+                  return 'id:'+params.seriesId+'<br/>名称:'+params.seriesName+'<br/>GPS坐标:'+params.data[0]+ ',' + params.data[1];
+                }
+                
+            }
+        },
+        toolbox: {
+        },
+        grid: {
+            backgroundColor: '#ffffff',
+            show: true,
+            right:30,
+        },
+        legend:{
+            textStyle:{color:'#fff'}
+            // data:['3','4','5','6']
+        },
+        xAxis: {
+            splitNumber : 10,  //设置网格间距
+            min: -100,
+            max: 100,
+            type: 'value',
+            axisLabel: {formatter: '{value} m',
+                textStyle: {
+                    fontSize : 12      //更改坐标轴文字大小
+                }
+            },
+            axisLine: {
+                onZero: false,
+                lineStyle:{
+                    color:'#fff',
+                }
+            },
+            splitLine :{    //网格线
+                lineStyle:{
+                    type:'dotted',    //设置网格线类型 dotted：虚线   solid:实线
+                    color: '#000'
+                },
+            },
+            splitArea:{
+                areaStyle:{
+                    color:'#000'
+                }
+            }
+        },
+        yAxis: {
+            splitNumber : 10,
+            min: -100,
+            max: 100,
+            type: 'value',
+            axisLabel: {formatter: '{value} m',
+                textStyle: {
+                    fontSize : 12      //更改坐标轴文字大小
+                }
+            },
+            axisLine: {
+                onZero: false,
+                lineStyle:{
+                    color:'#fff',
+                }
+            },
+            splitLine :{    //网格线
+                lineStyle:{
+                    type:'dotted',    //设置网格线类型 dotted：虚线   solid:实线
+                    color: '#000'
+                },
+            },
+
+
+        },
+        dataZoom: [
+            {
+                type: 'inside',
+                xAxisIndex: 0,
+                filterMode: 'none',
+                start:0,
+                end:100
+            },
+            {
+                type: 'inside',
+                yAxisIndex: 0,
+                filterMode: 'none',
+                start:0
+            }
+        ],
+        series: [
+            {
+                id: 'a',
+                name:'原点',
+                type: 'line',
+                // zlevel:99999,
+                // smooth: true,
+                // symbolSize: 20,
+                // symbol:'pin',    //'circle', 'rect', 'roundRect', 'triangle', 'diamond', 'pin', 'arrow', 'none','圆'，'矩形'，'圆矩形'，'三角形'，'菱形'，'针'，'箭头'，'无'
+                data: [[0, 0]],
+            },
+        ]
+    };
+
+    var dom1 = document.getElementById("shendu");
+    var shendu;
+    option1 = {
+        // backgroundColor:'#9e9e9e',
+        title: {
+            text: '深度',
+            textStyle:{color:'#fff'}
+        },
+        grid: {
+            backgroundColor: new echarts.graphic.LinearGradient(
+                0, 0, 0, 1,
+                [
+                    {offset: 0, color: '#8ab1dc'},
+                    {offset: 1, color: '#0a35ab'}
+                ]
+            ),
+            show: true,
+            right:30,
+        },
+        legend:{
+            width:'80%',
+            textStyle:{color:'#fff'}
+            // data:['3','4','5','6']
+        },
+        xAxis: {
+            type: 'category',
+            splitLine: {show: false},
+            axisLine: {
+                onZero: false,
+                lineStyle:{
+                    color:'#fff',
+                }
+            },
+
+        },
+        tooltip: {
+            trigger: 'item',
+            axisPointer: {
+                type: 'cross',
+                label: {
+                    backgroundColor: '#6a7985'
+                }
+            },
+            formatter: 'ID {a} <br/>{b} : 深度 {c}m'
+        },
+        yAxis: {
+            axisLine: {
+                onZero: false,
+                lineStyle:{
+                    color:'#fff',
+                }
+            },
+            axisLabel: {formatter: '{value} m'}
+        },
+        series: []
+    };
+
+
+    function open(){
+        $.ajax({
+            type:'post',
+            url:"/postSiteOnce",
+            data:{},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+              console.log(dataValue)
+                if(data.Data[0].TaskName !=''){
+                        let xIndexstart = myChart.getOption().dataZoom[0].startValue;
+                        let xIndexend = myChart.getOption().dataZoom[0].endValue;
+                        let yIndexstart = myChart.getOption().dataZoom[1].startValue;
+                        let yIndexend = myChart.getOption().dataZoom[1].endValue;
+                        if(data.Data[0].Target !=null){
+                        loop_point(data.Data[0],data.Data[0].MaxX,data.Data[0].MinX,data.Data[0].MaxY,data.Data[0].MinY,xIndexstart,xIndexend,yIndexstart,yIndexend)
+                        loop_depth(data.Data[0])
+                        }
+                
+                }
+                    clearTimeout(inTimer);
+                    inTimer=setTimeout('open()',3000);
+            },
+        });
+    }
+
+    //第一次加载轨迹
+    function piont_one() {
+        $.ajax({
+            type:'post',
+            url:"/postSiteBefore",
+            data:{},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+
+                if(data.Data[0].TaskName !=''){
+                        let xIndexstart = myChart.getOption().dataZoom[0].startValue;
+                        let xIndexend = myChart.getOption().dataZoom[0].endValue;
+                        let yIndexstart = myChart.getOption().dataZoom[1].startValue;
+                        let yIndexend = myChart.getOption().dataZoom[1].endValue;
+                        one_point(data.Data[0],data.Data[0].MaxX,data.Data[0].MinX,data.Data[0].MaxY,data.Data[0].MinY,xIndexstart,xIndexend,yIndexstart,yIndexend)
+                        one_depth(data.Data[0])
+                        open()
+                }
+                
+                if(data.Data[0].IsGpsHave =='on'){
+                  $('#IsGpsHave').val('on'); 
+                   $(".two-big").show();
+                }else{
+                  $('#IsGpsHave').val('off'); 
+                   $(".two-big").hide();
+                }
+                 
+            },
+        });
+
+    }
+
+
+    function one_point(data,xz_max,xz_min,yz_max,yz_min,xIndexstart,xIndexend,yIndexstart,yIndexend) {
+        var arr =[];
+        var tempSeries=[]
+        var big=[]
+        var color =[]
+        var maodian=[]
+        console.log(data.TaskName)
+        $(".task-list").show()
+        $(".task-list").append(
+            '<span>'+data.TaskName+'</span><button class="btn btn-primary tsk_colse" type="button"></i>关闭</button>'
+        );
+        $('#add_task').attr("disabled","true");
+        $(".task-list").show();
+        $(".three-li").show();
+       
+        if(data.Fixed !=null){
+            for(var i=0;i<data.Fixed.length;i++){
+                var m={
+                    id: data.Fixed[i].OnlyId,
+                    name:data.Fixed[i].Name,
+                    type: 'line',
+                    smooth: true,
+                    symbolSize: [30,30],
+                    // symbolRotate:parseInt(-Math.random() * 100 ),
+                    symbol:"image://../static/image/mao.png",
+                    zlevel:9999,
+                    data: [[data.Fixed[i].JinDu,data.Fixed[i].WeiDu]],
+                }
+                tempSeries.push(m)
+
+                $('.add-biaoji').append(
+                    ' <li class="list-group-item"><i class="fa fa-anchor"></i>'+
+                    ' <span class="point_name" >'+data.Fixed[i].Name+'</span>'+
+                    ' <input type="hidden" value="'+data.Fixed[i].OnlyId+'" id="mao_id">'+
+                    ' <input type="hidden" value="'+data.Fixed[i].JinDu+'" id="add_longitude">'+
+                    ' <input type="hidden" value="'+data.Fixed[i].WeiDu+'" id="add_latitude">'+
+                    ' <button type="button" class="close current" data-toggle="modal" data-target="#layer1" onclick="remove_biaoji(this);">'+
+                    '&times;'+
+                    '</button>'+
+                    '<button type="button" class="close edit" >'+
+                    '<i class="fa fa-pencil" style="color: #29a1f7"></i></button> </li>'
+                )
+
+            }
+        }
+        if(data.Target !=null){
+        for (var j=0;j<data.Target.length;j++){
+            if(data.Target[j].Site !=null){
+                var o ={
+                    id:data.Target[j].MdmId,
+                    name:data.Target[j].TargetName,
+                    type:'scatter',
+                    // smooth:true,
+                    symbolSize:12,
+                    symbol:'circle',
+                    data:data.Target[j].Site,
+                    itemStyle:
+                        {
+                            color: data.Target[j].TargetColour,
+                            // lineStyle: {color: color[j]}
+                        },
+                }
+                color.push(data.Target[j].TargetColour)
+                big.push(data.Target[j].NewSite)
+                arr.push(''+data.Target[j].TargetName+'')
+                tempSeries.push(o)
+                dataValue[data.Target[j].MdmId]=data.Target[j].NewSite
+            }
+            $('.two-big').show()
+         if(data.IsGpsHave=='on'){
+                $(".add-list").append(
+                ' <li class="list-group-item">'+
+                ' <div class="kuan" style="background:  '+data.Target[j].TargetColour+'"> <span class="num">'+ data.Target[j].MdmId +'</span> </div>' +
+                ' <span style="margin: 0px 12px 0px 12px;" class="xb_name">'+ data.Target[j].TargetName +'</span>' +
+                '<button type="button" class="close current" data-toggle="modal" data-target="#layer1" onclick="remove_line(this);">' +
+                '&times; ' +
+                '</button> ' +
+                '<div class="track">开始跟踪:' +
+                '<div class="switch"><div class="btn_fath clearfix '+data.Target[j].IsTrace+'" onclick="toogle(this)"><div class="move" data-state="'+data.Target[j].IsTrace+'"></div><div class="btnSwitch btn1">on</div><div class="btnSwitch btn2 ">off</div></div></div>'+
+                ' </div>'+
+                ' <button class="btn btn-default huoqu" type="button"  onclick="oneshot(this);" >获取当前位置'+
+                '</button>'+
+                '</li>'
+            )
+        }else{
+          $(".add-list").append(
+                ' <li class="list-group-item">'+
+                ' <div class="kuan" style="background:  '+data.Target[j].TargetColour+'"> <span class="num">'+ data.Target[j].MdmId +'</span> </div>' +
+                ' <span style="margin: 0px 12px 0px 12px;" class="xb_name">'+ data.Target[j].TargetName +'</span>' +
+                '<button type="button" class="close current" data-toggle="modal" data-target="#layer1" onclick="remove_line(this);">' +
+                '&times; ' +
+                '</button> ' +
+                '<div class="track">开始跟踪:' +
+                '<div class="switch"><div class="btn_fath clearfix '+data.Target[j].IsTrace+'" onclick="toogle(this)"><div class="move" data-state="'+data.Target[j].IsTrace+'"></div><div class="btnSwitch btn1">on</div><div class="btnSwitch btn2 ">off</div></div></div>'+
+                ' </div>'+
+                ' <button class="btn btn-default huoqu" type="button"  onclick="oneshot(this);" style="display:none">获取当前位置'+
+                '</button>'+
+                '</li>'
+            )
+        }
+   
+        }
+        }
+
+        if(big.length != 0){
+            option.series=[
+                {
+                    type: 'effectScatter',
+                    symbolSize: 20,
+                    rippleEffect: {
+                        color: "rgba(8, 192, 248, 1)"
+                    },
+                    itemStyle: {
+                        borderColor: "rgba(8, 192, 248, 1)"
+                    },
+                    //zlevel:99999,
+                    data: big,
+                    itemStyle: {
+                        normal: {
+                            color: (params,index) =>  {
+                                return params.color=color[params.dataIndex];
+                            }
+                        }
+                    }
+                }
+            ];
+            console.log(arr)
+            option.legend.data=arr
+        }
+        
+        if(tempSeries.length !=0){
+            option.series=option.series.concat(tempSeries)
+        if(data.IsGpsHave=='on'){
+            option.yAxis.max=data.MaxWeiDu;
+            option.yAxis.min=data.MinWeiDu;
+            option.xAxis.max=data.MaxJinDu;
+            option.xAxis.min=data.MinJinDu;            
+            option.xAxis.axisLabel.formatter='{value} °';
+            option.yAxis.axisLabel.formatter='{value} °';
+        }else {
+         
+            option.xAxis.max=xz_max;
+            option.xAxis.min=xz_min;
+            option.yAxis.max=yz_max;
+            option.yAxis.min=yz_min;
+            option.xAxis.axisLabel.formatter='{value} m'
+            option.yAxis.axisLabel.formatter='{value} m';
+        }
+            // option.series.push(tempSeries)
+            option.dataZoom= [{
+                type: 'inside',
+                xAxisIndex: 0,//控制x轴
+                startValue: xIndexstart,
+                endValue: xIndexend,
+            },
+                {
+                    type: 'inside',
+                    yAxisIndex: 0,//控制y轴
+                    startValue: yIndexstart,
+                    endValue: yIndexend,
+                }
+            ]
+       
+            myChart.setOption(option,true);
+
+            console.log(option)
+        }
+
+
+    }
+    function one_depth(data) {
+        var tempSeries=[]
+        var arr =[];
+        option1.series=[]
+        if(data.Target !=null){
+        for (var j=0;j<data.Target.length;j++){
+          if(data.Target[j].Deep !=null){
+            var o ={
+                id:data.Target[j].MdmId,
+                name:data.Target[j].TargetName,
+                type:'line',
+                smooth:true,
+                symbolSize:10,
+                data:data.Target[j].Deep,
+                itemStyle:
+                    {normal:
+                            {
+                                color: data.Target[j].DeepColour,
+                                // lineStyle: {color: color[j]}
+                            }
+                    },
+            }
+            arr.push(''+data.Target[j].TargetName+'')
+            tempSeries.push(o)
+            }
+        }
+        }
+        if(arr.length !=0){
+           option1.legend.data=arr
+           option1.series=option1.series.concat(tempSeries)
+           shendu.setOption(option1,true);
+
+        }
+
+
+    }
+
+
+    function loop_point(data,xz_max,xz_min,yz_max,yz_min,xIndexstart,xIndexend,yIndexstart,yIndexend) {
+        var arr =[];
+        var tempSeries=[]
+        var big=[]
+        var color =[]
+        var options = myChart.getOption()
+        var series = myChart.getOption().series
+
+        console.log(options)
+
+        if(series.length==1){
+          
+            for (var j=0;j<data.Target.length;j++){
+                var o ={
+                    id:data.Target[j].MdmId,
+                    name:data.Target[j].TargetName,
+                    type:'scatter',
+                    // smooth:true,
+                    symbolSize:12,
+                    symbol:'circle',
+                    data:data.Target[j].Site,
+                    itemStyle:
+                        {
+                            color: data.Target[j].TargetColour,
+                            // lineStyle: {color: color[j]}
+                        },
+                }
+                color.push(data.Target[j].TargetColour)
+                //big.push(data.Target[j].NewSite)
+                arr.push(''+data.Target[j].TargetName+'')
+                tempSeries.push(o)
+                dataValue[data.Target[j].MdmId]=data.Target[j].NewSite
+                
+            }
+            
+            for(var key in dataValue){
+              big.push(dataValue[key])
+            }
+
+            option.series=[
+                {
+                    type: 'effectScatter',
+                    symbolSize: 20,
+                    rippleEffect: {
+                        color: "rgba(8, 192, 248, 1)"
+                    },
+                    itemStyle: {
+                        borderColor: "rgba(8, 192, 248, 1)"
+                    },
+                   // zlevel:99999,
+                    data: big,
+                    itemStyle: {
+                        normal: {
+                            color: (params,index) =>  {
+                                return params.color=color[params.dataIndex];
+                            }
+                        }
+                    }
+                }
+            ];
+            option.legend.data=arr
+            option.series=option.series.concat(tempSeries)
+            if(data.IsGpsHave=='on'){
+            option.yAxis.max=data.MaxWeiDu;
+            option.yAxis.min=data.MinWeiDu;
+            option.xAxis.max=data.MaxJinDu;
+            option.xAxis.min=data.MinJinDu;   
+            option.xAxis.axisLabel.formatter='{value} °';
+            option.yAxis.axisLabel.formatter='{value} °';
+            }else {
+                option.xAxis.max=xz_max;
+                option.xAxis.min=xz_min;
+                option.yAxis.max=yz_max;
+                option.yAxis.min=yz_min;
+                 option.xAxis.axisLabel.formatter='{value} m';
+            option.yAxis.axisLabel.formatter='{value} m';
+            }
+            // option.series.push(tempSeries)
+            option.dataZoom= [{
+                type: 'inside',
+                xAxisIndex: 0,//控制x轴
+                startValue: xIndexstart,
+                endValue: xIndexend,
+            },
+                {
+                    type: 'inside',
+                    yAxisIndex: 0,//控制y轴
+                    startValue: yIndexstart,
+                    endValue: yIndexend,
+                }
+            ]
+
+            myChart.setOption(option,true);
+
+        }else{
+
+            var nameList=[];
+            for(var i=0;i<options.series.length;i++){
+                var item=options.series[i];
+                nameList.push(item.name);
+            }
+
+            for(var i=0;i<data.Target.length;i++){
+                var item=data.Target[i];
+                var index=nameList.indexOf(item.TargetName);
+                if(index>-1){
+                    options.series[index].data=options.series[index].data.concat(item.Site);
+                }else {
+                    options.series.push(
+                        {
+                            id:item.MdmId,
+                            name:item.TargetName,
+                            type:'scatter',
+                            // smooth:true,
+                            symbolSize:12,
+                            symbol:'circle',
+                            data:item.Site,
+                            itemStyle:
+                                {
+                                    color: item.TargetColour,
+                                },
+                        },);
+                }
+                color.push(item.TargetColour)
+               // big.push(item.NewSite)
+                arr.push(''+item.TargetName+'')
+                dataValue[item.MdmId]=item.NewSite
+            }
+
+            for(var key in dataValue){
+              big.push(dataValue[key])
+            }
+         
+            options.series[0].data=big
+            options.legend.data=arr
+            if(data.IsGpsHave=='on'){
+               options.yAxis.max=data.MaxWeiDu;
+                options.yAxis.min=data.MaxJinDu;
+                options.xAxis.max=data.MaxWeiDu;
+                options.xAxis.min=data.MinWeiDu;
+            
+
+            }else {
+                 options.xAxis.max=xz_max;
+                options.xAxis.min=xz_min;
+                options.yAxis.max=yz_max;
+                options.yAxis.min=yz_min;
+            }
+            // option.series.push(tempSeries)
+            options.dataZoom= [{
+                type: 'inside',
+                xAxisIndex: 0,//控制x轴
+                startValue: xIndexstart,
+                endValue: xIndexend,
+            },
+                {
+                    type: 'inside',
+                    yAxisIndex: 0,//控制y轴
+                    startValue: yIndexstart,
+                    endValue: yIndexend,
+                }
+            ]
+
+            myChart.setOption(options,true);
+
+        }
+
+
+
+    }
+    function loop_depth(data) {
+        var tempSeries=[]
+        var arr =[];
+        var options = shendu.getOption()
+
+        var nameList=[];
+        for(var i=0;i<options.series.length;i++){
+            var item=options.series[i];
+            nameList.push(item.name);
+        }
+
+        for(var i=0;i<data.Target.length;i++){
+            var item=data.Target[i];
+            var index=nameList.indexOf(item.TargetName);
+            if(index>-1){
+                options.series[index].data=options.series[index].data.concat(item.Deep);
+                if(options.series[index].data.length>100){
+                    options.series[index].data.splice(0,options.series[index].data.length-100);
+                }
+            }else {
+                options.series.push(
+                    {
+                        id:item.MdmId,
+                        name:item.TargetName,
+                        type:'line',
+                        smooth:true,
+                        symbolSize:10,
+                        data:item.Deep,
+                        itemStyle:
+                            {normal:
+                                    {
+                                        color: item.DeepColour,
+                                        // lineStyle: {color: color[j]}
+                                    }
+                            },
+                    }
+                );
+            }
+            arr.push(''+item.TargetName+'')
+        }
+
+        options.legend.data=arr
+        shendu.setOption(options,true);
+
+    }
+
+
+</script>
+
+
+
+
+
+
+
+
+
+</body>
+
+</html>

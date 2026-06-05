@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小型定位</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+     <link href="../static/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../static/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../static/css/animate.css" rel="stylesheet">
+    <link href="../static/css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../static/css/sweetalert.css" rel="stylesheet">
+    <link href="../static/css/sweetalert.css" rel="stylesheet">
+    <script type="text/javascript" src="../static/js/echarts.min.js"></script>
+</head>
+<body class="gray-bg" >
+    <div class="wrapper wrapper-content">
+        <div class="row" >
+            <div class="ibox">
+                <div class="ibox-content content_jzb" style="height: 900px;">
+            <div>
+                <!--<span ><img id="jwd_img" class="track_img" src="../static/image/jwd.png" data-toggle="tooltip"  title="GPS"></span>-->
+                <!--<span><img id="ld_img" class="track_img" src="../static/image/ld.png" style="display: none" data-toggle="tooltip"  title="极坐标"></span>-->
+            </div>
+            <div class="col-sm-12" style="height: 900px">
+                        <div id="radar" style="height: 100%"></div>
+                    </div>
+
+            <div class="col-sm-3 msg_area">
+                <div class="mas_area_1">
+                <!--<div class="msg_frame">-->
+                    <!--<div class="point_title point_title2">-->
+                        <!--<p><span>名称：</span></p>-->
+                        <!--<p><span>1号船基站</span></p>-->
+                    <!--</div>-->
+                    <!--<div class="point_title point_title2">-->
+                        <!--<p><span>经度：</span></p>-->
+                        <!--<p><span>0.000000°</span></p>-->
+                    <!--</div>-->
+                    <!--<div class="point_title point_title2 ">-->
+                        <!--<p><span>纬度：</span></p>-->
+                        <!--<p><span>0.000000°</span></p>-->
+                    <!--</div>-->
+                    <!--<div class="point_title">-->
+                        <!--<p><span>颜色：</span></p>-->
+                        <!--<p><span class="point_color" style="background-color:#660056"></span></p>-->
+                    <!--</div>-->
+                    <!--<div class="point_title point_title2">-->
+                        <!--<p><span>深度：</span></p>-->
+                        <!--<p><span>15</span></p>-->
+                    <!--</div>-->
+                    <!--<div class="point_title point_title2">-->
+                        <!--<p><span>朝向：</span></p>-->
+                        <!--<p><span>0.000000°</span></p>-->
+                    <!--</div>-->
+                    <!--<div class="point_title point_title2">-->
+                        <!--<p><span>状态：</span></p>-->
+                        <!--<p><span>已连接</span></p>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div  class="msg_frame">-->
+                    <!--<div class="point_title point_title2">-->
+                        <!--<p><span>名称：</span></p>-->
+                        <!--<p><span>1号船基站</span></p>-->
+                    <!--</div>-->
+                    <!--<div class="point_title point_title2">-->
+                        <!--<p><span>经度：</span></p>-->
+                        <!--<p><span>0.000000°</span></p>-->
+                    <!--</div>-->
+                    <!--<div class="point_title point_title2">-->
+                        <!--<p><span>纬度：</span></p>-->
+                        <!--<p><span>0.000000°</span></p>-->
+                    <!--</div>-->
+                    <!--<div class="point_title">-->
+                        <!--<p><span>颜色：</span></p>-->
+                        <!--<p><span class="point_color" style="background-color:#660056"></span></p>-->
+                    <!--</div>-->
+                    <!--<div class="point_title point_title2">-->
+                        <!--<p><span>深度：</span></p>-->
+                        <!--<p><span >15</span></p>-->
+                    <!--</div>-->
+                    <!--<div class="point_title point_title2">-->
+                        <!--<p><span>朝向：</span></p>-->
+                        <!--<p><span >0.000000°</span></p>-->
+                    <!--</div>-->
+                    <!--<div class="point_title point_title2">-->
+                        <!--<p><span>状态：</span></p>-->
+                        <!--<p><span>已连接</span></p>-->
+                    <!--</div>-->
+                <!--</div>-->
+                </div>
+                <!--<div class="mas_area_2" style="display: none">-->
+                    <!--<div class="msg_frame">-->
+                        <!--<div class="point_title point_title2">-->
+                            <!--<p><span>名称：</span></p>-->
+                            <!--<p><span>1号船基站</span></p>-->
+                        <!--</div>-->
+                        <!--<div class="point_title point_title2">-->
+                            <!--<p><span>经度：</span></p>-->
+                            <!--<p><span>0.000000°</span></p>-->
+                        <!--</div>-->
+                        <!--<div class="point_title point_title2 ">-->
+                            <!--<p><span>纬度：</span></p>-->
+                            <!--<p><span>0.000000°</span></p>-->
+                        <!--</div>-->
+                        <!--<div class="point_title">-->
+                            <!--<p><span>颜色：</span></p>-->
+                            <!--<p><span class="point_color" style="background-color:#660056"></span></p>-->
+                        <!--</div>-->
+                        <!--<div class="point_title point_title2">-->
+                            <!--<p><span>深度：</span></p>-->
+                            <!--<p><span>15</span></p>-->
+                        <!--</div>-->
+                        <!--<div class="point_title point_title2">-->
+                            <!--<p><span>朝向：</span></p>-->
+                            <!--<p><span>0.000000°</span></p>-->
+                        <!--</div>-->
+                        <!--<div class="point_title point_title2">-->
+                            <!--<p><span>状态：</span></p>-->
+                            <!--<p><span>已连接</span></p>-->
+                        <!--</div>-->
+                    <!--</div>-->
+
+                <!--</div>-->
+            </div>
+                    <div>
+                        <span ><img id="recording_start" class="recording" src="../static/image/start.png" data-toggle="tooltip"  title="录制开始"></span>
+                        <span><img id="recording_end" class="recording" src="../static/image/end.png" style="display: none" data-toggle="tooltip"  title="录制结束"></span>
+                        <span class="start_time"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- 全局js -->
+    <script src="../static/js/jquery.min.js?v=2.1.4"></script>
+    <script src="../static/js/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 自定义js -->
+    <script src="../static/js/content.js?v=1.0.0"></script>
+    <script src="../static/js/plugins/sweetalert/sweetalert.min.js"></script>
+    <script>
+        $(function () {
+            load_1()
+            radar = echarts.init(dom1);
+            radar.setOption(option, true);
+            window.onresize = function(){
+                radar.resize();
+            }
+            $("[data-toggle='tooltip']").tooltip();
+
+        })
+
+        var inTimer
+        var dom1 = document.getElementById("radar");
+        var radar;
+        var data = [];
+        var data1 = [];
+        var data2 = [];
+        var pathSymbols = {
+            walk: 'image://../static/image/tc.png'
+        };
+        data=[[5,0],[10,30],[6,20],[6,180],[50,110],[75,351]]
+        data1=[[0,0]]
+        data2=[[20,320]]
+        option = {
+            title: {
+            },
+            legend: {
+                data: ['line','line1','line2']
+            },
+            polar: {},
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'cross'
+                },
+                formatter: function (params) {
+                  return '距离:'+params[0].value[0]+'<br/>角度:'+params[0].value[1];                    
+            }
+            },
+            angleAxis: {
+                type: 'value',
+                startAngle: 90,
+                clockwise: true,
+                min: 0,
+                max: 360,
+            },
+            radiusAxis: {
+                max: 80,
+            },
+            series: []
+        };
+
+        
+        $(".track_img").click(function () {
+            if($("#jwd_img").is(":hidden")){
+                $("#jwd_img").show();
+                $(".mas_area_1").show();
+            }else{
+                $("#jwd_img").hide();
+                $(".mas_area_1").hide();
+            }
+            if($("#ld_img").is(":hidden")){
+                $("#ld_img").show();
+                $(".mas_area_2").show();
+            }else{
+                $("#ld_img").hide();
+                $(".mas_area_2").hide();
+            }
+        })
+        
+        function load_1(){
+             $.ajax({
+              type:'post',
+              url:"/postSmallIsSave",
+              data:{'Opt':'get'},
+              dataType:'json',
+              success:function(data){ //请求成功回调函数
+                  if(data.IsSave==1){
+                      $("#recording_end").show();
+                      $("#recording_start").hide();
+                      $('.start_time').text(data.TaskName)
+                      piont_one()
+                  }else {
+                      $("#recording_start").show();
+                      $("#recording_end").hide();
+                  }
+              },
+          });
+        }
+
+        $('.recording').click(function () {
+            if($("#recording_start").is(":hidden")){
+                $("#recording_start").show();
+            }else{
+                $("#recording_start").hide();
+            }
+            if($("#recording_end").is(":hidden")){
+                $("#recording_end").show();
+            }else{
+                $("#recording_end").hide();
+            }
+        })
+
+        $('#recording_start').click(function () {
+            setTimeout('open()',3000);
+            $.ajax({
+              type:'post',
+              url:"/postSmallIsSave",
+              data:{'Opt':'start'},
+              dataType:'json',
+              success:function(data){ //请求成功回调函数
+                  $('.start_time').text(data.TaskName)
+              },
+          });
+        })
+
+        $('#recording_end').click(function () {
+            clearTimeout(inTimer);
+             $.ajax({
+              type:'post',
+              url:"/postSmallIsSave",
+              data:{'Opt':'end'},
+              dataType:'json',
+              success:function(data){ //请求成功回调函数
+                  $('.start_time').text('')
+              },
+          });
+        })
+
+        //第一次加载轨迹
+        function piont_one() {
+            $.ajax({
+                type:'post',
+                url:"/postSmallSiteBefore",
+                data:{},
+                dataType:'json',
+                success:function(data){ //请求成功回调函数
+                    one_point(data)
+                    setTimeout('open()',3000);
+
+                },
+            });
+
+        }
+
+        function one_point(data) {
+            var tempSeries=[]
+            var arr =[];
+            option.series=[]
+            var w=''
+            if(data.Target !=null){
+                for (var j=0;j<data.Target.length;j++){
+                  if(data.Target[j].TargetType !='USBL基站'){
+                        var o ={
+                            coordinateSystem: 'polar',
+                            id:data.Target[j].MdmId,
+                            name:data.Target[j].TargetName,
+                            type:'scatter',
+                            smooth:true,
+                            symbolSize:10,
+                            data:data.Target[j].Site,
+                            itemStyle:
+                                {normal:
+                                        {
+                                            color: data.Target[j].TargetColour,
+                                            // lineStyle: {color: color[j]}
+                                        }
+                                },
+                        }
+                        arr.push(''+data.Target[j].TargetName+'')
+                        tempSeries.push(o)
+                        w='<div class="msg_frame xb">'+
+                            '<div class="point_title point_title2">'+
+                            '<p><span>名称：</span></p>'+
+                            '<p><span id="TargetName">'+data.Target[j].TargetName+'</span></p>'+
+                            '</div><div class="point_title point_title2"><p><span>经度：</span></p>'+
+                            '<p><span id="JinDu">'+data.Target[j].JinDu+'</span></p>'+
+                            '</div><div class="point_title point_title2 "><p><span>纬度：</span></p>'+
+                            '<p><span id="WeiDu">'+data.Target[j].WeiDu+'</span></p>'+
+                            '</div><div class="point_title"><p><span>颜色：</span></p>'+
+                            '<p><span class="point_color" style="background-color:'+data.Target[j].TargetColour+'"></span></p>'+
+                            '</div><div class="point_title point_title2"><p><span>深度：</span></p>'+
+                            '<p><span id="NewDeep">'+data.Target[j].NewDeep+'</span></p>'+
+                            '</div><div class="point_title point_title2"><p><span>朝向：</span></p>'+
+                            '<p><span id="ChaoXiang">'+data.Target[j].ChaoXiang+'</span></p>'+
+                            '</div><div class="point_title point_title2"><p><span>时间：</span></p>'+
+                            '<p><span id="LastTime">'+data.Target[j].LastTime+'</span></p>'+
+                            '</div><div class="point_title"><p><span>提示：</span></p>'+
+                            '<p><span id="TiShi">'+data.Target[j].TiShi+'</span></p>'+
+                           '</div></div>';
+                      $(".mas_area_1").append(w);
+                    }else{
+                      var o ={
+                          coordinateSystem: 'polar',
+                          id:data.Target[j].MdmId,
+                          name: data.Target[j].TargetName,
+                          type: 'scatter',
+                          data: data1,
+                          symbol: pathSymbols.walk,
+                          symbolSize: [30, 100],
+                          symbolRotate:data.Target[j].ChaoXiang,
+                      }
+                      arr.push(''+data.Target[j].TargetName+'')
+                      tempSeries.push(o)
+                      w='<div class="msg_frame jz">'+
+                          '<div class="point_title point_title2">'+
+                          '<p><span>名称：</span></p>'+
+                          '<p><span id="TargetName">'+data.Target[j].TargetName+'</span></p>'+
+                          '</div><div class="point_title point_title2"><p><span>经度：</span></p>'+
+                          '<p><span id="JinDu">'+data.Target[j].JinDu+'</span></p>'+
+                          '</div><div class="point_title point_title2 "><p><span>纬度：</span></p>'+
+                          '<p><span id="WeiDu">'+data.Target[j].WeiDu+'</span></p>'+
+                          '</div><div class="point_title"><p><span>颜色：</span></p>'+
+                          '<p><span class="point_color" style="background-color:'+data.Target[j].TargetColour+'"></span></p>'+
+                          '</div><div class="point_title point_title2"><p><span>深度：</span></p>'+
+                          '<p><span id="NewDeep">'+data.Target[j].NewDeep+'</span></p>'+
+                          '</div><div class="point_title point_title2"><p><span>朝向：</span></p>'+
+                          '<p><span id="ChaoXiang">'+data.Target[j].ChaoXiang+'</span></p>'+
+                          '</div><div class="point_title point_title2"><p><span>时间：</span></p>'+
+                          '<p><span id="LastTime">'+data.Target[j].LastTime+'</span></p>'+
+                          '</div><div class="point_title"><p><span>提示：</span></p>'+
+                          '<p><span id="TiShi">'+data.Target[j].TiShi+'</span></p>'+
+                          '</div></div>';
+                      $(".mas_area_1").append(w);
+                    }
+
+                }
+
+            option.legend.data=arr
+            option.series=option.series.concat(tempSeries)
+            radar.setOption(option,true);
+
+            }
+
+
+        }
+
+        function open(){
+            $.ajax({
+                type:'post',
+                url:"/postSmallSiteOnce",
+                data:{},
+                dataType:'json',
+                success:function(data){ //请求成功回调函数
+                    loop_point(data)
+                    clearTimeout(inTimer);
+                    inTimer=setTimeout('open()',3000);
+                },
+            });
+        }
+
+        function loop_point(data) {
+            var tempSeries=[]
+            var arr =[];
+            var options = radar.getOption()
+            var w=''
+            console.log(options)
+            console.log(data)
+            var nameList=[];
+            options.radiusAxis[0].max=data.MaxR
+            for(var i=0;i<options.series.length;i++){
+                var item=options.series[i];
+                nameList.push(item.name);
+            }
+            if(data.Target !=null){
+            for(var i=0;i<data.Target.length;i++){
+                var item=data.Target[i];
+                var index=nameList.indexOf(item.TargetName);
+                if(index>-1){
+                    options.series[index].data=options.series[index].data.concat(item.Site);
+                  //  if(options.series[index].data.length>100){
+                  //      options.series[index].data.splice(0,options.series[index].data.length-100);
+                   // }                   
+                        if($('.mas_area_1').find('.msg_frame').eq(i).find('#TargetName').text()==item.TargetName){
+                            $('.mas_area_1').find('.msg_frame').eq(i).find('#TargetName').text(item.TargetName)
+                            $('.mas_area_1').find('.msg_frame').eq(i).find('#JinDu').text(item.JinDu)
+                            $('.mas_area_1').find('.msg_frame').eq(i).find('#WeiDu').text(item.WeiDu)
+                            $('.mas_area_1').find('.msg_frame').eq(i).find('.point_color').css("background-color",item.TargetColour)
+                            $('.mas_area_1').find('.msg_frame').eq(i).find('#NewDeep').text(item.NewDeep)
+                            $('.mas_area_1').find('.msg_frame').eq(i).find('#ChaoXiang').text(item.ChaoXiang)
+                            $('.mas_area_1').find('.msg_frame').eq(i).find('#LastTime').text(item.LastTime)
+                            $('.mas_area_1').find('.msg_frame').eq(i).find('#TiShi').text(item.TiShi)
+                        }
+                        if(item.TargetType =='USBL基站'){
+                          options.series[index].symbolRotate=item.ChaoXiang
+                        }
+                          
+
+                }else {
+                    if(item.TargetType !='USBL基站'){
+                    options.series.push(
+                        {
+                            coordinateSystem: 'polar',
+                            id:item.MdmId,
+                            name:item.TargetName,
+                            type:'scatter',
+                            smooth:true,
+                            symbolSize:10,
+                            data:item.Site,
+                            itemStyle:
+                                {normal:
+                                        {
+                                            color: item.TargetColour,
+                                            // lineStyle: {color: color[j]}
+                                        }
+                                },
+                        }
+                    );
+                    }else {
+                        options.series.push(
+                            {
+                                coordinateSystem: 'polar',
+                                id:item.MdmId,
+                                name: item.TargetName,
+                                type: 'scatter',
+                                data: data1,
+                                symbol: pathSymbols.walk,
+                                symbolSize: [30, 100],
+                                symbolRotate:item.ChaoXiang,
+                            }
+                        );
+                    }
+                    w='<div class="msg_frame jz">'+
+                        '<div class="point_title point_title2">'+
+                        '<p><span>名称：</span></p>'+
+                        '<p><span id="TargetName">'+item.TargetName+'</span></p>'+
+                        '</div><div class="point_title point_title2"><p><span>经度：</span></p>'+
+                        '<p><span id="JinDu">'+item.JinDu+'</span></p>'+
+                        '</div><div class="point_title point_title2 "><p><span>纬度：</span></p>'+
+                        '<p><span id="WeiDu">'+item.WeiDu+'</span></p>'+
+                        '</div><div class="point_title"><p><span>颜色：</span></p>'+
+                        '<p><span class="point_color" style="background-color:'+item.TargetColour+'"></span></p>'+
+                        '</div><div class="point_title point_title2"><p><span>深度：</span></p>'+
+                        '<p><span id="NewDeep">'+item.NewDeep+'</span></p>'+
+                        '</div><div class="point_title point_title2"><p><span>朝向：</span></p>'+
+                        '<p><span id="ChaoXiang">'+item.ChaoXiang+'</span></p>'+
+                        '</div><div class="point_title point_title2"><p><span>时间：</span></p>'+
+                        '<p><span id="LastTime">'+item.LastTime+'</span></p>'+
+                        '</div><div class="point_title"><p><span>提示：</span></p>'+
+                        '<p><span id="TiShi">'+item.TiShi+'</span></p>'+
+                        '</div></div>';
+                    $(".mas_area_1").append(w);
+                }
+                arr.push(''+item.TargetName+'')
+
+            }
+
+            options.legend.data=arr
+            radar.setOption(options,true);
+            }
+        }
+
+    </script>
+
+    </body>
+</html>

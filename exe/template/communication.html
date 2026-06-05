@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>水声通信</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <link rel="shortcut icon" href="favicon.ico"> <link href="../static/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../static/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+
+    <link href="../static/css/animate.css" rel="stylesheet">
+    <link href="../static/css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../static/css/sweetalert.css" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+
+    <div class="wrapper wrapper-content animated fadeInUp">
+        <div class="row">
+            <div class="col-sm-10">
+
+                <div class="ibox">
+                    <div class="ibox-title">
+                        <h5>水声通信</h5>
+
+                    </div>
+
+                        <div class="ibox-content">
+                            <div class="form-horizontal m-t" id="commentForm" novalidate="novalidate">
+                                <div class="form-group two">
+                                    <label class="col-sm-8  control-label">
+                                        目标ID
+                                    </label>
+                                    <div class="col-sm-2">
+                                        <input id="target_id" name="target_id" placeholder="输入目标ID" type="text" class="form-control" required="" aria-required="true">
+                                    </div>
+                                </div>
+                                <div class="form-group two">
+                                    <label class="col-sm-8  control-label">
+                                        发送模式
+                                    </label>
+                                    <div class="col-sm-2">
+                                        <select class="input-sm form-control input-s-sm inline " id="pattern">
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="11">11</option>
+                                            <option value="12">12</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <label style="color: #7d7b79">选择模式1~5，数字越大的模式传输速率越高，但相应对环境要求也越高</label>
+                                <div class="form-group two">
+                                    <label class="col-sm-8  control-label">
+                                        发送内容
+                                    </label>
+                                    <button class="btn btn-primary send" type="submit">发送</button>
+
+                                </div>
+                                <div class="form-group two">
+                                    <label class="col-sm-4">
+                                        <input type="radio"  value="ranging" id="content" name="content" class="ranging">测距
+                                    </label>
+                                </div>
+                                <div class="form-group two">
+                                    <label class="col-sm-4">
+                                        <input type="radio"  value="ascii" id="content" name="content" class="ascii">ASCII数据
+                                    </label>
+                                    <div class="col-sm-5">
+                                        <input id="ascii_content" name="ascii_content" placeholder="输入需要发送的ASCII字符数据" type="text" class="form-control" >
+                                    </div>
+                                </div>
+                                <div class="form-group two">
+                                    <label class="col-sm-4">
+                                        <input type="radio"  value="hex" id="content" name="content" class="hex">Hex数据
+                                    </label>
+                                    <div class="col-sm-5">
+                                        <input id="hex_content" name="hex_content" placeholder="输入需要发送的hex数据" type="text" class="form-control" >
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="form-group col-sm-8 textarea">
+                                        <!--<div class=" form-group row">dsads &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2018-10-21 20:12:12</div>-->
+                                        <!--<div class=" form-group row">dsads</div>-->
+                                        <!--<div class=" form-group row">dsads</div>-->
+                                        <!--<div class=" form-group row">dsads</div>-->
+                                        <!--<div class=" form-group row">dsads</div>-->
+                                        <!--<div class=" form-group row">dsads</div>-->
+                                        <!--<div class=" form-group row">dsads</div>-->
+                                        <!--<div class=" form-group row">dsads</div>-->
+                                        <!--<div class=" form-group row">dsads</div>-->
+                                        <!--<div class=" form-group row">dsadsdwqijdkqhndjqwkhdjwqhejqw he d wjqdh jqwdhkjqwh dkjqwhexjwehkqjwhexjqwehqxjkehj</div>-->
+                                        <!--<div class=" form-group row">dsadsdwqijdkqhndjqwkhdjwqhejqw he d wjqdh jqwdhkjqwh dkjqwhexjwehkqjwhexjqwehqxjkehj</div>-->
+                                        <!--&lt;!&ndash;<div class=" form-group ">dsadsdwqijdkqhndjqwkhdjwqhejqw he d wjqdh jqwdhkjqwh dkjqwhexjwehkqjwhexjqwehqxjkehjwuehwqhewqjkhejkqw hejkwq hejkwqh ejwhqxwjqhe xehwqjkx hejwiejqlwkejwqlkje lkwqjex lwq qwelk qjk</div>&ndash;&gt;-->
+                                        <!--<div class=" form-group row">打撒大厦酒店剑客无情冷酷的崛起为觉得我悄悄离开东京从我的千万记得请我健康快乐   的顽强抵抗完全科动物权利当前网络带宽     大卡司全文刊登颇为看都怕我请客哦五块钱珀尔  对我客气点的网络请求看到</div>-->
+                                    </div>
+                                </div>
+                                <div class="form-group yc">
+                                    <div class="col-sm-6">
+                                     <label class="col-sm-1 download_time">
+                                        起
+                                     </label>
+                                        <input class="form-control layer-date" id="start" placeholder="开始日期" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
+                                        <div></div><br>
+                                   <label class="col-sm-1 download_time">
+                                       止
+                                     </label>
+                                        <input class="form-control layer-date" id="end" placeholder="结束日期" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
+                                    </div>
+                                </div>
+                                <div class="form-group two">
+                                    <button class="btn btn-primary download" type="submit">下载当前日志</button>
+
+                                </div>
+
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+
+    <!-- 全局js -->
+    <script src="../static/js/jquery.min.js?v=2.1.4"></script>
+    <script src="../static/js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="../static/js/plugins/layer/laydate/laydate.js"></script>
+    <script src="../static/js/plugins/sweetalert/sweetalert.min.js"></script>
+
+    <!-- 自定义js -->
+    <script src="../static/js/content.js?v=1.0.0"></script>
+    <script>
+        //日期范围限制
+        var start = {
+            elem: '#start',
+            format: 'YYYY/MM/DD hh:mm:ss',
+            min: laydate.now(), //设定最小日期为当前日期
+            max: '2099-06-16 23:59:59', //最大日期
+            istime: true,
+            istoday: false,
+            choose: function (datas) {
+                end.min = datas; //开始日选好后，重置结束日的最小日期
+                end.start = datas //将结束日的初始值设定为开始日
+            }
+        };
+        var end = {
+            elem: '#end',
+            format: 'YYYY/MM/DD hh:mm:ss',
+            min: laydate.now(),
+            max: '2099-06-16 23:59:59',
+            istime: true,
+            istoday: false,
+            choose: function (datas) {
+                start.max = datas; //结束日选好后，重置开始日的最大日期
+            }
+        };
+        laydate(start);
+        laydate(end);
+
+        var bug=null;
+        
+        var q=''
+        var i
+        $(function () {
+            message()
+            load()
+        })
+
+        $(document).on('click','#content',function () {
+            if($("input[name='content']:checked").val()=='ranging'){
+                $('#ascii_content').attr("disabled",true);
+                $('#hex_content').attr("disabled",true);
+            }else if($("input[name='content']:checked").val()=='ascii'){
+                $('#ascii_content').removeAttr("disabled");
+                $('#hex_content').attr("disabled",true);
+            }else {
+                $('#ascii_content').attr("disabled",true);
+                $('#hex_content').removeAttr("disabled");
+            }
+        })
+
+        $('.send').click(function () {
+            var target_id = $('#target_id').val()
+            var pattern = $('#pattern').val()
+            var flag = ''
+            var content = ''
+            var hex_content
+            if($("input[name='content']:checked").val()=='ranging'){
+                flag = $("input[name='content']:checked").val()
+            }else if($("input[name='content']:checked").val()=='ascii'){
+                flag = $("input[name='content']:checked").val()
+                content =$('#ascii_content').val()
+                hex_content =$('#hex_content').val()
+            }else {
+                flag = $("input[name='content']:checked").val()
+                hex_content =$('#hex_content').val()
+                content =$('#ascii_content').val()
+            }
+
+            //发送
+            $.ajax({
+                type:'post',
+                url:"/cmctnSent",
+                data:{'Dstid':target_id,'SentModel':pattern,'ChosType':flag,'SentMsgAsc':content,'SentMsgHex':hex_content},
+                dataType:'json',
+                success:function(data){ //请求成功回调函数
+                    if(data.data[0].Ptf){
+                      q='<div class="form-group row">'+data.data[0].Ptf+'</div>';
+                      $(".textarea").append(q);
+                    }
+                    
+                },
+            });
+
+        })
+
+        //消息回显
+        function message() {
+        //  var interval = setInterval(function() {
+                 $.ajax({
+                     type:'post',
+                     url:"/cmctnRecord",
+                     data:{},
+                     dataType:'json',
+                     success:function(data){ //请求成功回调函数
+                    console.log(data)
+                    var w=''
+                        if(data.data[0].msg==''){
+                          
+                        }else{
+                        for(i=0;i<data.data.length;i++){
+                          w+='<div class="form-group row">'+data.data[i].msg+'</div>';
+                    
+                        }
+                           console.log(w)
+                          $(".textarea").append(w);
+                          var lenght = $("div", ".textarea").length
+                          if(lenght>100){
+                            $(".textarea div:first-child").remove()
+                          }
+                        }
+                      setTimeout(message, 2000)
+                  
+                     },
+                 });
+            
+             
+           // }, 8000)
+
+        }
+        
+        function load(){
+                $.ajax({
+                     type:'post',
+                     url:"/cmctnCfg",
+                     data:{},
+                     dataType:'json',
+                     success:function(data){ //请求成功回调函数
+                 
+                       if(data.data[0].Dstid){
+                        $('#target_id').val(data.data[0].Dstid)
+                      }
+                      if(data.data[0].SentModel){
+                        $('#pattern').val(data.data[0].SentModel)
+                      }
+                      if(data.data[0].ChosType=='ranging'){
+                        $("input[name='content'][value='ranging']").attr("checked",true)
+                          $('#ascii_content').attr("disabled",true);
+                          $('#hex_content').attr("disabled",true);
+                      }else if(data.data[0].ChosType=='ascii'){
+                        $("input[name='content'][value='ascii']").attr("checked",true)  
+                        $('#ascii_content').val(data.data[0].SentMsgAsc)
+                        $('#hex_content').val(data.data[0].SentMsgHex)
+                          $('#ascii_content').removeAttr("disabled");
+                          $('#hex_content').attr("disabled",true);
+                      }else{
+                        $("input[name='content'][value='hex']").attr("checked",true) 
+                        $('#hex_content').val(data.data[0].SentMsgHex)
+                        $('#ascii_content').val(data.data[0].SentMsgAsc)
+                          $('#ascii_content').attr("disabled",true);
+                          $('#hex_content').removeAttr("disabled");
+                      }
+                      
+                     },
+                 });
+                
+            $.ajax({
+                     type:'post',
+                     url:"/getIfOpenCmctn",
+                     data:{},
+                     dataType:'json',
+                     success:function(data){ //请求成功回调函数
+                        if(data.data[0].OpenRang=="0"){
+                          $(".ranging").attr("disabled", true);
+                        }
+                        if(data.data[0].OpenMsgAsc=="0"){
+                          $(".ascii").attr("disabled", true);
+                          $("#ascii_content").attr("disabled", true);
+                        }
+                        if(data.data[0].OpenMsgHex=="0"){
+                          $(".hex").attr("disabled", true);
+                          $("#hex_content").attr("disabled", true);
+                        }
+                      
+                     },
+                 });         
+                
+        }
+
+        function timestampToTime(timestamp) {
+            var date = new Date(timestamp * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+            var Y = date.getFullYear() + '-';
+            var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+            var D = date.getDate() + ' ';
+            var h = date.getHours() + ':';
+            var m = date.getMinutes() + ':';
+            var s = date.getSeconds();
+            return Y+M+D+h+m+s;
+        }
+
+
+        $(".download").click(function() {
+            var start = $('#start').val()
+            console.log(start)
+            var end  = $('#end').val()
+            if(start==''|| end==''){
+                swal({
+                    title: "请输入起止时间",
+                });
+            }else {
+                var url='/cmctnDownload'
+                window.location.href =url+"?start="+start+"&&end="+end;
+            }
+
+        });
+    </script>
+
+
+    </body>
+</html>

@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>水声通信</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link href="../static/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../static/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../static/css/animate.css" rel="stylesheet">
+    <link href="../static/css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../static/css/sweetalert.css" rel="stylesheet">
+    <script type="text/javascript" src="../static/js/calculation.js"></script>
+    <script type="text/javascript" src="../static/js/quanju.js"></script>
+
+</head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>配置 (<span id="banbenhao"></span>)(<span id="web">ver 3.0:2023-02-15</span>)</h5>
+                </div>
+                <div class="ibox-content">
+                    <div class="tabs-container">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a data-toggle="tab" href="#tab-1" aria-expanded="true"> 平台配置</a>
+                            </li>
+                            <li class=""><a data-toggle="tab" href="#tab-2" aria-expanded="true"> 平台对接</a>
+                            </li>
+                            <li class=""><a data-toggle="tab" href="#tab-3" aria-expanded="false">测量工具</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div id="tab-1" class="tab-pane active">
+                                <div class="panel-body">
+                                    <div class="col-sm-6">
+                                        <div class="tabs-container">
+
+                                            <div class="tabs-left">
+                                                <ul class="nav nav-tabs">
+                                                    <li class="active"><a data-toggle="tab" href="#tab-8" aria-expanded="true">船体设置</a>
+                                                    </li>
+                                                    <li class=""><a data-toggle="tab" href="#tab-9" aria-expanded="false"> 平台坐标</a>
+                                                    </li>
+                                                    <li class=""><a data-toggle="tab" href="#tab-10" aria-expanded="false"> 船头朝向</a>
+                                                    </li>
+                                                    <li class=""><a data-toggle="tab" href="#tab-11" aria-expanded="false"> 基站位置</a>
+                                                    </li>
+                                                    <li class=""><a data-toggle="tab" href="#tab-12" aria-expanded="false"> 图像类型</a>
+                                                    </li>
+                                                </ul>
+
+                                                <div class="tab-content ">
+                                                    <div id="tab-8" class="tab-pane active">
+                                                        <div class="panel-body">
+                                                            <form role="form">
+                                                                <div class="form-group">
+                                                                    <label>船体类型</label>
+                                                                    <select class="form-control" name="" id="ship_type">
+                                                                        <option value="无">无</option>
+                                                                        <option value="简单模型">简单模型</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="ship_set">
+                                                                    <div class="form-group col-sm-6">
+                                                                        <label>长度：</label>
+                                                                        <input placeholder="请输入长度" class="form-control ship_length" id="length" type="number" data-decimals="2" min="1" max="50" step="0.1" value="1" disabled>
+                                                                        <span class="ship_float">米</span>
+                                                                    </div>
+                                                                    <div class="form-group col-sm-6">
+                                                                        <label>宽度：</label>
+                                                                        <input placeholder="请输入宽度" class="form-control ship_length" id="width" type="number" data-decimals="2" min="1" max="50" step="0.1" value="1" disabled>
+                                                                        <span class="ship_float">米</span>
+                                                                    </div>
+
+                                                                    <div class="form-group">
+                                                                        <label>参考点</label>
+                                                                    </div>
+                                                                    <div class="form-group col-sm-6">
+                                                                        <label>X:</label>
+                                                                        <input  class="form-control ship_length"  id="x_coordinate" type="number" data-decimals="2" min="-25" max="50" step="0.1" value="0" disabled>
+                                                                        <span class="ship_float">米</span>
+                                                                    </div>
+                                                                    <div class="form-group col-sm-6">
+                                                                        <label>Y:</label>
+                                                                        <input class="form-control ship_length"  id="y_coordinate" type="number" data-decimals="2" min="-25" max="50" step="0.1" value="0" disabled>
+                                                                        <span class="ship_float">米</span>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <div class="col-sm-4">
+                                                                            <a class="btn btn-primary submit_1" type="submit" id="submit_1">确定</a>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group col-sm-12" style="font-size: 14px;margin-top: 30px;">
+                                                                        说明：参考点是定位页面中的坐标原点，通常设置为甲板单元所在的位置。
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+
+                                                        </div>
+
+
+                                                    </div>
+                                                    <div id="tab-9" class="tab-pane">
+                                                        <div class="panel-body">
+                                                            <form role="form">
+                                                                <div class="form-group">
+                                                                    <label>坐标来源</label>
+                                                                    <select class="form-control" name="" id="coordinate_source">
+                                                                        <option value="RTK">RTK</option>
+                                                                        <option value="固定坐标">固定坐标</option>
+                                                                        <option value="光纤陀螺">光纤陀螺</option> /*xiongwen*/
+                                                                    </select>
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <label>坐标偏移</label>
+                                                                </div>
+                                                                <div class="form-group col-sm-3">
+                                                                    <label>X:</label>
+                                                                    <input  class="form-control" id="x_coordinate_1" type="number" data-decimals="2" min="-25" max="50" step="0.1" value="0">
+                                                                    <span class="zb_css">米</span>
+                                                                </div>
+                                                                <div class="form-group col-sm-3">
+                                                                    <label>Y:</label>
+                                                                    <input class="form-control"  id="y_coordinate_1" type="number" data-decimals="2" min="-25" max="50" step="0.1" value="0">
+                                                                    <span class="zb_css">米</span>
+                                                                </div>
+                                                                      <div class="form-group col-sm-3">
+                                                                    <label>Z:</label>
+                                                                    <input class="form-control"  id="z_coordinate_1" type="number" data-decimals="2" min="-25" max="50" step="0.1" value="0">
+                                                                    <span class="zb_css">米</span>
+                                                                </div>
+
+                                                                <div class="gps_set">
+                                                                    <div class="form-group col-sm-6">
+                                                                        <label>经度:</label>
+                                                                        <input class="form-control ship_length"  id="longitude">
+                                                                    </div>
+                                                                    <div class="form-group col-sm-6">
+                                                                        <label>纬度:</label>
+                                                                        <input class="form-control ship_length"  id="latitude">
+                                                                    </div>
+
+                                                                </div>
+                                                                <div class="form-group col-sm-12 point_set">
+                                                                    <label>位置输出频率:</label>
+                                                                    <input class="form-control" id="point_return">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <div class="col-sm-4">
+                                                                        <a class="btn btn-primary submit_1" type="submit" id="submit_2">确定</a>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group col-sm-12" style="font-size: 14px;margin-top: 30px;">
+                                                                    说明：坐标偏移是指坐标来源点和参考点之间的偏移，如RTK天线和参考点之间的距离，坐标来源点，在右图用GPS表示。
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                    <div id="tab-10" class="tab-pane">
+                                                        <div class="panel-body">
+                                                            <form role="form">
+                                                                <div class="form-group">
+                                                                    <label>朝向来源</label>
+                                                                    <select class="form-control" name="" id="towards_source">
+                                                                        <option value="内部IMU">内部IMU</option>
+                                                                        <option value="GPS">GPS(带定向)</option>
+                                                                        <option value="光纤陀螺">光纤陀螺</option>
+                                                                        <option value="无">无(基站标志方向作为0度)</option>
+                                                                        <!--<option value="罗盘">罗盘</option>-->
+                                                                    </select>
+                                                                </div>
+                                                                  <div class="form-group py_set" style="display:none">
+                                                                    <label>偏移角度:</label>
+                                                                    <input class="form-control"  id="offset_angle" value="0">
+                                                                </div>
+                                                                <div class="angle_area">
+                                                                <div class="form-group">
+                                                                    <label>安装角度偏差</label>
+                                                                </div>                                                             
+                                                                <div class="form-group" style="padding-bottom: 37px;">
+                                                                    <div class="col-sm-4 angle_deviation" ><span class="angle_name">偏航:</span> <input class="form-control "  id="yaw" style="width: 80%;"></div>
+                                                                    <div class="col-sm-4 angle_deviation" ><span class="angle_name">横滚:</span> <input class="form-control "  id="roll" style="width: 80%;"></div>
+                                                                    <div class="col-sm-4 angle_deviation"><span class="angle_name">俯仰:</span> <input class="form-control "  id="pitch" style="width: 80%;"></div>
+                                                                </div>
+                                                                  <div class="form-group">
+                                                                    <label>安装位置偏差</label>
+                                                                </div>
+                                                                <div class="form-group" style="padding-bottom: 37px;">
+                                                                    <div class="col-sm-4 angle_deviation" ><span class="angle_name">X:</span> <input class="form-control "  id="PCX" style="width: 80%;"></div>
+                                                                    <div class="col-sm-4 angle_deviation" ><span class="angle_name">Y:</span> <input class="form-control "  id="PCY" style="width: 80%;"></div>
+                                                                    <div class="col-sm-4 angle_deviation"><span class="angle_name">Z:</span> <input class="form-control "  id="PCZ" style="width: 80%;"></div>
+                                                                </div>
+                                                                </div>
+                                                                <div class="form-group cx_set">
+                                                                    <label>方向输出频率:</label>
+                                                                    <input class="form-control"  id="hz">
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <div class="col-sm-4">
+                                                                        <a class="btn btn-primary submit_1" type="submit" id="submit_3">确定</a>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group col-sm-12" style="font-size: 14px;margin-top: 30px;">
+                                                                    <div>说明：</div>
+                                                                    <div>1.安装USBL基站时，必须保证USBL基站标志的方向和船头方向一致，系统以USBL基站标志的方向作为船头朝向。</div>
+                                                                    <div>2.当朝向来源是外部来源GPS(带定向)，偏移角度指GPS方向和USBL基站方向的夹角，GPS方向到USBL基站方向，顺时针为正，逆时针为负。</div>
+                                                                    <div>3.当朝向来源是外部来源GPS(带定向),方向输出频率是指GPS的方向输出频率，请根据GPS设备实际设置的输出频率填写，设置不一致会导致水声定位不准确。</div>
+                                                                    <div>4.当朝向来源是无时，选择基站标志方向作为0度，便于做纯相对定位的应用。</div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                    <div id="tab-11" class="tab-pane">
+                                                        <div class="panel-body">
+                                                            <form role="form">
+                                                                <div class="form-group">
+                                                                    <label>基站偏移</label>
+                                                                </div>
+                                                                <div class="form-group col-sm-6">
+                                                                    <label>X:</label>
+                                                                    <input  class="form-control ship_length" id="x_coordinate_2" type="number" data-decimals="2" min="-25" max="50" step="0.1" value="0">
+                                                                    <span class="ship_float">米</span>
+                                                                </div>
+                                                                <div class="form-group col-sm-6">
+                                                                    <label>Y:</label>
+                                                                    <input class="form-control ship_length" id="y_coordinate_2" type="number" data-decimals="2" min="-25" max="50" step="0.1" value="0">
+                                                                    <span class="ship_float">米</span>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <div class="col-sm-4">
+                                                                        <a class="btn btn-primary submit_1" type="submit" id="submit_4">确定</a>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group col-sm-12" style="font-size: 14px;margin-top: 30px;">
+                                                                    说明：基站偏移是指USBL基站和参考点之间的偏移，基站在右图用USBL图标表示。
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                   <div id="tab-12" class="tab-pane">
+                                                        <div class="panel-body">
+                                                           <form role="form">
+                                                             <div class="form-group">
+                                                                <label>图像类型</label>
+                                                                    <select class="form-control" name="" id="picture">                                                                      
+                                                                        <option value="scatter">散点</option>
+                                                                        <option value="line">连线</option>
+                                                                    </select>
+                                                                </div>     
+                                                                <div class="form-group">
+                                                                    <div class="col-sm-4">
+                                                                        <a class="btn btn-primary submit_1" type="submit" id="submit_5">确定</a>
+                                                                    </div>
+                                                                </div>                                                       
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="image-ship">
+                                            <div class="ship_area" >
+                                                <div style="height: 100%;width: 100%;"><img src="../static/image/tc.png" style="height: 100%;width: 100%;"></div>
+                                                <div class="gps_img" style="left: 43%; top: 47%;"><img src="../static/image/gps.png" ></div>
+                                                <div class="usbl_img" style="left: 43%; top: 47%;"><img src="../static/image/usbl.png" ></div>
+                                                <div class="ckd_img" style="left: 43%; top: 47%;"><img src="../static/image/ckd.png" ></div>
+                                            </div>
+                                            <div class="zb_img" ><img src="../static/image/zb.png" ></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="tab-2" class="tab-pane">
+                                <div class="panel-body" style="height: 500px;">
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label"> 对接地址</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-12 m-b" style="position: relative;left: 29px;">
+                                            <label class="checkbox-inline" style="padding-left: 40px;top: 7px;">
+                                                <input type="checkbox" value="option6" name="auto" id="auto" class="xyz auto" style="top: -2px;">开机自动运行</label>
+                                                     <div class="set-com" style=" padding-left: 15px;">
+                                                    <span style="top: 7px;position: relative;">IP：</span>
+                                                </div>
+                                                <input id="ip_2" name="ip_2" placeholder="输入IP号" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                                <div class="set-com" style=" padding-left: 15px;">
+                                                    <span style="top: 7px;position: relative;">端口：</span>
+                                                </div>
+                                                <input id="port_number_1" name="port_number" placeholder="输入端口号" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                        </div>
+                                        <div class="col-sm-12 m-b" style="position: relative;left: 40px;">
+                                        <span>提示：甲板单元为TCP/IP的服务端,IP填127.0.0.1;端口不能被其他程序占用</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">运行消息：<span id="msg"></span></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-12 control-label"> 对接内容</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-12 all" style="position: relative;left: 8px;padding: 16px;">
+                                            <span class="checkbox-inline" style="padding-left:18px;">
+                                                输出信标信息：</span>
+                                            <label class="checkbox-inline">
+                                                <input type="checkbox" value="option2" name="content" id="JueDuiWeiZHi" class="xyz" style="top: -2px;">绝对位置(GGA)</label>
+                                            <label class="checkbox-inline">
+                                                <input type="checkbox" value="option3" name="content" id="XiangDuiWeiZhi" class="xyz" style="top: -2px;">相对位置</label>
+                                            <label class="checkbox-inline">
+                                                <input type="checkbox" value="option4" name="content" id="ShiJian" class="xyz" style="top: -2px;">时间(ZDA)</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-12" style="position: relative;left: 8px;padding: 16px;">
+                                        <span class="checkbox-inline" style="padding-left:18px;">
+                                                输出通信信息：</span>
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" value="option5" name="content" id="ShuiShengShuJuShouFa" class="xyz" style="top: -2px;">水声数据收发</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <button class="btn btn-primary send" style="left: 42px;position: relative;top: 19px;">
+                                            保存
+                                        </button>
+                                        <button class="btn btn-primary run" style="left: 80px;position: relative;top: 19px;display: none">
+                                            运行
+                                        </button>
+                                        <button class="btn btn-primary stop" style="left: 80px;position: relative;top: 19px;display: none">
+                                            停止
+                                        </button>
+                                    </div>
+                                    <div class="form-group col-sm-12" style="font-size: 14px;margin-top: 30px;">
+                                     提示：“保存”：修改配置后点击“保存”，用于保存以及生效。“运行/停止”：非自动运行情况下，用于运行/停止服务。
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="tab-3" class="tab-pane">
+                                <div class="panel-body">
+                                    <div class="form-group">
+                                        <span>仅供专业人员调试使用</span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">点1（经纬度）</label>
+                                        <div class="col-sm-10">
+                                            <div class="input-group m-b">
+                                                <input type="number"  placeholder="经度" class="form-control yz_lng_1"> <span class="input-group-addon">°</span>
+                                                <input type="number"  placeholder="纬度" class="form-control yz_lat_1"> <span class="input-group-addon">°</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label"> 点2（经纬度）</label>
+                                        <div class="col-sm-10">
+                                            <div class="input-group m-b">
+                                                <input type="number"  placeholder="经度" class="form-control yz_lng_2"> <span class="input-group-addon">°</span>
+                                                <input type="number"  placeholder="纬度" class="form-control yz_lat_2"> <span class="input-group-addon">°</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <button class="btn btn-primary  yz">
+                                            测量
+                                        </button>
+                                        <span class="msg"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label"> 原始GPS格式</label>
+                                        <div class="col-sm-10">
+                                            <div class="input-group m-b">
+                                                <input type="number"  placeholder="经度" class="form-control ys_lng_1"> <span class="input-group-addon">°</span>
+                                                <input type="number"  placeholder="纬度" class="form-control ys_lat_1"> <span class="input-group-addon">°</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <button class="btn btn-primary  zh" style="margin-left: 12px;">
+                                            转换
+                                        </button>
+                                        <span class="zh_msg"></span>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">点1（经纬度）</label>
+                                        <div class="col-sm-10">
+                                            <div class="input-group m-b">
+                                                <input type="number"  placeholder="经度" class="form-control pzj_lng_1"> <span class="input-group-addon">°</span>
+                                                <input type="number"  placeholder="纬度" class="form-control pzj_lat_1"> <span class="input-group-addon">°</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label"> 点2(原始GPS格式)</label>
+                                        <div class="col-sm-10">
+                                            <div class="input-group m-b">
+                                                <input type="number"  placeholder="经度" class="form-control pzj_lng_2"> <span class="input-group-addon">°</span>
+                                                <input type="number"  placeholder="纬度" class="form-control pzj_lat_2"> <span class="input-group-addon">°</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label"> 偏转角计算</label>
+                                        <div class="col-sm-10">
+                                            <div class="input-group m-b">
+                                                <input type="number"  placeholder="GPS角度" class="form-control ys_gps_1"> <span class="input-group-addon">°</span>
+                                                <input type="number"  placeholder="水声角度" class="form-control ys_water_1"> <span class="input-group-addon">°</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <button class="btn btn-primary  zh_pzj" style="margin-left: 12px;">
+                                            计算
+                                        </button>
+                                        <span class="pzj_msg"></span>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<!-- 全局js -->
+<script src="../static/js/jquery.min.js?v=2.1.4"></script>
+<script src="../static/js/bootstrap.min.js?v=3.3.6"></script>
+<!-- 自定义js -->
+<script src="../static/js/content.js?v=1.0.0"></script>
+<script src="../static/js/plugins/sweetalert/sweetalert.min.js"></script>
+<script type="text/javascript" src="../static/js/plugins/layer/layer.min.js"></script>
+<script type="text/javascript" src="../static/js/currency.js"></script>
+<script>
+    var ship_length
+    var ship_width
+    var ship_x
+    var ship_y
+    var startorstop=''
+    $(function(){
+        load_1()
+        // load_2()
+        load_3()
+        // load_4()
+        load_6()
+        load_7()
+        load_8()
+        load_9()
+        if (navigator.userAgent.indexOf('Firefox') >= 0) {
+            $('select').css("cssText", "padding:0 !important;");
+        }
+    })
+/**
+    $("#length").bind('input propertychange', function() {
+        var length = $("#length").val();
+        if(length>50 || length<1){
+            swal({
+                title: "出错啦",
+                text: "最小值为1，最大值为50，请重新输入"
+            });
+        }
+    })
+    $("#width").bind('input propertychange', function() {
+        var width = $("#width").val();
+        if(width>50 || width<1){
+            swal({
+                title: "出错啦",
+                text: "最小值为1，最大值为50，请重新输入"
+            });
+        }
+    })
+    $("#x_coordinate").bind('input propertychange', function() {
+        var width = $("#x_coordinate").val();
+        if(width>50 || width<-25){
+            swal({
+                title: "出错啦",
+                text: "最小值为-25，最大值为50，请重新输入"
+            });
+        }
+    })
+    $("#y_coordinate").bind('input propertychange', function() {
+        var width = $("#x_coordinate").val();
+        if(width>50 || width<-25){
+            swal({
+                title: "出错啦",
+                text: "最小值为-25，最大值为50，请重新输入"
+            });
+        }
+    })
+    $("#x_coordinate_1").bind('input propertychange', function() {
+        var width = $("#x_coordinate_1").val();
+        if(width>50 || width<-25){
+            swal({
+                title: "出错啦",
+                text: "最小值为-25，最大值为50，请重新输入"
+            });
+        }
+    })
+    $("#y_coordinate_1").bind('input propertychange', function() {
+        var width = $("#y_coordinate_1").val();
+        if(width>50 || width<-25){
+            swal({
+                title: "出错啦",
+                text: "最小值为-25，最大值为50，请重新输入"
+            });
+        }
+    })
+    $("#x_coordinate_2").bind('input propertychange', function() {
+        var width = $("#x_coordinate_2").val();
+        if(width>50 || width<-25){
+            swal({
+                title: "出错啦",
+                text: "最小值为-25，最大值为50，请重新输入"
+            });
+        }
+    })
+    $("#y_coordinate_2").bind('input propertychange', function() {
+        var width = $("#y_coordinate_2").val();
+        if(width>50 || width<-25){
+            swal({
+                title: "出错啦",
+                text: "最小值为-25，最大值为50，请重新输入"
+            });
+        }
+    })
+
+*/
+
+    $("#ship_type").on("change",function() {
+        if($('#ship_type').val()=='简单模型'){
+            $('.image-ship').show()
+            $('.ship_set input').removeAttr('disabled');
+        }else {
+            $('.image-ship').hide()
+            $('.ship_set input').attr("disabled","disabled");
+        }
+    })
+
+    $("#coordinate_source").on("change",function() {
+        if($('#coordinate_source').val()=='RTK'){
+            $('.gps_set').hide()
+            $('.point_set').show()  
+        }else {
+            $('.gps_set').show()
+            $('.point_set').hide()
+        }
+    })
+    
+     $("#towards_source").on("change",function() {
+        if($('#towards_source').val()=='内部IMU' || $('#towards_source').val()=='无'){
+            $('.cx_set').hide()
+            $('.angle_area').hide()
+            $('.py_set').hide()
+        }else if($('#towards_source').val()=='光纤陀螺'){
+            $('.angle_area').show()
+            $('.cx_set').show()
+            $('.py_set').hide()
+        }else {
+            $('.cx_set').show()
+            $('.angle_area').hide()
+            $('.py_set').show()
+        }
+    })
+
+    $('#submit_1').click(function () {
+        var ship_type=$('#ship_type').val()
+        var length=$('#length').val()
+        var width=$('#width').val()
+        var x_coordinate=$('#x_coordinate').val()
+        var y_coordinate=$('#y_coordinate').val()
+        var x_top=((length/2)*1-x_coordinate*1)/length*100-3
+        var y_top=((width/2)*1+y_coordinate*1)/width*100-7
+        $('.ckd_img').css({"left":y_top+'%',"top":x_top+'%'})
+        var x_coordinate_1=$('#x_coordinate_1').val()
+        var y_coordinate_1=$('#y_coordinate_1').val()
+        var gps_x_top=((length/2)*1-x_coordinate*1-x_coordinate_1*1)/length*100-3
+        var gps_y_top=((width/2)*1+y_coordinate*1+y_coordinate_1*1)/width*100-7
+        $('.gps_img').css({"left":gps_y_top+'%',"top":gps_x_top+'%'})
+        var x_coordinate_2=$('#x_coordinate_2').val()
+        var y_coordinate_2=$('#y_coordinate_2').val()
+        var usbl_x_top=((length/2)*1-x_coordinate*1-x_coordinate_2*1)/length*100-3
+        var usbl_y_top=((width/2)*1+y_coordinate*1+y_coordinate_2*1)/width*100-7
+        $('.usbl_img').css({"left":usbl_y_top+'%',"top":usbl_x_top+'%'})
+        $.ajax({
+            type:'post',
+            url:"/postSmallPtfmCfgShip",
+            data:{'ShipType':ship_type,'ShipLenght':length,'ShipWidth':width,'ShipRefLenght':x_coordinate,'ShipRefWidth':y_coordinate},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+
+            },
+        });
+
+    })
+
+    $('#submit_2').click(function () {
+        var length=$('#length').val()
+        var width=$('#width').val()
+        var x_coordinate=$('#x_coordinate').val()
+        var y_coordinate=$('#y_coordinate').val()
+        var coordinate_source=$('#coordinate_source').val()
+        var x_coordinate_1=$('#x_coordinate_1').val()
+        var y_coordinate_1=$('#y_coordinate_1').val()
+        var z_coordinate_1=$('#z_coordinate_1').val()
+        var longitude=$('#longitude').val()
+        var latitude=$('#latitude').val()
+        var point_return=$('#point_return').val()
+
+        var x_top=((length/2)*1-x_coordinate*1-x_coordinate_1*1)/length*100-3
+        var y_top=((width/2)*1+y_coordinate*1+y_coordinate_1*1)/width*100-7
+        $('.gps_img').css({"left":y_top+'%',"top":x_top+'%'})
+        $.ajax({
+            type:'post',
+            url:"/postSmallPtfmCfgZuoBiao",
+            data:{'PtfmType':coordinate_source,'PtfmX':x_coordinate_1,'PtfmY':y_coordinate_1,'PtfmZ':z_coordinate_1,'PtfmLng':longitude,'PtfmLat':latitude,'WeiZhiPingLv':point_return},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+
+            },
+        });
+    })
+
+    $('#submit_3').click(function () {
+        var towards_source=$('#towards_source').val()
+        var offset_angle=$('#offset_angle').val()
+        var hz=$('#hz').val()
+        var yaw=$('#yaw').val()
+        var roll=$('#roll').val()
+        var pitch=$('#pitch').val()
+        var PCX=$('#PCX').val()
+        var PCY=$('#PCY').val()
+        var PCZ=$('#PCZ').val()
+        $.ajax({
+            type:'post',
+            url:"/postSmallPtfmCfgChunTouChaoXiang",
+            data:{'BowType':towards_source,'BowAngle':offset_angle,'FangXiangHz':hz,'PianHang':yaw,'HengGun':roll,'FuYang':pitch,'X':PCX,'Y':PCY,'Z':PCZ},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+
+            },
+        });
+    })
+
+    $('#submit_4').click(function () {
+        var length=$('#length').val()
+        var width=$('#width').val()
+        var x_coordinate=$('#x_coordinate').val()
+        var y_coordinate=$('#y_coordinate').val()
+        var x_coordinate_2=$('#x_coordinate_2').val()
+        var y_coordinate_2=$('#y_coordinate_2').val()
+        var x_top=((length/2)*1-x_coordinate*1-x_coordinate_2*1)/length*100-3
+        var y_top=((width/2)*1+y_coordinate*1+y_coordinate_2*1)/width*100-7
+        $('.usbl_img').css({"left":y_top+'%',"top":x_top+'%'})
+        $.ajax({
+            type:'post',
+            url:"/postSmallPtfmCfgJiZhanWeiZhi",
+            data:{'BaseX':x_coordinate_2,'BaseY':y_coordinate_2},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+
+            },
+        });
+    })
+    
+    $('#submit_5').click(function () {
+        var picture=$('#picture').val()
+        $.ajax({
+            type:'post',
+            url:"/postSmallXiTong",
+            data:{'ShiFouHuaXian':picture},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+
+            },
+        });
+    })
+
+    $('.yz').click(function () {
+        var lng_1=$('.yz_lng_1').val()
+        var lat_1=$('.yz_lat_1').val()
+        var lng_2=$('.yz_lng_2').val()
+        var lat_2=$('.yz_lat_2').val()
+        if(lat_1=='' || lat_1=='' ||lng_2=='' ||lat_2==''){
+            alert('值不能为空，请正确输入值')
+            return
+        }
+        var Distance =getDistance(lat_1,lng_1,lat_2,lng_2)
+        var Angle =getAngle(lat_1,lng_1,lat_2,lng_2)
+        $('.msg').text('点1->点2的距离为：'+Distance+'，\xa0点1->点2的方向为：'+Angle+'°')
+        $.ajax({
+            type:'post',
+            url:"/postGongjuGpsCeju",
+            data:{'Para1':lng_1,'Para2':lat_1,'Para3':lng_2,'Para4':lat_2},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+
+
+
+            }
+        });
+    })
+
+    $('.zh').click(function () {
+        var ys_lng_1= $('.ys_lng_1').val()
+        var ys_lat_1= $('.ys_lat_1').val()
+        $.ajax({
+            type:'post',
+            url:"/postGongjuGpsToReal",
+            data:{'Para1':ys_lng_1,'Para2':ys_lat_1},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+                $('.zh_msg').text('结果1的值: '+data.JieGuo1.toFixed(7)+'; 结果2的值: '+data.JieGuo2.toFixed(7))
+
+
+            }
+        });
+    })
+
+
+    $('.zh_pzj').click(function () {
+        var pzj_lng_1=$('.pzj_lng_1').val()
+        var pzj_lat_1=$('.pzj_lat_1').val()
+        var pzj_lng_2=$('.pzj_lng_2').val()
+        var pzj_lat_2=$('.pzj_lat_2').val()
+        var ys_gps_1= $('.ys_gps_1').val()
+        var ys_water_1= $('.ys_water_1').val()
+        if(pzj_lng_1==''||pzj_lat_1==''||pzj_lng_2==''||pzj_lat_2==''||ys_gps_1==''||ys_water_1==''){
+            alert('值不能为空')
+            return false
+        }
+
+        $.ajax({
+            type:'post',
+            url:"/postGongjuGpsToReal",
+            data:{'Para1':pzj_lng_2,'Para2':pzj_lat_2},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+                var Angle =getAngle(pzj_lat_1,pzj_lng_1,data.JieGuo2.toFixed(7),data.JieGuo1.toFixed(7))
+                var result=Angle-ys_gps_1-ys_water_1
+                $('.pzj_msg').text('偏转角为: '+result+'°')
+                $.ajax({
+                    type:'post',
+                    url:"/postGongjuPianZhuanJiao",
+                    data:{'Para1':pzj_lng_1,'Para2':pzj_lat_1,'Para3':pzj_lng_2,'Para4':pzj_lat_2,'Para5':ys_gps_1,'Para6':ys_water_1,'JieGuo1':result},
+                    dataType:'json',
+                    success:function(data){ //请求成功回调函数
+
+                    }
+                });
+            }
+        });
+    })
+
+    $('.send').click(function () {
+        var ip_2=$('#ip_2').val()
+        var port_number_1=$('#port_number_1').val()
+        var IsAutoRun=$('#auto').is(':checked')
+        
+        var JueDuiWeiZHi=$('#JueDuiWeiZHi').is(':checked')
+        var XiangDuiWeiZhi=$('#XiangDuiWeiZhi').is(':checked')
+        var ShiJian=$('#ShiJian').is(':checked')
+        var ShuiShengShuJuShouFa=$('#ShuiShengShuJuShouFa').is(':checked')
+        var port=window.location.port
+        if(port==port_number_1){
+          layer_tc('警告','端口号与浏览器地址端口冲突，请重新输入')
+          return false
+        }else{
+          $.ajax({
+            type:'post',
+            url:"/postCfgOut",
+            data:{'IpName':ip_2,'Port':port_number_1,'IsAutoRun':IsAutoRun,'JueDuiWeiZHi':JueDuiWeiZHi,'XiangDuiWeiZhi':XiangDuiWeiZhi,'ShiJian':ShiJian,'ShuiShengShuJuShouFa':ShuiShengShuJuShouFa},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数         
+                if(startorstop=='0'){
+                   $('.run').show()
+                  $('.stop').hide()
+                }
+                if(startorstop=='2'){
+                  $('.stop').show()
+                  $('.run').hide()
+                }
+               
+               
+            }
+        });
+        }
+        
+        
+ 
+    })
+
+    $('.run').click(function () {
+        $.ajax({
+            type:'post',
+            url:"/postStartOrStopOut",
+            data:{'StartOrStop':'1'},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+                $('.stop').show()
+                $('.run').hide()
+                $('#msg').text('运行中')
+                startorstop='2'
+            }
+        });
+    })
+
+    $('.stop').click(function () {
+        $.ajax({
+            type:'post',
+            url:"/postStartOrStopOut",
+            data:{'StartOrStop':'0'},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+                $('.stop').hide()
+                $('.run').show()
+                $('#msg').text('未启动')
+                startorstop='0'
+            }
+        });
+    })
+
+
+    $("#ship_type").on("change",function() {
+        if($("#ship_type").val()=='简单模型') {
+
+        }
+    })
+
+
+
+    var w=''
+
+    function load_1(){
+        $.ajax({
+            type:'post',
+            url:"/getSmallPtfmCfgShip",
+            data:{},
+            dataType:'json',
+            success:function(data){
+
+                $('#ship_type').val(data.ShipType)
+                if(data.ShipType=='简单模型'){
+                    $('.image-ship').show()
+                    $('.ship_set input').removeAttr('disabled')
+                }
+                $('#length').val(data.ShipLenght)
+                $('#width').val(data.ShipWidth)
+                ship_length=data.ShipLenght
+                ship_width=data.ShipWidth
+                ship_x=data.ShipRefLenght
+                ship_y=data.ShipRefWidth
+                $('#x_coordinate').val(data.ShipRefLenght)
+                $('#y_coordinate').val(data.ShipRefWidth)
+                var x_top=((data.ShipLenght/2)*1-data.ShipRefLenght*1)/ship_length*100-3
+                var y_top=((data.ShipWidth/2)*1+data.ShipRefWidth*1)/ship_width*100-7
+                $('.ckd_img').css({"left":y_top+'%',"top":x_top+'%'})
+                load_2()
+                load_4()
+            }
+        });
+    }
+
+    function load_2(){
+        $.ajax({
+            type:'post',
+            url:"/getSmallPtfmCfgZuoBiao",
+            data:{},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+                $('#coordinate_source').val(data.PtfmType)
+                if(data.PtfmType=='固定坐标'){
+                    $('.gps_set').show()
+
+                }else if(data.PtfmType=='RTK'){
+                    $('.point_set').show()
+                }
+                $('#x_coordinate_1').val(data.PtfmX)
+                $('#y_coordinate_1').val(data.PtfmY)
+                $('#z_coordinate_1').val(data.PtfmZ)
+                $('#longitude').val(data.PtfmLng)
+                $('#latitude').val(data.PtfmLat)
+                $('#point_return').val(data.WeiZhiPingLv)
+                var x_top=((ship_length/2)*1-ship_x*1-data.PtfmX*1)/ship_length*100-3
+                var y_top=((ship_width/2)*1+ship_y*1+data.PtfmY*1)/ship_width*100-7
+                $('.gps_img').css({"left":y_top+'%',"top":x_top+'%'})
+
+            }
+        });
+    }
+
+    function load_3(){
+        $.ajax({
+            type:'post',
+            url:"/getSmallPtfmCfgChunTouChaoXiang",
+            data:{},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+                $('#towards_source').val(data.BowType)
+                if(data.BowType=='内部IMU' || data.BowType=='无'){
+                  $('.cx_set').hide()    
+                  $('.angle_area').hide()      
+                  $('.py_set').hide()     
+                }else if($('#towards_source').val()=='光纤陀螺'){
+                  $('.angle_area').show()
+                  $('.cx_set').show()
+                  $('.py_set').hide()
+              }else{
+                  $('.cx_set').show()
+                  $('.angle_area').hide()
+                  $('.py_set').show()
+                }
+                $('#offset_angle').val(data.BowAngle)
+                $('#hz').val(data.FangXiangHz)
+                $('#yaw').val(data.PianHang)
+                 $('#roll').val(data.HengGun)
+                 $('#pitch').val(data.FuYang)
+                 $('#PCX').val(data.X)
+                 $('#PCY').val(data.Y)
+                 $('#PCZ').val(data.Z)
+            }
+        });
+    }
+
+    function load_4(){
+        $.ajax({
+            type:'post',
+            url:"/getSmallPtfmCfgJiZhanWeiZhi",
+            data:{},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+                $('#x_coordinate_2').val(data.BaseX)
+                $('#y_coordinate_2').val(data.BaseY)
+                var x_top=((ship_length/2)*1-ship_x*1-data.BaseX*1)/ship_length*100-3
+                var y_top=((ship_width/2)*1+ship_y*1+data.BaseY*1)/ship_width*100-7
+                $('.usbl_img').css({"left":y_top+'%',"top":x_top+'%'})
+            }
+        });
+    }
+
+    function load_6(){
+        $.ajax({
+            type:'post',
+            url:"/postGetPtfmVer",
+            data:{},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+                $('#banbenhao').text(data.Ver)
+
+
+            }
+        });
+    }
+
+    function load_7(){
+        $.ajax({
+            type:'post',
+            url:"/getGongjuGpsToReal",
+            data:{},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+                $('.ys_lng_1').val(data.Para1)
+                $('.ys_lat_1').val(data.Para2)
+
+            }
+        });
+        $.ajax({
+            type:'post',
+            url:"/getGongjuGpsCeju",
+            data:{},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+                $('.yz_lng_1').val(data.Para1)
+                $('.yz_lat_1').val(data.Para2)
+                $('.yz_lng_2').val(data.Para3)
+                $('.yz_lat_2').val(data.Para4)
+            }
+        });
+        $.ajax({
+            type:'post',
+            url:"/getGongjuPianZhuanJiao",
+            data:{},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+                $('.pzj_lng_1').val(data.Para1)
+                $('.pzj_lat_1').val(data.Para2)
+                $('.pzj_lng_2').val(data.Para3)
+                $('.pzj_lat_2').val(data.Para4)
+                $('.ys_gps_1').val(data.Para5)
+                $('.ys_water_1').val(data.Para6)
+            }
+        });
+    }
+
+    function load_8(){
+        $.ajax({
+            type:'post',
+            url:"/getCfgOut",
+            data:{},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+                $('#ip_2').val(data.IpName);
+                $('#port_number_1').val(data.Port);
+                $(".auto").prop('checked',data.IsAutoRun);
+                
+                $('#JueDuiWeiZHi').prop('checked',data.JueDuiWeiZHi);
+                $('#XiangDuiWeiZhi').prop('checked',data.XiangDuiWeiZhi);
+                $('#ShiJian').prop('checked',data.ShiJian);
+                $('#ShuiShengShuJuShouFa').prop('checked',data.ShuiShengShuJuShouFa);
+                startorstop=data.SerStatus
+                if(data.SerStatus=='0'){
+                  $('.run').show()   
+                    $('.stop').hide()   
+                    $('#msg').text('未启动')
+                }
+                if(data.SerStatus=='2'){
+                   $('.stop').show()
+                    $('.run').hide()    
+                    $('#msg').text('运行中')
+                }
+
+            }
+        });
+    }
+    
+    function load_9(){
+        $.ajax({
+            type:'post',
+            url:"/getSmallXiTong",
+            data:{},
+            dataType:'json',
+            success:function(data){
+                $('#picture').val(data.ShiFouHuaXian)
+            }
+        });
+    }
+</script>
+
+</body>
+</html>

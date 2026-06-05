@@ -1,0 +1,2075 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>轨迹</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="../static/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../static/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../static/css/animate.css" rel="stylesheet">
+    <link href="../static/css/style.css?v=4.1.0" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../static/css/jquery.bigcolorpicker.css" />
+    <link href="../static/css/sweetalert.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../static/css/ionicons.min.css" />
+    <!-- 全局js -->
+    <script src="../static/js/jquery.min.js?v=2.1.4"></script>
+    <script src="../static/js/bootstrap.min.js?v=3.3.6"></script>
+    <script  src="../static/js/jquery.bigcolorpicker.min.js"></script>
+    <script type="text/javascript" src="../static/js/echarts.min.js"></script>
+    <script src="../static/js/plugins/sweetalert/sweetalert.min.js"></script>
+     <script src="../static/js/quanju.js"></script>
+    <script type="text/javascript" src="../static/js/calculation.js"></script>
+    <script type="text/javascript" src="../static/js/plugins/layer/layer.min.js"></script>
+    <script src="../static/js/currency.js"></script>
+</head>
+<div class="col-sm-12" id="mao_line_pop" style="display: none;color: #0A0A0A;padding-top: 9px;">
+    <!--<ul style="padding: 0;border: 1px solid #e2e2e2;background: #e2e2e2;width: 242px;">-->
+    <!--<li style="background: #b6d3df">信标位置</li>-->
+    <!--<li>信标位置</li>-->
+    <!--<li>信标位置</li>-->
+    <!--<li>信标位置</li>-->
+    <!--</ul>-->
+    <div class="form-group">
+        <label class="col-sm-3 control-label">名称：</label>
+        <div class="col-sm-8">
+            <div class="input-group m-b line_mao_name">
+
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label"></label>
+        <div class="col-sm-8">
+            <textarea class="form-control" id="distinguish_area_1" style="max-width: 400px;resize: none;" placeholder="粘贴RTK输出坐标，例如：2813.9908005,N,11252.6285300,E"></textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label"></label>
+        <div class="col-sm-8" style="text-align: right;margin-bottom: 7px;">
+            <button type="button" class="btn btn-info change_distinguish_1">转化识别</button>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">经度：</label>
+        <div class="col-sm-8">
+            <div class="input-group m-b">
+                <input type="number" class="form-control longitude"> <span class="input-group-addon">°</span>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">纬度：</label>
+        <div class="col-sm-8">
+            <div class="input-group m-b">
+                <input type="number" class="form-control latitude" > <span class="input-group-addon">°</span>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+::-webkit-scrollbar-track-piece{
+ -webkit-border-radius:0;
+}
+::-webkit-scrollbar{
+ width:8px;
+ height:8px;
+}
+::-webkit-scrollbar-thumb{
+ height:50px;
+ background-color:#19a9d5;
+ -webkit-border-radius:4px;
+ outline-offset:-2px;
+ border: 2px solid #19a9d5;
+}
+::-webkit-scrollbar-thumb:hover{
+ height:50px;
+ background-color:#19a9d5;
+ -webkit-border-radius:4px;
+}
+::-webkit-scrollbar-track{
+ -webkit-box-shadow:inset 0 0 3px rgba(0,0,0,0.1);
+border-radius:5px;
+background:#dddddd;
+}
+   .layui-layer-btn{
+        text-align: center;
+    }
+.active{
+    background-color: #027db4 !important;
+    color: #fff !important;
+}
+
+</style>
+<body class="gray-bg">
+    <div class="row" style="height: 100%; margin: 0;">
+        <div id="yxj_title">
+            <div style="color: #000" >
+                <span style="top: 3px;position: relative;">
+                <svg t="1686731305008" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1482" width="16" height="16"><path d="M512.50142 958.397886c-119.320573 0-231.499491-46.465265-315.871087-130.837884C112.258737 743.188406 65.792449 631.010511 65.792449 511.688915c0-119.319549 46.466288-231.499491 130.837884-315.871087C281.002952 111.445208 393.180847 64.979944 512.50142 64.979944s231.499491 46.465265 315.871087 130.837884c84.372619 84.372619 130.837884 196.551538 130.837884 315.871087 0 119.321596-46.465265 231.499491-130.837884 315.871087C744.000911 911.932622 631.821993 958.397886 512.50142 958.397886zM512.50142 105.962334c-223.718271 0-405.726581 182.00831-405.726581 405.726581s182.00831 405.726581 405.726581 405.726581c223.718271 0 405.727605-182.00831 405.727605-405.726581S736.220714 105.962334 512.50142 105.962334z" fill="#272636" p-id="1483"></path><path d="M510.150886 775.953647c-18.107403 0-32.745798-14.678304-32.745798-32.785707L477.405087 452.191846c0-18.108426 14.638395-32.785707 32.745798-32.785707 18.107403 0 32.745798 14.678304 32.745798 32.785707l0 290.976094C542.896684 761.275343 528.258289 775.953647 510.150886 775.953647z" fill="#272636" p-id="1484"></path><path d="M511.357364 296.458969m-45.080731 0a44.054 44.054 0 1 0 90.161463 0 44.054 44.054 0 1 0-90.161463 0Z" fill="#272636" p-id="1485"></path></svg>
+            </span>
+                <span>信息栏</span>
+                <img src="../static/image/reduce.png" id="show-hiden" >
+            </div>
+            <ul style="background-color: #555555;margin: 0;padding: 0;" id="yxj_msg">
+          <!--      <li>15:00:01，已对对ID01的信标发送休眠指令</li>
+                <li>15:00:03，ID01的信标休眠成功</li>
+                <li>15:00:01，已对对ID01的信标发送休眠指令</li>
+                <li>15:00:03，ID01的信标唤醒成功</li>
+                <li>15:00:04，ID05发送手动定位请求</li>
+                <li>15:00:01，已对对ID01的信标发送休眠指令</li>
+                <li>15:00:03，ID01的信标唤醒成功</li>
+                <li>15:00:04，ID05发送手动定位请求</li> -->
+            </ul>
+        </div>
+        <div class="col-sm-12" style="text-align: center;">
+            <ul class="xb-lable" >
+          <!--      <li >
+                    <div class="center-color-block" style="background-color:red">
+                    </div>
+                    <div class="center-num-block active">3</div>
+                </li>
+                <li>
+                    <div class="center-color-block" style="background-color:red">
+                    </div>
+                    <div class="center-num-block">1</div>
+                </li>
+                <li>
+                    <div class="center-color-block" style="background-color:red">
+                    </div>
+                    <div class="center-num-block">2</div>
+                </li>
+-->
+            </ul>
+        </div>
+        <div class="col-sm-12" style="height: 100%; margin: 0;">
+            <div id="container" style="height: 1590px;"></div>
+        </div>
+        <div class="ruler_class">
+            <input class="ruler" name="" type="button"/>
+        </div>
+        <div class="location_class">
+            <input class="location" name="" type="button"/>
+        </div>
+        <div class="location_area">
+            <input class="anchor_area" name="" type="button"/>
+        </div>
+        <div class="range">
+            <div class="rangek cj_strat">
+            </div>
+            <div class="rangek cj_end">
+
+            </div>
+            <div class="rangek cj_jg">
+
+            </div>
+        </div>
+        <div class="msg_area">
+         <ul class="msg_ul msg_base">
+
+          </ul>
+         <ul class="msg_ul msg_rov">
+           <!--  <li class="msg_li"><div class="msg_div">
+                 <span class="msg_span">名称：<span class="msg_name">信标1</span></span>
+                 <span class="msg_span">ID：<span class="msg_id">1</span></span>
+                 <span class="msg_color" style="background-color:red"></span>
+                 <span class="msg_power"><img src="'+power_img+'" id="power_status_img"></span></div><div class="msg_div">
+                 <span class="msg_span">坐标：<span id="coor">113.123456,113.123456,20.3</span>(北东深/m)</span></div><div class="msg_div">
+             <span class="msg_span">时间：<span id="time">20.10.10</span>
+              <span class="button_area">
+                  <input class="mini_sleep" name="" type="button" style="display:inline"/>
+                  <input class="mini_awaken" name="" type="button" style="display:inline"/>
+                  <input class="calibration rov_dw" name="" type="button" style="display:inline"/><input class="del del_rov" name="" type="button"/></span></span>
+             </div>
+             </li>
+             <li class="msg_li"><div class="msg_div">
+                 <span class="msg_span">名称：<span class="msg_name">信标2</span></span>
+                 <span class="msg_span">ID：<span class="msg_id">2</span></span>
+                 <span class="msg_color" style="background-color:yellow"></span>
+                 <span class="msg_power"><img src="'+power_img+'" id="power_status_img"></span></div><div class="msg_div">
+                 <span class="msg_span">坐标：<span id="coor">113.123456,113.123456,20.3</span>(北东深/m)</span></div><div class="msg_div">
+             <span class="msg_span">时间：<span id="time">20.10.10</span>
+              <span class="button_area"><span class="mini_yn" style="display:inline">
+                  <img id="xm_hx_status_img" src="'+xm_hx_img+'" style="vertical-align:inherit;"></span>
+                  <input class="calibration rov_dw" name="" type="button" style="display:inline"/><input class="del del_rov" name="" type="button"/></span></span>
+             </div>
+             </li>
+             <li class="msg_li"><div class="msg_div">
+                 <span class="msg_span">名称：<span class="msg_name">信标3</span></span>
+                 <span class="msg_span">ID：<span class="msg_id">3</span></span>
+                 <span class="msg_color" style="background-color:greenyellow"></span>
+                 <span class="msg_power"><img src="'+power_img+'" id="power_status_img"></span></div><div class="msg_div">
+                 <span class="msg_span">坐标：<span id="coor">113.123456,113.123456,20.3</span>(北东深/m)</span></div><div class="msg_div">
+             <span class="msg_span">时间：<span id="time">20.10.10</span>
+              <span class="button_area"><span class="mini_yn" style="display:inline">
+                  <img id="xm_hx_status_img" src="'+xm_hx_img+'" style="vertical-align:inherit;"></span>
+                  <input class="calibration rov_dw" name="" type="button" style="display:inline"/><input class="del del_rov" name="" type="button"/></span></span>
+             </div>
+             </li>
+             <li class="msg_li"><div class="msg_div">
+                 <span class="msg_span">名称：<span class="msg_name">信标4</span></span>
+                 <span class="msg_span">ID：<span class="msg_id">4</span></span>
+                 <span class="msg_color" style="background-color:green"></span>
+                 <span class="msg_power"><img src="'+power_img+'" id="power_status_img"></span></div><div class="msg_div">
+                 <span class="msg_span">坐标：<span id="coor">113.123456,113.123456,20.3</span>(北东深/m)</span></div><div class="msg_div">
+             <span class="msg_span">时间：<span id="time">20.10.10</span>
+              <span class="button_area"><span class="mini_yn" style="display:inline">
+                  <img id="xm_hx_status_img" src="'+xm_hx_img+'" style="vertical-align:inherit;"></span>
+                  <input class="calibration rov_dw" name="" type="button" style="display:inline"/><input class="del del_rov" name="" type="button"/></span></span>
+             </div>
+             </li> 
+            -->
+          </ul>
+          <ul class="msg_ul dw_msg" style="bottom: 26px;">
+
+          </ul>
+        </div>        
+        <div>
+            <span ><img id="recording_start" class="recording_1" src="../static/image/start.png" data-toggle="tooltip"  title="开始定位"></span>
+            <span><img id="recording_end" class="recording_1" src="../static/image/end.png" style="display: none" data-toggle="tooltip"  title="结束定位"></span>
+           
+        </div>
+    </div>
+
+    <div class="modal fade" id="location_point" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="top: 96px;">
+        <div class="modal-dialog" style="color: #333333">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title title" id="myModalLabel">
+                        设置标记
+                    </h4>
+                </div>
+                <div class="modal-body">
+
+                    <form class="form-horizontal" id="myForm">
+                        <div id="popup_1">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">标记名称：</label>
+                                <div class="col-sm-8">
+                                    <input  class="form-control location_point_name" maxlength="5" >
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label"></label>
+                                <div class="col-sm-8">
+                                    <textarea class="form-control" id="distinguish_area" style="max-width: 400px;resize: none;" placeholder="粘贴RTK输出坐标，例如：2813.9908005,N,11252.6285300,E"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label"></label>
+                                <div class="col-sm-8" style="text-align: right">
+                                    <button type="button" class="btn btn-info change_distinguish">转化识别</button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">经度：</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group m-b">
+                                        <input type="number" class="form-control longitude" id="longitude"> <span class="input-group-addon">°</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">纬度：</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group m-b">
+                                        <input type="number" class="form-control latitude" id="latitude"> <span class="input-group-addon">°</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">备注：</label>
+                                <div class="col-sm-8">
+                                    <textarea maxlength="30" id="comment" name="comment" class="form-control"  aria-required="true"></textarea>
+                                    <!--<div id="contentwordage"></div>-->
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </form>
+
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                    </button>
+                    <button type="button" class="btn btn-primary add_list">
+                        确定
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+
+<script>
+    var dom = document.getElementById("container");
+    var myChart;
+    option = null;
+    var zr;
+    var synOrAsyn=''
+    var close_ds
+    var picture_type=''
+    var echartscount=0
+
+    $(function () {selected_xinbiao()
+        $("[data-toggle='tooltip']").tooltip();
+        myChart = echarts.init(dom);
+        myChart.setOption(option);
+        window.addEventListener("resize", function () {
+            myChart.resize();
+        });
+        zr = myChart.getZr();
+        document.oncontextmenu = function () { return false; };
+        //新加上鼠标右击事件
+        zr.on('contextmenu', function (params) {
+            w=0
+            i=0
+            q=0
+            line_area=0
+            line_mao=''
+            zr.off('click')
+            zr.remove(traceEl);
+            $('.range').hide()
+            $('.ruler').removeClass('ruler_focus')
+            $('.location').removeClass('location_focus')
+            $('.anchor_area').removeClass('anchor_foucs')
+            ruler_flag=false
+            point_flag=false
+        });
+        load_1()
+        myChart.on('dblclick', function (params) {         
+            if(params.value.length==2){
+                var name=params.seriesName
+                var lng=params.value[0]
+                var lat=params.value[1]
+                var dataIndex=params.dataIndex
+                $('.longitude').val(lng)
+                $('.latitude').val(lat)
+                $('.line_mao_name').text(name)
+                layer.open({
+                    title: ['区域点', 'font-size:18px;font-weight: 500;'],
+                    type: 1,
+                    area:  ['500px','350px'],
+                    content: $('#mao_line_pop')
+                    ,btn: [ '确定修改','删除名称为'+name+'的标记点'],
+                    yes: function(index, layero){
+                        var lng=$('.longitude').val()
+                        var lat=$('.latitude').val()
+                        let xIndexstart = myChart.getOption().dataZoom[0].startValue;
+                        let xIndexend = myChart.getOption().dataZoom[0].endValue;
+                        let yIndexstart = myChart.getOption().dataZoom[1].startValue;
+                        let yIndexend = myChart.getOption().dataZoom[1].endValue;
+                        var fixed_arr=myChart.getOption().series
+                        $.ajax({
+                            type:'post',
+                            url:"/postSmallNewFixed",
+                            data:{'Name':name,'OnlyId':name,'Opt':'modify','JinDu':lng,'WeiDu':lat,'Genre':'1','IndexNum':dataIndex},
+                            dataType:'json',
+                            success:function(data){ //请求成功回调函数
+                
+                            },
+                        });
+                        for(var i=0;i<fixed_arr.length;i++){
+                            if(fixed_arr[i].name==name){
+                                option.series[i].data[dataIndex]=[Number(lng),Number(lat)]
+                            }
+                        }
+                        option.dataZoom= [{
+                            type: 'inside',
+                            xAxisIndex: 0,//控制x轴
+                            startValue: xIndexstart,
+                            endValue: xIndexend,
+                            filterMode: 'none',
+                        },
+                            {
+                                type: 'inside',
+                                yAxisIndex: 0,//控制y轴
+                                startValue: yIndexstart,
+                                endValue: yIndexend,
+                                filterMode: 'none',
+                            }
+                        ]                       
+                        myChart.setOption(option,true)
+                        layer.close(index);
+                    }
+                    ,btn2: function(index, layero){
+                        let xIndexstart = myChart.getOption().dataZoom[0].startValue;
+                        let xIndexend = myChart.getOption().dataZoom[0].endValue;
+                        let yIndexstart = myChart.getOption().dataZoom[1].startValue;
+                        let yIndexend = myChart.getOption().dataZoom[1].endValue;
+                        var fixed_arr=myChart.getOption().series
+                         $.ajax({
+                            type:'post',
+                            url:"/postSmallNewFixed",
+                            data:{'Name':name,'OnlyId':name,'Opt':'delete','JinDu':lng,'WeiDu':lat,'Genre':'1'},
+                            dataType:'json',
+                            success:function(data){ //请求成功回调函数
+                
+                            },
+                        });
+                        for(var i=0;i<fixed_arr.length;i++){
+                            if(fixed_arr[i].name==name){
+                                option.series.splice(i,1)
+                            }
+                        }
+                        option.dataZoom= [{
+                            type: 'inside',
+                            xAxisIndex: 0,//控制x轴
+                            startValue: xIndexstart,
+                            endValue: xIndexend,
+                            filterMode: 'none',
+                        },
+                            {
+                                type: 'inside',
+                                yAxisIndex: 0,//控制y轴
+                                startValue: yIndexstart,
+                                endValue: yIndexend,
+                                filterMode: 'none',
+                            }
+                        ]
+                        console.log(option)
+                        myChart.setOption(option,true)
+
+                    }
+                });
+            }
+
+        });
+    })
+
+    option = {
+        tooltip: {
+            hideDelay: 3000,
+            trigger: 'item',
+            formatter: function (params) {
+                if(params.data.length==14){
+                  var point_num=params.data[13]
+                    if(point_num.substr(point_num.length-1,1)=='1'){
+                      if(point_num.substr(point_num.length-3,1)=='1'){
+                        return 'id:'+params.seriesId+'<br/>名称:'+params.seriesName+'<br/>经纬度:(' + params.data[0] + ',' + params.data[1]+ ')<br>时间: ' + params.data[4]+'<br/>速度:'+Number(params.data[6]).toFixed(1)+'<br/>朝向:'+Number(params.data[7]).toFixed(1);
+                      }else{
+                        return 'id:'+params.seriesId+'<br/>名称:'+params.seriesName+'<br/>经纬度:(' + params.data[0] + ',' + params.data[1]+ ')<br>时间: ' + params.data[4]+'<br/>速度:'+Number(params.data[6]).toFixed(1)+'<br/>朝向:无效';
+                      }
+                    }else{
+                      return 'id:'+params.seriesId+'<br/>名称:'+params.seriesName+'<br/>经纬度:(' + params.data[0] + ',' + params.data[1]+ ')<br>时间: ' + params.data[4]+'<br/>坐标(北东深/m):'+params.data[8].toFixed(2)+ ',' +params.data[9].toFixed(2)+ ',' +params.data[10];
+                    }
+                    
+                  if(params.data[13]=='000001'){
+                    return 'id:'+params.seriesId+'<br/>名称:'+params.seriesName+'<br/>经纬度:(' + params.data[0] + ',' + params.data[1]+ ')<br>时间: ' + params.data[4]+'<br/>速度:'+Number(params.data[6]).toFixed(1);
+                  }else{
+                    return 'id:'+params.seriesId+'<br/>名称:'+params.seriesName+'<br/>经纬度:(' + params.data[0] + ',' + params.data[1]+ ')<br>时间: ' + params.data[4]+'<br/>坐标(北东深/m):'+params.data[8].toFixed(2)+ ',' +params.data[9].toFixed(2)+ ',' +params.data[10];
+                  }
+                  
+                }else if(params.name=='终点'){
+                  var data_num=params.data.coord[13]
+                  
+                  if(data_num.substr(data_num.length-1,1)=='1'){
+                    if(data_num.substr(data_num.length-3,1)=='1'){
+                      return '经纬度:(' + params.data.coord[0] + ',' + params.data.coord[1]+ ')<br>时间: ' + params.data.coord[4]+'<br/>速度:'+Number(params.data.coord[6]).toFixed(1)+'<br/>朝向:'+Number(params.data.coord[7]).toFixed(1);
+                    }else{
+                      return '经纬度:(' + params.data.coord[0] + ',' + params.data.coord[1]+ ')<br>时间: ' + params.data.coord[4]+'<br/>速度:'+Number(params.data.coord[6]).toFixed(1)+'<br/>朝向:无效';
+                    }                   
+                  }else{
+                    return '经纬度:(' + params.data.coord[0] + ',' + params.data.coord[1]+ ')<br>时间: ' + params.data.coord[4]+'<br/>坐标(北东深/m):'+params.data.coord[8].toFixed(2)+ ',' +params.data.coord[9].toFixed(2)+ ',' +params.data.coord[10];
+                  }                
+                 
+                }else if(params.name=='起点'){
+                  var data_num=params.data.coord[13]
+                 if(data_num.substr(data_num.length-1,1)=='1'){
+                    if(data_num.substr(data_num.length-3,1)=='1'){
+                      return '经纬度:(' + params.data.coord[0] + ',' + params.data.coord[1]+ ')<br>时间: ' + params.data.coord[4]+'<br/>速度:'+Number(params.data.coord[6]).toFixed(1)+'<br/>朝向:'+Number(params.data.coord[7]).toFixed(1);
+                    }else{
+                      return '经纬度:(' + params.data.coord[0] + ',' + params.data.coord[1]+ ')<br>时间: ' + params.data.coord[4]+'<br/>速度:'+Number(params.data.coord[6]).toFixed(1)+'<br/>朝向:无效';
+                    }                   
+                  }else{
+                    return '经纬度:(' + params.data.coord[0] + ',' + params.data.coord[1]+ ')<br>时间: ' + params.data.coord[4]+'<br/>坐标(北东深/m):'+params.data.coord[8].toFixed(2)+ ',' +params.data.coord[9].toFixed(2)+ ',' +params.data.coord[10];
+                  }              
+                }
+                else if(params.data.length==4){
+                    const label ='<div class=chartLabel>' +
+                        '<button type="button" class="close" id="del_location">×</button>'+
+                        '<div class="label-name">名称：<span id="name_1">'+params.seriesName+'</span></div>' +
+                        '<div >经度：<span>'+params.data[0]+'</span></div>' +
+                        '<div>纬度：<span>'+params.data[1]+'</span></div>' +
+                        '<div style="word-wrap:break-word;word-break:break-all;white-space:normal;overflow: hidden;">备注：'+params.data[2]+'</div>' +
+                        '<input type="hidden" id="mao_id" value='+params.data[3]+'>'
+                  // return '名称:<div class=name_1>'+params.seriesName+'<div><br/>经纬度:<div class=jw>'+params.data[0]+ ',' + params.data[1]+'<div><br/>备注:'+params.data[2]+'<br/> <button id="del_location">删除</button>';
+                    return label
+                }else if(params.data.length==2){
+                    const label_m ='<div class=chartLabel>' +
+                        '<div class="label-name">名称：<span id="name_1">'+params.seriesName+'</span></div>' +
+                        '<div >经度：<span>'+params.data[0]+'</span></div>' +
+                        '<div>纬度：<span>'+params.data[1]+'</span></div>' 
+                       // '<div style="word-wrap:break-word;word-break:break-all;white-space:normal;overflow: hidden;">备注：'+params.data[2]+'</div>' +
+                       // '<input type="hidden" id="mao_id" value='+params.data[3]+'>' +
+                       // '<button type="button" class="close" id="del_location">×</button>'
+                    // return '名称:<div class=name_1>'+params.seriesName+'<div><br/>经纬度:<div class=jw>'+params.data[0]+ ',' + params.data[1]+'<div><br/>备注:'+params.data[2]+'<br/> <button id="del_location">删除</button>';
+                    return label_m
+                }
+
+
+            }
+        },
+        grid: {
+            backgroundColor: '#9fd7fc',
+            show: true,
+            left: '0%',
+            right: '2%',
+            bottom: '2%',
+            top: '1%',
+            containLabel: true
+        },
+      //  legend:{
+      //      textStyle:{color:'#fff'}
+            // data:['3','4','5','6']
+      //  },
+        xAxis: {
+            // show:false,
+            splitNumber : 15,  //设置网格间距
+            min: -100,
+            max: 100,
+            type: 'value',
+            axisLabel: {formatter: '{value} ',
+                textStyle: {
+                    fontSize : 12      //更改坐标轴文字大小
+                }
+            },
+            axisLine: {
+                onZero: false,
+                lineStyle:{
+                    color:'#fff',
+                }
+            },
+            splitLine :{    //网格线
+                lineStyle:{
+                    type:'dotted',    //设置网格线类型 dotted：虚线   solid:实线
+                    color: '#000'
+                },
+                show: false
+            },
+            splitArea:{
+                areaStyle:{
+                    color:'#000'
+                }
+            }
+        },
+        yAxis: {
+            // show:false,
+            splitNumber : 15,
+            // minInterval: 0.00000012,
+            // maxInterval: 118.221515,
+            min: -100,
+            max: 100,
+            type: 'value',
+            axisLabel: {formatter: '{value} ',
+                textStyle: {
+                    fontSize : 12      //更改坐标轴文字大小
+                }
+            },
+            axisLine: {
+                onZero: false,
+                lineStyle:{
+                    color:'#fff',
+                }
+            },
+            splitLine :{    //网格线
+                lineStyle:{
+                    type:'dotted',    //设置网格线类型 dotted：虚线   solid:实线
+                    color: '#000'
+                },
+                show: false
+            },
+
+
+        },
+        dataZoom: [
+            {
+                type: 'inside',
+                xAxisIndex: 0,
+                filterMode: 'none',
+                start:0,
+                end:100
+            },
+            {
+                type: 'inside',
+                yAxisIndex: 0,
+                filterMode: 'none',
+                start:0
+            }
+        ],
+        series: [
+            // {
+            //     id: 'a',
+            //     name:'原点',
+            //     type: 'line',
+            //     // zlevel:99999,
+            //     // smooth: true,
+            //     symbolSize: 20,
+            //     // symbol:'pin',    //'circle', 'rect', 'roundRect', 'triangle', 'diamond', 'pin', 'arrow', 'none','圆'，'矩形'，'圆矩形'，'三角形'，'菱形'，'针'，'箭头'，'无'
+            //     data: [[0, 0]],
+            // },
+        ]
+    };
+
+    var i=0
+    var q=0
+    var w=0
+    var line_area=0
+    var line_mao=''
+    var jindu_1=''
+    var weidu_1=''
+    var jindu_2=''
+    var weidu_2=''
+    var ruler_flag=false
+    var point_flag=false
+    var loction_name=1
+    var dataValue={}
+    var info=[]
+    var rov_info=[]
+    var inTimer
+    var chuangkou=1
+    var Arrow = echarts.graphic.extendShape({
+
+        type: 'arrow',
+
+        shape: {
+            x: 0,
+            y: 0,
+            width: 0,
+            height: 0
+        },
+
+        buildPath: function (ctx, shape) {
+            var height = shape.height;
+            var width = shape.width;
+            var x = shape.x;
+            var y = shape.y;
+            var dx = width / 3 * 2;
+            ctx.moveTo(x, y);
+            ctx.lineTo(x + dx, y + height);
+            ctx.lineTo(x, y + height / 4 * 3);
+            ctx.lineTo(x - dx, y + height);
+            ctx.lineTo(x, y);
+            ctx.closePath();
+        }
+    });
+
+    var drawing;
+    var points = [];
+    var startPoint;
+    var traceEl;
+
+
+    var fn = function(e){
+        drawing = true;
+        startPoint = [e.offsetX, e.offsetY];
+
+        if (traceEl) {
+            zr.remove(traceEl);
+        }
+
+        traceEl = new echarts.graphic.Line({
+            shape: {
+                x1: 0, y1: 0, x2: 0, y2: 0
+            },
+            style: {
+                stroke: 'red',
+                lineWidth: 1
+            }
+        });
+
+        zr.add(traceEl);
+        zr.on('mousemove', function (e) {
+            if (!drawing) {
+                return;
+            }
+            traceEl.attr('shape', {
+                x1: startPoint[0],
+                y1: startPoint[1],
+                x2: e.offsetX,
+                y2: e.offsetY
+            });
+
+
+        })
+    }
+
+    var fn_point = function(){
+        zr.on('click', function (params) { 
+            var pointInPixel = [params.offsetX, params.offsetY];
+            var pointInGrid = myChart.convertFromPixel('grid', pointInPixel);    
+            // weidu_2=pointInGrid[0]
+            // jindu_1=pointInGrid[1]
+            $('#location_point').modal('show');
+            $('.longitude').val(pointInGrid[0].toFixed(6))
+            $('.latitude').val(pointInGrid[1].toFixed(6))
+            $('.location_point_name').val('POI'+loction_name)
+            // console.log(params)
+        });
+    }
+    $(document).ready(function(){
+        var limitNum = 15;
+        var pattern = '还可以输入' + limitNum + '字符';
+        $('#contentwordage').html(pattern);
+        $('#comment').keyup(
+            function(){
+                var remain = $(this).val().length;
+                if(remain > 15){
+                    pattern = "字数超过限制！";
+                    alert(pattern)
+                    $('#comment').val($(this).val().substring(0,15))
+                }else{
+                    var result = limitNum - remain;
+                    pattern = '还可以输入' + result + '字符';
+                }
+                $('#contentwordage').html(pattern);
+            }
+        );
+
+    });
+    $('.add_list').click(function () {
+        var location_point_name=$('.location_point_name').val()
+        var longitude=$('#longitude').val();
+        var latitude=$('#latitude').val()
+        var comment=$('#comment').val()
+        var time1 = Date.now();
+        var mao_id='mao'+time1
+        var data=[[Number(longitude),Number(latitude),comment,mao_id]]
+        if(comment.length>15){
+            alert("备注不能超过15个字符，请重新输入")
+            return false
+        }
+        if(longitude.length>13 || latitude.length>13){
+            alert("经纬度不能超过13个字符，请重新输入")
+            return false
+        }
+        let xIndexstart = myChart.getOption().dataZoom[0].startValue;
+        let xIndexend = myChart.getOption().dataZoom[0].endValue;
+        let yIndexstart = myChart.getOption().dataZoom[1].startValue;
+        let yIndexend = myChart.getOption().dataZoom[1].endValue;
+        var fixed_arr=[]
+        var fixed  ={
+            id: mao_id,
+            name:location_point_name,
+            type: 'line',
+            //smooth: true,
+            symbolSize: [30,30],
+            symbol:"image://../static/image/location.png",
+            zlevel:9999,
+            data:data,
+        }
+        //var option_num = option.series.length
+        // option.series[option_num]=fixed
+        option.series.push(fixed)
+        var fixed_arr=myChart.getOption().series        
+        fixed_arr.push(fixed)
+       option.series=fixed_arr
+        option.dataZoom= [{
+            type: 'inside',
+            xAxisIndex: 0,//控制x轴
+            startValue: xIndexstart,
+            endValue: xIndexend,
+            filterMode: 'none',
+        },
+            {
+                type: 'inside',
+                yAxisIndex: 0,//控制y轴
+                startValue: yIndexstart,
+                endValue: yIndexend,
+                filterMode: 'none',
+            }
+        ]
+        
+        myChart.setOption(option,true)       
+   
+        $('#location_point').modal('hide');
+        loction_name++
+         $.ajax({
+            type:'post',
+            url:"/postSmallNewFixed",
+            data:{'Name':location_point_name,'OnlyId':mao_id,'Opt':'create','JinDu':longitude,'WeiDu':latitude,'BeiZhu':comment,'JiShu':loction_name,'Genre':'0'},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+
+            },
+        });
+
+
+    })
+
+    $('#location_point').on('hide.bs.modal', function () {
+        document.getElementById("myForm").reset()
+    })
+
+    $('.ruler').click(function () {
+        $('.range').show()
+        $('.cj_strat').html('')
+        $('.cj_end').html('')
+        $('.cj_jg').html('')
+        console.log(w)
+        zr.off('click')
+        zr.on('click', function (e) {
+            var pointInPixel = [e.offsetX, e.offsetY];
+            var pointInGrid = myChart.convertFromPixel('grid', pointInPixel);
+            console.log(pointInGrid)
+            if(i==0){console.log(i)
+                jindu_1=pointInGrid[0]
+                weidu_1=pointInGrid[1]
+                fn(e)
+                $('.cj_strat').html('&nbsp;<span>start：</span><span>'+jindu_1.toFixed(6)+'° , '+weidu_1.toFixed(6)+'°</span></div>&nbsp;&nbsp;')
+                $('.cj_end').html('')
+                $('.cj_jg').html('')
+                i++
+            }else {console.log(i)
+                jindu_2=pointInGrid[0]
+                weidu_2=pointInGrid[1]
+                var Distance =getDistance(weidu_1,jindu_1,weidu_2,jindu_2)
+                var Angle =getAngle(weidu_1,jindu_1,weidu_2,jindu_2)
+                $('.cj_end').html('&nbsp;<span>end：</span><span>'+jindu_2.toFixed(6)+'° , '+weidu_2.toFixed(6)+'°</span></div>&nbsp;&nbsp;')
+                $('.cj_jg').html('&nbsp;<span>D：</span><span>'+Distance+'</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>A：</span><span>'+Angle+'°</span>')
+                i=0
+                drawing = false;
+                points.length = 0;
+                startPoint = null;
+            }
+
+
+        });
+        w++
+        $(this).toggleClass('ruler_focus')
+        $('.location').removeClass('location_focus')
+        $('.anchor_area').removeClass('anchor_foucs')
+        if(w==2){
+            w=0
+            i=0
+            zr.off('click')
+            zr.remove(traceEl);
+            $('.range').hide()
+        }else{
+            q=0
+        }
+    })
+
+    $('.anchor_area').click(function () {
+        zr.off('click')
+        zr.on('click', function (params) {
+            var time1 = Date.now();
+            // var mao_id='mao_line'+time1
+
+            var pointInPixel = [params.offsetX, params.offsetY];
+            var pointInGrid = myChart.convertFromPixel('grid', pointInPixel);
+            let xIndexstart = myChart.getOption().dataZoom[0].startValue;
+            let xIndexend = myChart.getOption().dataZoom[0].endValue;
+            let yIndexstart = myChart.getOption().dataZoom[1].startValue;
+            let yIndexend = myChart.getOption().dataZoom[1].endValue;
+            var fixed=''
+            var fixed_arr=[]
+            var data=[[Number(pointInGrid[0].toFixed(6)),Number(pointInGrid[1].toFixed(6))]]
+
+            if(line_mao==''){
+                line_mao='mao_line'+loction_name
+                fixed  ={
+                    id: line_mao,
+                    name:line_mao,
+                    type: 'line',
+                    custom_type:'line_mao',
+                    symbolSize: [30,30],
+                    symbol:"image://../static/image/location.png",
+                    zlevel:9999,
+                    data:data,
+                }
+                option.series.push(fixed)
+                var fixed_arr=myChart.getOption().series
+                fixed_arr.push(fixed)
+                option.series=fixed_arr     
+                loction_name++
+            }else {
+                fixed  ={
+                    name:line_mao,
+                    type: 'line',
+                    custom_type:'line_mao',
+                    symbolSize: [30,30],
+                    symbol:"image://../static/image/location.png",
+                    zlevel:9999,
+                    data:data,
+                }
+                var fixed_arr=myChart.getOption().series
+                for(var i=0;i<fixed_arr.length;i++){
+                    if(fixed_arr[i].id==line_mao){console.log(option.series[i])
+                        option.series[i].data.push([Number(pointInGrid[0].toFixed(6)),Number(pointInGrid[1].toFixed(6))])
+                    }
+                }
+
+            }
+            console.log(line_mao)
+
+
+            option.dataZoom= [{
+                type: 'inside',
+                xAxisIndex: 0,//控制x轴
+                startValue: xIndexstart,
+                endValue: xIndexend,
+                filterMode: 'none',
+            },
+                {
+                    type: 'inside',
+                    yAxisIndex: 0,//控制y轴
+                    startValue: yIndexstart,
+                    endValue: yIndexend,
+                    filterMode: 'none',
+                }
+            ]
+            console.log(option)
+            myChart.setOption(option,true)
+
+         $.ajax({
+            type:'post',
+            url:"/postSmallNewFixed",
+            data:{'Name':line_mao,'OnlyId':line_mao,'Opt':'create','JinDu':Number(pointInGrid[0].toFixed(6)),'WeiDu':Number(pointInGrid[1].toFixed(6)),'BeiZhu':'','JiShu':loction_name,'Genre':'1'},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+
+            },
+        });
+        });
+        line_area++
+        $(this).toggleClass('anchor_foucs')
+        $('.location').removeClass('location_focus')
+        $('.ruler').removeClass('ruler_focus')
+        $('.range').hide()
+        zr.remove(traceEl);
+        if(line_area==2){
+            line_mao=''
+            line_area=0
+            zr.off('click')
+        }else{
+            w=0
+            i=0
+            q=0
+        }
+    })
+
+    $('.location').click(function () {
+        console.log(q)
+        zr.off('click')
+        fn_point()
+        q++
+        $(this).toggleClass('location_focus')
+        $('.ruler').removeClass('ruler_focus')
+        $('.range').hide()
+        zr.remove(traceEl);
+        $('.anchor_area').removeClass('anchor_foucs')
+        if(q==2){
+            q=0
+            zr.off('click')
+        }else{
+            w=0
+            i=0
+            line_mao=''
+            line_area=0
+        }
+    })
+        function load_1(){
+             $.ajax({
+              type:'post',
+              url:"/postSmallIsSave",
+              data:{'Opt':'get'},
+              dataType:'json',
+              success:function(data){ //请求成功回调函数
+                  picture_type=data.ShiFouHuaXian
+                  if(data.IsSave==1){
+                      $("#recording_end").show();
+                      $("#recording_start").hide();
+                      $('.ruler_class').show()
+                      $('.location_class').show()
+                     $('.location_area').show()
+                      piont_one()
+                      info_msg()
+                  }else {
+                      $("#recording_start").show();
+                      $("#recording_end").hide();
+                  }
+              },
+          });
+        }
+
+
+
+    $('.recording_1').click(function () {
+        if($("#recording_start").is(":hidden")){
+            $("#recording_start").show();
+        }else{
+            $("#recording_start").hide();
+        }
+        if($("#recording_end").is(":hidden")){
+            $("#recording_end").show();
+        }else{
+            $("#recording_end").hide();
+        }
+    })
+
+    $('#recording_start').click(function () {
+        $.ajax({
+            type:'post',
+            url:"/postSmallIsSave",
+            data:{'Opt':'start'},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+            if(data.IsOk !=1){
+               $("#recording_start").show();
+               $("#recording_end").hide();
+              alert(data.Msg)
+            }else{
+               $('.ruler_class').show()
+                $('.location_class').show()
+                $('.location_area').show()
+                piont_one()
+                info_msg()
+            }
+               
+            },
+        });
+    })
+
+
+    $('#recording_end').click(function () {
+        $.ajax({
+            type:'post',
+            url:"/postSmallIsSave",
+            data:{'Opt':'end'},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+                $('.ruler_class').hide()
+                $('.location_class').hide()
+                $('.location_area').hide()
+                w=0
+                i=0
+                q=0
+                zr.off('click')
+                zr.remove(traceEl);
+                $('.range').hide()
+                $('.ruler').removeClass('ruler_focus')
+                $('.location').removeClass('location_focus')
+                ruler_flag=false
+                point_flag=false
+               
+                setTimeout(function() {
+                      window.location.reload()
+                  },1000)
+            },
+        });
+    })
+
+    $(document).on('click','.del_base',function () {
+        var name=$(this).parent().parent().parent().parent().find('.msg_name').text()
+        var row=$(this).parent().parent().parent()
+        var route="/deleteSmallBasePoint"
+        del_point(name,route)
+
+    })
+
+      $(document).on('click','.del_rov',function () {
+        var name=$(this).parent().parent().parent().parent().find('.msg_name').text()
+        var row=$(this).parent().parent().parent()
+        var route="/deleteSmallBeaconPoint"
+        del_point(name,route)
+
+    })
+
+
+    function del_point(name,route){
+          swal({
+            title: "您确定要删除这条轨迹吗",
+            text: "删除后将无法恢复，请谨慎操作！",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "确定",
+            closeOnConfirm: false
+        }, function () {
+            $.ajax({
+                type:'post',
+                url:route,
+                data:{'TargetName':name},
+                dataType:'json',
+                success:function(data){ //请求成功回调函数
+                  setTimeout(function() {
+                      window.location.reload()
+                  },1000)
+                }
+            });
+
+            swal("删除成功！", "您已经永久删除了这条轨迹。", "success");
+        });
+    }
+
+
+    $(document).on('click','#del_location',function (e) {
+        var name=$('#name_1').text()
+        var id=$('#mao_id').val()
+        swal({
+            title: "您确定要删除这条信息吗",
+            text: "删除后将无法恢复，请谨慎操作！",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "确定",
+            closeOnConfirm: false
+        }, function () {
+            $.ajax({
+                type:'post',
+                url:"/postSmallNewFixed",
+                data:{'Name':name,'OnlyId':id,'Opt':'delete','Genre':'0'},
+                dataType:'json',
+                success:function(data){ //请求成功回调函数
+                  setTimeout(function() {
+                      window.location.reload()
+                  },1000)
+                }
+            });
+
+            swal("删除成功！", "您已经永久删除了这条信息。", "success");
+        });
+    })
+    
+    function get_xm_hx(status){
+        var img=''
+        if(status=='10'){
+          img="../static/image/sleep.png"
+        }else if(status=='11'){
+           img="../static/image/awaken.png"
+        }
+        return img
+    }
+    
+    function power_status(power_num,flag){     
+      var power_img=''
+      if(flag=='1'){
+      if(Number(power_num)==1){
+        power_img='../static/image/dl1.png'
+      }else if(2==Number(power_num)){
+        power_img='../static/image/dl2.png'
+      }else if(3==Number(power_num)){
+        power_img='../static/image/dl3.png'
+      }else if(4==Number(power_num)){
+        power_img='../static/image/dl4.png'
+      }else if(5==Number(power_num)){
+        power_img='../static/image/dl5.png'
+      }
+      }
+      return power_img
+        
+    }
+
+    //加载信息栏信息
+    function info_msg(){
+        $.ajax({
+            type:'post',
+            url:"/postUiTmOptDsply",
+            data:{},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+                if(data.Dsply !=null){
+                    $("#yxj_msg").empty();
+                    var w=''
+                    for (var i = 0; i < data.Dsply.length; i++) {
+                        w +='<li>'+data.Dsply[i]+'</li>'
+                    }
+                    $("#yxj_msg").append(w);
+                }
+                setTimeout('info_msg()',2000);
+
+            },
+        });
+    }
+
+    //第一次加载轨迹
+    function piont_one() {
+        $.ajax({
+            type:'post',
+            url:"/postSmallTwoBefore",
+            data:{},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+                if(data.TaskName !=''){
+                    let xIndexstart = myChart.getOption().dataZoom[0].startValue;
+                    let xIndexend = myChart.getOption().dataZoom[0].endValue;
+                    let yIndexstart = myChart.getOption().dataZoom[1].startValue;
+                    let yIndexend = myChart.getOption().dataZoom[1].endValue;
+                    one_point(data,xIndexstart,xIndexend,yIndexstart,yIndexend)
+                    setTimeout('open()',3000);
+                }
+
+            },
+        });
+
+    }
+    function one_point(data,xIndexstart,xIndexend,yIndexstart,yIndexend) {
+        var arr =[];
+        var tempSeries=[]
+        var big=[]
+        var color =[]
+        var label
+        var label_rov
+        var lable_xinbiao
+
+
+        if(data.FixedJiSu){
+            loction_name=data.FixedJiSu
+        }
+        if(data.YiOrTong=='1'){
+           synOrAsyn='display:none'
+          // $(".del").css("margin-left","64px");
+        }else{
+          synOrAsyn='display:inline'
+         // $(".del").css("margin-left","3px");
+        }
+
+        if(data.Dev){
+            for(var p=0;p<data.Dev.length;p++){
+                info.push(data.Dev[p].TargetName)            
+                if(data.Dev[p].TargetType==CnstSmlBsOneSix || data.Dev[p].TargetType ==CnstSmlBsOneFour || data.Dev[p].TargetType ==CnstSmlBs12K){
+                  if(data.Dev[p].ChaoXiang=='无效'){
+                    var cx='无效'
+                  }else{
+                    var cx =Number(data.Dev[p].ChaoXiang).toFixed(1)
+                  }
+                    label='<li class="msg_li">' +
+                        '<div class="msg_div">' +
+                        '<span class="msg_span">名称：<span class="msg_name">'+data.Dev[p].TargetName+'</span></span>' +
+                        '<span class="msg_span">ID：<span class="msg_id">'+data.Dev[p].MdmId+'</span></span>' +
+                        '<span class="msg_color" style="background-color:'+data.Dev[p].TargetColour+'"></span></div>' +
+                        '<div class="msg_div">' +
+                        '<span class="msg_span">坐标：<span id="coor">'+data.Dev[p].JinDu+'°,'+data.Dev[p].WeiDu+'°,'+data.Dev[p].NewDeep+'m</span></span></div>' +
+                        '<div class="msg_div">' +
+                        '<span class="msg_span">朝向：<span id="chaoxiang">'+cx+'°</span></span>' +
+                        '<span class="msg_span">速度：<span id="speed">'+Number(data.Dev[p].Speed).toFixed(1)+'m/s</span></span></div>' +
+                        '<div class="msg_div">'+
+                        '<span class="msg_span">时间：<span id="time">'+data.Dev[p].LastTime+'</span><span class="button_area"><input class="calibration base_dw" name="" type="button" style="'+synOrAsyn+'"/><input class="del del_base" name="" type="button"/></span></span>' +
+                        '</div>'+
+                        '</li>'
+                    $(".msg_base").append(label);
+                }else {
+                    var xm_hx_img=get_xm_hx(data.Dev[p].DevStatus)
+                    var power_img=power_status(data.Dev[p].PonitInfor.Bat,data.Dev[p].PonitInfor.BatFlag)
+
+                    if(data.CurTmId==data.Dev[p].MdmId){
+                       var current_click_id='display:list-item'
+                       var select_active='active'
+                    }else{
+                       var current_click_id='display:none'
+                      var select_active=''
+                    }
+                    
+                        label_rov='<li class="msg_li" style="'+current_click_id+'"><div class="msg_div">' +
+                            '<span class="msg_span">名称：<span class="msg_name">'+data.Dev[p].TargetName+'</span></span>' +
+                            '<span class="msg_span">ID：<span class="msg_id">'+data.Dev[p].MdmId+'</span></span>' +
+                            '<span class="msg_color" style="background-color:'+data.Dev[p].TargetColour+'"></span>' +
+                            '<span class="msg_power"><img src="'+power_img+'" id="power_status_img"></span></div><div class="msg_div">' +
+                            '<span class="msg_span">坐标：<span id="coor">'+data.Dev[p].NewX+','+data.Dev[p].NewY+','+data.Dev[p].NewDeep+'</span>(北东深/m)</span></div><div class="msg_div">' +
+                            '<span class="msg_span">时间：<span id="time">'+data.Dev[p].LastTime+'</span>' +
+                            '<span class="button_area">' +
+                            '<input class="mini_sleep" name="" type="button" style="'+synOrAsyn+'">' +
+                            '<input class="mini_awaken" name="" type="button" style="'+synOrAsyn+'">' +
+                            '<input class="calibration rov_dw" name="" type="button" style="'+synOrAsyn+'"/><input class="del del_rov" name="" type="button"/></span></span>'+
+                            '</div>' +
+                            '</li>'
+
+                    $(".msg_rov").append(label_rov);
+                    lable_xinbiao='<li>' +
+                        '<div class="center-color-block" style="background-color:'+data.Dev[p].TargetColour+'">' +
+                        '</div>' +
+                        '<div class="center-num-block '+select_active+'">'+data.Dev[p].MdmId+'</div>' +
+                        '</li>'
+                    $(".xb-lable").append(lable_xinbiao);
+
+                }
+            }
+        }
+
+        if(data.Fixed !=null){
+            for(var o=0;o<data.Fixed.length;o++){
+                var m={
+                    id: data.Fixed[o].OnlyId,
+                    name:data.Fixed[o].Name,
+                    type: 'line',
+                  //  smooth: true,
+                    symbolSize: [30,30],
+                    symbol:"image://../static/image/location.png",
+                    zlevel:9999,
+                    data: [[data.Fixed[o].JinDu,data.Fixed[o].WeiDu,data.Fixed[o].BeiZhu,data.Fixed[o].OnlyId]],
+                }
+                tempSeries.push(m)
+
+            }
+        }
+        
+        if(data.Line !=null){
+            for(var j=0;j<data.Line.length;j++){
+                var n={
+                    id: data.Line[j].Name,
+                    name:data.Line[j].Name,
+                    type: 'line',
+                    symbolSize: [30,30],
+                    symbol:"image://../static/image/location.png",
+                    zlevel:9999,
+                    data: data.Line[j].Site,
+                }
+                tempSeries.push(n)
+
+            }
+        }
+        
+        
+        if(data.Ponit !=null){
+            for (var j=0;j<data.Ponit.length;j++){
+                if(data.Ponit[j].Site !=null){
+                    if(data.Ponit[j].TargetType==CnstSmlBsOneSix || data.Ponit[j].TargetType ==CnstSmlBsOneFour || data.Ponit[j].TargetType ==CnstSmlBs12K){
+                        var o ={
+                            id:data.Ponit[j].MdmId,
+                            name:data.Ponit[j].TargetName,
+                            type:picture_type,
+                            // smooth:true,
+                            symbolSize:12,
+                            symbol:'circle',
+                            data:data.Ponit[j].Site,
+                            itemStyle:
+                                {
+                                    color: data.Ponit[j].TargetColour,
+                                    // lineStyle: {color: color[j]}
+                                },
+                            markPoint: {
+                                data: [
+                                    {
+                                        name: '起点',
+                                        coord: data.Ponit[j].StartSite,
+                                        symbolSize:20,
+                                        symbol:'',
+                                        value: '起',
+                                        silent: true
+                                    },
+                                    {
+                                        name: '终点',
+                                        coord: data.Ponit[j].NewSite,
+                                        symbolRotate: ~data.Ponit[j].ChaoXiang,
+                                        symbolSize:[30,50],
+                                        symbol:"image://../static/image/tc.png",
+                                        silent: true
+                                    },
+                                ]
+                            },
+                            animation:false,
+                            largeThreshold: 3000,
+                            large: true
+                        }
+                    }else {
+                        var o ={
+                            id:data.Ponit[j].MdmId,
+                            name:data.Ponit[j].TargetName,
+                            type:picture_type,
+                            // smooth:true,
+                            symbolSize:12,
+                            symbol:'circle',
+                            data:data.Ponit[j].Site,
+                            itemStyle:
+                                {
+                                    color: data.Ponit[j].TargetColour,
+                                    // lineStyle: {color: color[j]}
+                                },
+                            markPoint: {
+                                data: [
+                                    {
+                                        name: '起点',
+                                        coord: data.Ponit[j].StartSite,
+                                        symbolSize:20,
+                                        symbol:'',
+                                        value: '起',
+                                        silent: true
+                                    },
+                                    {
+                                        name: '终点',
+                                        coord: data.Ponit[j].NewSite,
+                                         symbolSize:20,
+                                        symbol:'',
+                                        value: '终',
+                                        silent: true
+                                    },
+                                ]
+                            },
+                            animation:false,
+                            largeThreshold: 3000,
+                            large: true
+                        }
+                    }
+
+                    color.push(data.Ponit[j].TargetColour)
+                    big.push(data.Ponit[j].NewSite)
+                    arr.push(''+data.Ponit[j].TargetName+'')
+                    tempSeries.push(o)
+                    // dataValue[data.Ponit[j].MdmId]=data.Ponit[j].NewSite
+                }
+            }
+        }
+         //   option.legend.data=arr
+
+
+        if(tempSeries.length !=0){
+            option.series=option.series.concat(tempSeries)
+            
+                option.yAxis.max=data.MaxWeiDu;
+                option.yAxis.min=data.MinWeiDu;
+                option.xAxis.max=data.MaxJinDu;
+                option.xAxis.min=data.MinJinDu;
+                option.xAxis.axisLabel.formatter='{value} °';
+                option.yAxis.axisLabel.formatter='{value} °';
+            
+            // option.series.push(tempSeries)
+            if(data.Ponit !=null && chuangkou==1){
+             option.dataZoom= [{
+                type: 'inside',
+                xAxisIndex: 0,//控制x轴
+                startValue: data.MinRangJinDu,
+                endValue: data.MaxRangJinDu,
+                filterMode: 'none',
+            },
+                {
+                    type: 'inside',
+                    yAxisIndex: 0,//控制y轴
+                    startValue: data.MinRangWeiDu,
+                    endValue: data.MaxRangWeiDu,
+                    filterMode: 'none',
+                }
+            ]
+            chuangkou==2
+            }else{
+             option.dataZoom= [{
+                type: 'inside',
+                xAxisIndex: 0,//控制x轴
+                startValue: xIndexstart,
+                endValue: xIndexend,
+                filterMode: 'none',
+            },
+                {
+                    type: 'inside',
+                    yAxisIndex: 0,//控制y轴
+                    startValue: yIndexstart,
+                    endValue: yIndexend,
+                    filterMode: 'none',
+                }
+            ]
+            }
+       
+
+            myChart.setOption(option,true);
+
+            console.log(option)
+        }
+
+    }
+    function open(){
+        $.ajax({
+            type:'post',
+            url:"/postSmallTwoOnce",
+            data:{},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+                // console.log(dataValue)
+                if(data.TaskName !=''){
+                    let xIndexstart = myChart.getOption().dataZoom[0].startValue;
+                    let xIndexend = myChart.getOption().dataZoom[0].endValue;
+                    let yIndexstart = myChart.getOption().dataZoom[1].startValue;
+                    let yIndexend = myChart.getOption().dataZoom[1].endValue;                   
+                    loop_point(data,xIndexstart,xIndexend,yIndexstart,yIndexend)
+                    
+
+                }
+                clearTimeout(inTimer);
+                inTimer=setTimeout('open()',3000);
+            },
+        });
+    }
+    function loop_point(data,xIndexstart,xIndexend,yIndexstart,yIndexend) {
+        var arr =[];
+        var tempSeries=[]
+        var big=[]
+        var color =[]
+        var label
+        var label_rov
+        var options = myChart.getOption()
+        var series = myChart.getOption().series
+        var lable_xinbiao
+        
+        if(data.YiOrTong=='1'){
+           synOrAsyn='display:none'
+           jqsynOrAsyn='none'
+        }else{
+          synOrAsyn='display:inline'
+          jqsynOrAsyn='inline'
+        }
+        $(".calibration").css("display",jqsynOrAsyn)
+        $(".mini_yn").css("display",jqsynOrAsyn)
+        
+          if(data.Dev !=null){
+            for (var p = 0; p < data.Dev.length; p++) {
+                var in_arr = $.inArray(data.Dev[p].TargetName, info)          
+                if (in_arr == -1) {
+                    info.push(data.Dev[p].TargetName)
+                    if (data.Dev[p].TargetType == CnstSmlBsOneSix || data.Dev[p].TargetType ==CnstSmlBsOneFour || data.Dev[p].TargetType ==CnstSmlBs12K) {
+                      if(data.Dev[p].ChaoXiang=='无效'){
+                        var cx='无效'
+                      }else{
+                        var cx=Number(data.Dev[p].ChaoXiang).toFixed(1)
+                      }
+                        label = '<li class="msg_li">' +
+                            '<div class="msg_div">' +
+                            '<span class="msg_span">名称：<span class="msg_name">' + data.Dev[p].TargetName + '</span></span>' +
+                            '<span class="msg_span">ID：<span class="msg_id">' + data.Dev[p].MdmId + '</span></span>' +
+                            '<span class="msg_color" style="background-color:' + data.Dev[p].TargetColour + '"></span></div>' +
+                            '<div class="msg_div">' +
+                            '<span class="msg_span">坐标：<span id="coor">' + data.Dev[p].JinDu + '°,' + data.Dev[p].WeiDu + '°,' + data.Dev[p].NewDeep + 'm</span></span></div>' +
+                            '<div class="msg_div">' +
+                            '<span class="msg_span">朝向：<span id="chaoxiang">' + cx + '°</span></span>' +
+                            '<span class="msg_span">速度：<span id="speed">' + Number(data.Dev[p].Speed).toFixed(1) + 'm/s</span></span></div>' +
+                            '<div class="msg_div">' +
+                            '<span class="msg_span">时间：<span id="time">' + data.Dev[p].LastTime + '</span><span class="button_area"><input class="calibration base_dw" name="" type="button" style="'+synOrAsyn+'"/><input class="del del_base" name="" type="button"/></span></span>' +
+                            '</div>' +
+                            '</li>'
+                        $(".msg_base").append(label);
+                    } else {
+                        rov_info.push(data.Dev[p].TargetName)
+                        var xm_hx_img=get_xm_hx(data.Dev[p].DevStatus)
+                        var power_img=power_status(data.Dev[p].PonitInfor.Bat,data.Dev[p].PonitInfor.BatFlag)
+                        if(data.CurTmId==data.Dev[p].MdmId){
+                           var current_click_id='display:list-item'
+                           var select_active='active'
+                        }else{
+                           var current_click_id='display:none'
+                           var select_active=''
+                        }
+                        label_rov = '<li class="msg_li" style="'+current_click_id+'"><div class="msg_div">' +
+                            '<span class="msg_span">名称：<span class="msg_name">' + data.Dev[p].TargetName + '</span></span>' +
+                            '<span class="msg_span">ID：<span class="msg_id">' + data.Dev[p].MdmId + '</span></span>' +
+                            '<span class="msg_color" style="background-color:' + data.Dev[p].TargetColour + '"></span>' +
+                            '<span class="msg_power"><img src="'+power_img+'" id="power_status_img"></span></div><div class="msg_div">' +
+                            '<span class="msg_span">坐标：<span id="coor">' + data.Dev[p].NewX + ',' + data.Dev[p].NewY + ',' + data.Dev[p].NewDeep + '</span>(北东深/m)</span></div><div class="msg_div">' +
+                            '<span class="msg_span">时间：<span id="time">' + data.Dev[p].LastTime + '</span><span class="button_area">' +
+                            '<input class="mini_sleep" name="" type="button" style="'+synOrAsyn+'">' +
+                            '<input class="mini_awaken" name="" type="button" style="'+synOrAsyn+'">' +
+                            '<input class="calibration rov_dw" name="" type="button" style="'+synOrAsyn+'"/><input class="del del_rov" name="" type="button"/></span></span>' +
+                            '</div>' +
+                            '</li>'
+                        $(".msg_rov").append(label_rov);
+                        lable_xinbiao='<li>' +
+                            '<div class="center-color-block" style="background-color:'+data.Dev[p].TargetColour+'">' +
+                            '</div>' +
+                            '<div class="center-num-block '+select_active+'">'+data.Dev[p].MdmId+'</div>' +
+                            '</li>'
+                        $(".xb-lable").append(lable_xinbiao);
+                    }
+                } else {
+                    if (data.Dev[p].TargetType == CnstSmlBsOneSix || data.Dev[p].TargetType ==CnstSmlBsOneFour || data.Dev[p].TargetType ==CnstSmlBs12K) {
+                      if(data.Dev[p].ChaoXiang=='无效'){
+                        var cx='无效'
+                      }else{
+                        var cx=Number(data.Dev[p].ChaoXiang).toFixed(1)
+                      }
+                        $(".msg_base").find('.msg_name').text(data.Dev[p].TargetName)
+                        $(".msg_base").find('.msg_id').text(data.Dev[p].MdmId)
+                        $(".msg_base").find('.msg_color').css("background-color", data.Dev[p].TargetColour)
+                        $(".msg_base").find('#coor').text(data.Dev[p].JinDu + '°,' + data.Dev[p].WeiDu + '°,' + data.Dev[p].NewDeep + 'm')
+                        $(".msg_base").find('#chaoxiang').text(cx + '°')
+                        $(".msg_base").find('#speed').text(Number(data.Dev[p].Speed).toFixed(1) + 'm/s')
+                        $(".msg_base").find('#time').text(data.Dev[p].LastTime)             
+                        
+                    } else {
+                
+                        $(document).find(".msg_rov>li").each(function (e) {
+                          if($(".msg_rov").find('li').eq(e).find('.msg_name').text()==data.Dev[p].TargetName){
+                            var xm_hx_img=get_xm_hx(data.Dev[p].DevStatus)
+                            var power_img=power_status(data.Dev[p].PonitInfor.Bat,data.Dev[p].PonitInfor.BatFlag)
+                            $(".msg_rov").find('li').eq(e).find('.msg_name').text(data.Dev[p].TargetName)
+                            $(".msg_rov").find('li').eq(e).find('.msg_id').text(data.Dev[p].MdmId)
+                            $(".msg_rov").find('li').eq(e).find('.msg_color').css("background-color", data.Dev[p].TargetColour)
+                            $(".msg_rov").find('li').eq(e).find('#coor').text(data.Dev[p].NewX + ',' + data.Dev[p].NewY + ',' + data.Dev[p].NewDeep + '')
+                           // $(".msg_rov").eq(e).find('#chaoxiang').text(Number(data.Dev[p].ChaoXiang).toFixed(1) + '°')
+                            $(".msg_rov").find('li').eq(e).find('#time').text(data.Dev[p].LastTime)
+                            $(".msg_rov").find('li').eq(e).find("#xm_hx_status_img").attr('src',xm_hx_img)
+                            $(".msg_rov").find('li').eq(e).find("#power_status_img").attr('src',power_img)
+                            }
+                        });
+					
+						
+							
+                    }
+                }
+
+}
+            }
+
+        
+        if(series.length==0){
+            if(data.Ponit !=null){
+                for (var j=0;j<data.Ponit.length;j++){
+                    if(data.Ponit[j].Site !=null){
+                        if(data.Ponit[j].TargetType==CnstSmlBsOneSix || data.Ponit[j].TargetType ==CnstSmlBsOneFour || data.Ponit[j].TargetType ==CnstSmlBs12K){
+                            var o ={
+                                id:data.Ponit[j].MdmId,
+                                name:data.Ponit[j].TargetName,
+                                type:picture_type,
+                                // smooth:true,
+                                symbolSize:12,
+                                symbol:'circle',
+                                data:data.Ponit[j].Site,
+                                itemStyle:
+                                    {
+                                        color: data.Ponit[j].TargetColour,
+                                        // lineStyle: {color: color[j]}
+                                    },
+                                markPoint: {
+                                    data: [
+                                        {
+                                            name: '起点',
+                                            coord: data.Ponit[j].StartSite,
+                                            symbolSize:20,
+                                            symbol:'',
+                                            value: '起',
+                                            silent: true
+                                        },
+                                        {
+                                            name: '终点',
+                                            coord: data.Ponit[j].NewSite,
+                                            symbolRotate: ~data.Ponit[j].ChaoXiang,
+                                            symbolSize:[30,50],
+                                            symbol:"image://../static/image/tc.png",
+                                            silent: true
+                                        },
+                                    ]
+                                },
+                                animation:false,
+                                largeThreshold: 3000,
+                                large: true
+                            }
+                        }else {
+                            var o ={
+                                id:data.Ponit[j].MdmId,
+                                name:data.Ponit[j].TargetName,
+                                type:picture_type,
+                                // smooth:true,
+                                symbolSize:12,
+                                symbol:'circle',
+                                data:data.Ponit[j].Site,
+                                itemStyle:
+                                    {
+                                        color: data.Ponit[j].TargetColour,
+                                        // lineStyle: {color: color[j]}
+                                    },
+                                markPoint: {
+                                    data: [
+                                        {
+                                            name: '起点',
+                                            coord: data.Ponit[j].StartSite,
+                                            symbolSize:20,
+                                            symbol:'',
+                                            value: '起',
+                                            silent: true
+                                        },
+                                        {
+                                        name: '终点',
+                                        coord: data.Ponit[j].NewSite,
+                                        symbolSize: 20,
+                                        symbol: '',
+                                        value: '终',
+                                    },
+                                    ]
+                                },
+                                animation:false,
+                                largeThreshold: 3000,
+                                large: true
+                            }
+                        }
+
+                        color.push(data.Ponit[j].TargetColour)
+                        big.push(data.Ponit[j].NewSite)
+                        arr.push(''+data.Ponit[j].TargetName+'')
+                        tempSeries.push(o)
+                        // dataValue[data.Ponit[j].MdmId]=data.Ponit[j].NewSite
+                    }
+                }
+            }
+          //  option.legend.data=arr
+
+
+            if(tempSeries.length !=0){
+                option.series=option.series.concat(tempSeries)
+                
+                    option.yAxis.max=data.MaxWeiDu;
+                    option.yAxis.min=data.MinWeiDu;
+                    option.xAxis.max=data.MaxJinDu;
+                    option.xAxis.min=data.MinJinDu;   
+                    option.xAxis.axisLabel.formatter='{value} °';
+                    option.yAxis.axisLabel.formatter='{value} °';
+                
+                // option.series.push(tempSeries)
+                        if(data.Ponit !=null && chuangkou==1){
+             option.dataZoom= [{
+                type: 'inside',
+                xAxisIndex: 0,//控制x轴
+                startValue: data.MinRangJinDu,
+                endValue: data.MaxRangJinDu,
+                filterMode: 'none',
+            },
+                {
+                    type: 'inside',
+                    yAxisIndex: 0,//控制y轴
+                    startValue: data.MinRangWeiDu,
+                    endValue: data.MaxRangWeiDu,
+                    filterMode: 'none',
+                }
+            ]
+            chuangkou==2
+            }else{
+             option.dataZoom= [{
+                type: 'inside',
+                xAxisIndex: 0,//控制x轴
+                startValue: xIndexstart,
+                endValue: xIndexend,
+                filterMode: 'none',
+            },
+                {
+                    type: 'inside',
+                    yAxisIndex: 0,//控制y轴
+                    startValue: yIndexstart,
+                    endValue: yIndexend,
+                    filterMode: 'none',
+                }
+            ]
+            }
+
+
+                myChart.setOption(option,true);
+
+                console.log(option)
+            }
+
+        }else {
+            var nameList = [];
+            for (var i = 0; i < options.series.length; i++) {
+                var item = options.series[i];
+                nameList.push(item.name);
+            }
+           if(data.Ponit !=null){
+            for (var i = 0; i < data.Ponit.length; i++) {
+                var item = data.Ponit[i];
+                var index = nameList.indexOf(item.TargetName);
+                if (index > -1) {console.log('index---');console.log(options.series)
+                    options.series[index].data = options.series[index].data.concat(item.Site);
+                    if (item.TargetType == CnstSmlBsOneSix || item.TargetType ==CnstSmlBsOneFour || item.TargetType ==CnstSmlBs12K) {
+                        options.series[index].markPoint.data[1].coord = item.NewSite
+                        options.series[index].markPoint.data[1].symbolRotate = -item.ChaoXiang
+                    }else{
+                      options.series[index].markPoint.data[1].coord = item.NewSite
+                    }
+
+                } else {
+                    if (data.Ponit[i].TargetType == CnstSmlBsOneSix || data.Ponit[i].TargetType ==CnstSmlBsOneFour || data.Ponit[i].TargetType ==CnstSmlBs12K) {
+                        var o = {
+                            id: data.Ponit[i].MdmId,
+                            name: data.Ponit[i].TargetName,
+                            type: picture_type,
+                            // smooth:true,
+                            symbolSize: 12,
+                            symbol: 'circle',
+                            data: data.Ponit[i].Site,
+                            itemStyle:
+                                {
+                                    color: data.Ponit[i].TargetColour,
+                                    // lineStyle: {color: color[j]}
+                                },
+                            markPoint: {
+                                data: [
+                                    {
+                                        name: '起点',
+                                        coord: data.Ponit[i].StartSite,
+                                        symbolSize: 20,
+                                        symbol: '',
+                                        value: '起',
+                                        silent: true
+
+                                    },
+                                    {
+                                        name: '终点',
+                                        coord: data.Ponit[i].NewSite,
+                                        symbolRotate: -data.Ponit[i].ChaoXiang,
+                                        symbolSize:[30,50],
+                                        symbol: "image://../static/image/tc.png",
+                                        silent: true
+                                    },
+                                ]
+                            },
+                            animation: false,
+                            largeThreshold: 3000,
+                                large: true
+                        }
+                    } else {
+                        var o = {
+                            id: data.Ponit[i].MdmId,
+                            name: data.Ponit[i].TargetName,
+                            type: picture_type,
+                            // smooth:true,
+                            symbolSize: 12,
+                            symbol: 'circle',
+                            data: data.Ponit[i].Site,
+                            itemStyle:
+                                {
+                                    color: data.Ponit[i].TargetColour,
+                                    // lineStyle: {color: color[j]}
+                                },
+                            markPoint: {
+                                data: [
+                                    {
+                                        name: '起点',
+                                        coord: data.Ponit[i].StartSite,
+                                        symbolSize: 20,
+                                        symbol: '',
+                                        value: '起',
+
+                                    },
+                                     {
+                                        name: '终点',
+                                        coord: data.Ponit[i].NewSite,
+                                        symbolSize: 20,
+                                        symbol: '',
+                                        value: '终',
+                                    },
+                                ]
+                            },
+                            largeThreshold: 3000,
+                                large: true
+                        }
+                    }
+                    options.series.push(o);
+                }
+
+                color.push(item.TargetColour)
+                // big.push(item.NewSite)
+                arr.push('' + item.TargetName + '')
+                // dataValue[item.MdmId]=item.NewSite
+            }
+          //  options.legend.data = arr;
+            option.yAxis.max=data.MaxWeiDu;
+            option.yAxis.min=data.MinWeiDu;
+            option.xAxis.max=data.MaxJinDu;
+            option.xAxis.min=data.MinJinDu;   
+            // option.series.push(tempSeries)
+            options.dataZoom = [{
+                type: 'inside',
+                xAxisIndex: 0,//控制x轴
+                startValue: xIndexstart,
+                endValue: xIndexend,
+                filterMode: 'none',
+            },
+                {
+                    type: 'inside',
+                    yAxisIndex: 0,//控制y轴
+                    startValue: yIndexstart,
+                    endValue: yIndexend,
+                    filterMode: 'none',
+                }
+            ]
+
+            myChart.setOption(options,true);
+            console.log(options)
+            if(echartscount==300){
+              location.reload(true)
+            }else{
+              echartscount++
+            }
+            
+}
+           
+            
+        }
+
+    }
+    
+    
+    $(document).on('click','.rov_dw',function(){
+      var id =$(this).parent().parent().parent().parent().find('.msg_id').text()
+      var info ={'DevId':id,'ActionStatus':'onlyOne'}
+      clearTimeout(close_ds)
+        xb_point(info)
+
+      
+    })
+    $(document).on('click','.base_dw',function(){
+      var id = 0
+      var info ={'DevId':id,'ActionStatus':'onlyOne'}         
+        xb_point(info)
+    })
+
+    $(document).on('click','.mini_sleep',function(){
+        var id =$(this).parent().parent().parent().parent().find('.msg_id').text()
+        var url="/postUiTmXiuMian"
+        var info ={'DevId':id}
+        xm_hx(url,info)
+    })
+
+    $(document).on('click','.mini_awaken',function(){
+        var id =$(this).parent().parent().parent().parent().find('.msg_id').text()
+        var url="/postUiTmHuanXing"
+        var info ={'DevId':id}
+        xm_hx(url,info)
+    })
+
+    function xm_hx(url,info){
+        $.ajax({
+            type:'post',
+            url:url,
+            data:info,
+            dataType:'json',
+            success:function(data){
+
+            },
+        });
+    }
+    
+    function xb_point(info){
+      clearTimeout(close_ds)
+        $.ajax({
+                type:'post',
+                url:"/postUiTmDingWei",
+                data:info,
+                dataType:'json',
+                success:function(data){ 
+                $('.dw_msg').empty()
+                 $('.dw_msg').append('<div class="alert alert-warning alert-dismissable"><button type="button" class="close" data-dismiss="alert"aria-hidden="true">&times;</button>指令已下发</div>')
+                $('.alert-warning').show()  
+                  close_ds=setTimeout(function() {
+                        $('.dw_msg').empty()
+                        },5000)
+              
+                },
+            });
+    }
+
+    $('.change_distinguish').click(function (){
+        var str_1 =$('#distinguish_area').val()
+         change_distinguish_all(str_1)
+
+    })
+    
+    
+ $('.change_distinguish_1').click(function (){
+        var str_1 =$('#distinguish_area_1').val()
+        change_distinguish_all(str_1)
+
+    })
+    
+    function change_distinguish_all(str){
+        var str =str.replace(/\，/g,"\,")
+        var res=str.split(',')     
+        var lat=''
+        var lng=''
+        if(res.length ==4){
+            var gpslat = parseFloat(res[0]);
+            var gpslng = parseFloat(res[2]);
+            var resultlat = parseInt(gpslng/100) + (gpslng/100.0 - parseInt(gpslng/100)) *100.0 / 60.0;
+            var resultlng = parseInt(gpslat/100) + (gpslat/100.0 - parseInt(gpslat/100)) *100.0 / 60.0;
+            if(res[1].toUpperCase()=='N'){
+                lat=resultlat.toFixed(6)
+            }else if(res[3].toUpperCase()=='S') {
+                lat=-resultlat.toFixed(6)
+            }else {
+                layer_tc('提示', '请检查字母是否正确，纬度半球N（北半球）或S（南半球）')
+            }
+            if(res[3].toUpperCase()=='E'){
+                lng=resultlng.toFixed(6)
+            }else if(res[3].toUpperCase()=='W'){
+                lng=-resultlng.toFixed(6)
+            }else {
+                layer_tc('提示','请检查字母是否正确，经度半球E（东经）或W（西经）')
+            }
+            $('.longitude').val(lat)
+            $('.latitude').val(lng)
+          
+        }else {
+            layer_tc('提示', '请输入正确的格式,确保逗号是英文输入下的逗号,如：2813.9908005,N,11252.6285300,E')
+        }
+    }
+
+
+    $(document).on('click','.center-num-block',function(){
+        var block_id=$(this).text()
+        $(this).parent().parent().find('.center-num-block').removeClass('active')
+        $(this).addClass('active')
+        $(document).find(".msg_rov>li").each(function (e) {
+            if(block_id==$(".msg_rov").find('li').eq(e).find('.msg_id').text()){
+                $(".msg_rov").find('li').hide()
+                $(".msg_rov").find('li').eq(e).show()
+            }
+        })
+        post_current_click_id(block_id)
+    })
+
+    function post_current_click_id(id){
+        $.ajax({
+            type:'post',
+            url:"/postUiTmCurId",
+            data:{'DevId':id},
+            dataType:'json',
+            success:function(data){
+
+            },
+        });
+    }
+
+    var yxj_flag=0
+    $("#show-hiden").click(function(){
+        if(yxj_flag==0){
+            $('#show-hiden').attr('src','../static/image/add.png')
+            $('#yxj_title').css('bottom','1%')
+            yxj_flag++
+        }else {
+            $('#show-hiden').attr('src','../static/image/reduce.png')
+            $('#yxj_title').css('bottom','1%')
+            yxj_flag=0
+        }
+        $("#yxj_msg").slideToggle(1);
+    });
+
+    function selected_xinbiao(){
+        $(document).find(".xb-lable>li").each(function (e) {
+            if(1==$(".xb-lable").find('li').eq(e).find('.center-num-block').text()){
+                $(this).parent().parent().find('.center-num-block').removeClass('active')
+                $(this).find('.center-num-block').addClass('active')
+            }
+        })
+    }
+
+
+
+</script>
+
+
+
+
+
+
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,9 @@
+var CnstSmlBsOneFour  = "小型USBL基站" //"USBL基站小型定位" //"USBL基站1发4收"
+var CnstSmlBsOneSix = "USBL基站"    //"USBL基站1发6收"
+var CnstSmlTmOneOne  = "小型信标" //"信标1发1收" //充当主机1发4收信标
+var CnstSmlTmMini= "迷你信标"
+var CnstBenDiShengTong = "1发6收信标/声通" //"声通" //"充当 1发6收信标"
+var CnstYuanChengShengTong = "远程声通"
+const CnstRtkGuanDao = "RTK带惯导"
+const CnstRtkCom = "RTK"
+const CnstSmlBs12K = "USBL基站12K"

@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>水声通信</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <link rel="shortcut icon" href="favicon.ico"> <link href="../static/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../static/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+
+    <link href="../static/css/animate.css" rel="stylesheet">
+    <link href="../static/css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../static/css/sweetalert.css" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+
+    <div class="wrapper wrapper-content animated fadeInUp">
+        <div class="row">
+
+            <div class="col-sm-6">
+                <div class="ibox">
+                    <div class="ibox-title">
+                        <h5>信息</h5>
+
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-horizontal m-t"  novalidate="novalidate">
+                            <div class="form-group two">
+                                <div class="col-sm-2">
+                                    <button class="btn btn-primary delet" type="submit" style="padding: 11px 38px;background-color: #99c74e;float: right;">清空</button>
+                                </div>
+                            </div>
+                        <div class="form-group two">
+                            <div class="form-group col-sm-12 textarea2">
+                                <!--<div class=" form-group row">dsads &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2018-10-21 20:12:12</div>-->
+                                <!--<div class=" form-group row">dsads</div>-->
+                                <!--<div class=" form-group row">dsads</div>-->
+                                <!--<div class=" form-group row">dsads</div>-->
+                                <!--<div class=" form-group row">dsads</div>-->
+                                <!--<div class=" form-group row">dsads</div>-->
+                                <!--<div class=" form-group row">dsads</div>-->
+                                <!--<div class=" form-group row">dsads</div>-->
+                                <!--<div class=" form-group row">dsads</div>-->
+                                <!--<div class=" form-group row">dsadsdwqijdkqhndjqwkhdjwqhejqw he d wjqdh jqwdhkjqwh dkjqwhexjwehkqjwhexjqwehqxjkehj</div>-->
+                                <!--<div class=" form-group row">dsadsdwqijdkqhndjqwkhdjwqhejqw he d wjqdh jqwdhkjqwh dkjqwhexjwehkqjwhexjqwehqxjkehj</div>-->
+                                <!--&lt;!&ndash;<div class=" form-group ">dsadsdwqijdkqhndjqwkhdjwqhejqw he d wjqdh jqwdhkjqwh dkjqwhexjwehkqjwhexjqwehqxjkehjwuehwqhewqjkhejkqw hejkwq hejkwqh ejwhqxwjqhe xehwqjkx hejwiejqlwkejwqlkje lkwqjex lwq qwelk qjk</div>&ndash;&gt;-->
+                                <!--<div class=" form-group row">打撒大厦酒店剑客无情冷酷的崛起为觉得我悄悄离开东京从我的千万记得请我健康快乐   的顽强抵抗完全科动物权利当前网络带宽     大卡司全文刊登颇为看都怕我请客哦五块钱珀尔  对我客气点的网络请求看到</div>-->
+                            </div>
+
+                        </div>
+
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-5">
+
+                <div class="ibox">
+                    <div class="ibox-title">
+                        <h5>调试</h5>
+
+                    </div>
+
+                    <div class="ibox-content">
+                        <div class="form-horizontal m-t" id="commentForm" novalidate="novalidate">
+                            <div class="form-group two">
+                                <label class="col-sm-2  control-label">
+                                    参数1
+                                </label>
+                                <div class="col-sm-4">
+                                    <input id="num1" name="target_id" type="text" class="form-control" required="" aria-required="true">
+                                </div>
+                                <div class="col-sm-5">
+                                    <button class="btn btn-primary send7" type="submit" style="padding: 11px 38px;background-color: #99c74e;float: right;">按钮组1</button>
+                                </div>
+                            </div>
+                            <div class="form-group two">
+                                <label class="col-sm-2  control-label">
+                                    参数2
+                                </label>
+                                <div class="col-sm-4">
+                                    <input id="num2" name="target_id" type="text" class="form-control" required="" aria-required="true">
+                                </div>
+                                <div class="col-sm-5">
+                                    <button class="btn btn-primary send8" type="submit" style="padding: 11px 38px;background-color: #99c74e;float: right;">按钮组2</button>
+                                </div>
+                            </div>
+                            <div class="form-group two">
+                                <label class="col-sm-2  control-label">
+                                    参数3
+                                </label>
+                                <div class="col-sm-4">
+                                    <input id="num3" name="target_id" type="text" class="form-control" required="" aria-required="true">
+                                </div>
+                                   <div class="col-sm-5">
+                                    <button class="btn btn-primary send9" type="submit" style="padding: 11px 49px;background-color: #99c74e;float: right;">保存</button>
+                                </div>
+                            </div>
+                            <div class="form-group two">
+                                <label class="col-sm-2  control-label">
+                                    参数4
+                                </label>
+                                <div class="col-sm-4">
+                                    <input id="num4" name="target_id" type="text" class="form-control" required="" aria-required="true">
+                                </div>
+                            </div>
+                            <div class="form-group two">
+                                <label class="col-sm-2  control-label">
+                                    参数5
+                                </label>
+                                <div class="col-sm-4">
+                                    <input id="num5" name="target_id" type="text" class="form-control" required="" aria-required="true">
+                                </div>
+                            </div>
+                            <div class="form-group two">
+                                <label class="col-sm-2  control-label">
+                                    参数6
+                                </label>
+                                <div class="col-sm-4">
+                                    <input id="num6" name="target_id" type="text" class="form-control" required="" aria-required="true">
+                                </div>
+                            </div>
+                            <div class="form-group two" style="padding-top: 30px;margin-left: 0px;">
+                                <button class="btn btn-primary send1" type="submit" style="padding: 11px 38px;margin-right: 8px;background-color: #a1ca88">修改斜距</button>
+                                <button class="btn btn-primary send2" type="submit" style="padding: 11px 38px;margin-right: 8px;background-color: #a1ca88">按钮2</button>
+                                <button class="btn btn-primary send3" type="submit" style="padding: 11px 38px;margin-right: 8px;background-color: #a1ca88">按钮3</button>
+                            </div>
+                            <div class="form-group two" style="margin-left: 0px;">
+                                <button class="btn btn-primary send4" type="submit" style="padding: 11px 38px;margin-right: 8px;background-color: #a1ca88">按钮4</button>
+                                <button class="btn btn-primary send5" type="submit" style="padding: 11px 38px;margin-right: 8px;background-color: #a1ca88">按钮5</button>
+                                <button class="btn btn-primary send6" type="submit" style="padding: 11px 38px;margin-right: 8px;background-color: #a1ca88">按钮6</button>
+                            </div>
+
+
+
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </div>
+            </div>
+            </div>
+        </div>
+
+    <style>
+
+        .textarea2{
+            height: 700px;
+            border: 1px solid #41719c;
+            background: #ffffff;
+            overflow: auto;
+            left: 17px;
+            color: #000;
+        }
+    </style>
+    <!-- 全局js -->
+    <script src="../static/js/jquery.min.js?v=2.1.4"></script>
+    <script src="../static/js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="../static/js/plugins/layer/laydate/laydate.js"></script>
+    <script src="../static/js/plugins/sweetalert/sweetalert.min.js"></script>
+
+    <!-- 自定义js -->
+    <script src="../static/js/content.js?v=1.0.0"></script>
+    <script>
+
+
+        var bug=null;
+        var w=''
+        $(function () {
+            message()
+            load()
+        })
+
+        $('.send1').click(function () {
+            var num1 = $('#num1').val()
+            var num2 = $('#num2').val()
+            var num3 = $('#num3').val()
+            var num4 = $('#num4').val()
+            var num5 = $('#num5').val()
+            var num6 = $('#num6').val()
+
+            //发送
+            $.ajax({
+                type:'post',
+                url:"/tBtn1",
+                data:{'Para1':num1,'Para2':num2,'Para3':num3,'Para4':num4,'Para5':num5,'Para6':num6},
+                dataType:'json',
+                success:function(data){ //请求成功回调函数
+
+                },
+            });
+
+        })
+
+        $('.send2').click(function () {
+          var num1 = $('#num1').val()
+            var num2 = $('#num2').val()
+            var num3 = $('#num3').val()
+            var num4 = $('#num4').val()
+            var num5 = $('#num5').val()
+            var num6 = $('#num6').val()
+            var data ="{'Para1':num1,'Para2':num2,'Para3':num3,'Para4':num4,'Para5':num5,'Para6':num6}"
+            //发送
+            $.ajax({
+                type:'post',
+                url:"/tBtn2",
+                data:data,
+                dataType:'json',
+                success:function(data){ //请求成功回调函数
+
+                },
+            });
+        })
+
+        $('.send3').click(function () {
+          var num1 = $('#num1').val()
+            var num2 = $('#num2').val()
+            var num3 = $('#num3').val()
+            var num4 = $('#num4').val()
+            var num5 = $('#num5').val()
+            var num6 = $('#num6').val()
+            var data ="{'Para1':num1,'Para2':num2,'Para3':num3,'Para4':num4,'Para5':num5,'Para6':num6}"
+            //发送
+            $.ajax({
+                type:'post',
+                url:"/tBtn3",
+                data:data,
+                dataType:'json',
+                success:function(data){ //请求成功回调函数
+
+                },
+            });
+        })
+
+        $('.send4').click(function () {
+          var num1 = $('#num1').val()
+            var num2 = $('#num2').val()
+            var num3 = $('#num3').val()
+            var num4 = $('#num4').val()
+            var num5 = $('#num5').val()
+            var num6 = $('#num6').val()
+            var data ="{'Para1':num1,'Para2':num2,'Para3':num3,'Para4':num4,'Para5':num5,'Para6':num6}"
+            //发送
+            $.ajax({
+                type:'post',
+                url:"/tBtn4",
+                data:data,
+                dataType:'json',
+                success:function(data){ //请求成功回调函数
+
+                },
+            });
+        })
+
+        $('.send5').click(function () {
+          var num1 = $('#num1').val()
+            var num2 = $('#num2').val()
+            var num3 = $('#num3').val()
+            var num4 = $('#num4').val()
+            var num5 = $('#num5').val()
+            var num6 = $('#num6').val()
+            var data ="{'Para1':num1,'Para2':num2,'Para3':num3,'Para4':num4,'Para5':num5,'Para6':num6}"
+            //发送
+            $.ajax({
+                type:'post',
+                url:"/tBtn5",
+                data:data,
+                dataType:'json',
+                success:function(data){ //请求成功回调函数
+
+                },
+            });
+        })
+
+        $('.send6').click(function () {
+          var num1 = $('#num1').val()
+            var num2 = $('#num2').val()
+            var num3 = $('#num3').val()
+            var num4 = $('#num4').val()
+            var num5 = $('#num5').val()
+            var num6 = $('#num6').val()
+            var data ="{'Para1':num1,'Para2':num2,'Para3':num3,'Para4':num4,'Para5':num5,'Para6':num6}"
+            //发送
+            $.ajax({
+                type:'post',
+                url:"/tBtn6",
+                data:data,
+                dataType:'json',
+                success:function(data){ //请求成功回调函数
+
+                },
+            });
+        })
+
+        $('.send7').click(function () {
+          var num1 = $('#num1').val()
+            var num2 = $('#num2').val()
+            var num3 = $('#num3').val()
+            var num4 = $('#num4').val()
+            var num5 = $('#num5').val()
+            var num6 = $('#num6').val()
+            var data ="{'Para1':num1,'Para2':num2,'Para3':num3,'Para4':num4,'Para5':num5,'Para6':num6}"
+            //发送
+            $.ajax({
+                type:'post',
+                url:"/tBtnZu1",
+                data:data,
+                dataType:'json',
+                success:function(data){ //请求成功回调函数
+
+                },
+            });
+        })
+
+        $('.send8').click(function () {
+          var num1 = $('#num1').val()
+            var num2 = $('#num2').val()
+            var num3 = $('#num3').val()
+            var num4 = $('#num4').val()
+            var num5 = $('#num5').val()
+            var num6 = $('#num6').val()
+            var data ="{'Para1':num1,'Para2':num2,'Para3':num3,'Para4':num4,'Para5':num5,'Para6':num6}"
+            //发送
+            $.ajax({
+                type:'post',
+                url:"/tBtnZu2",
+                data:data,
+                dataType:'json',
+                success:function(data){ //请求成功回调函数
+
+                },
+            });
+        })
+        
+         $('.send9').click(function () {
+          var num1 = $('#num1').val()
+            var num2 = $('#num2').val()
+            var num3 = $('#num3').val()
+            var num4 = $('#num4').val()
+            var num5 = $('#num5').val()
+            var num6 = $('#num6').val()
+            var data ="{'Para1':num1,'Para2':num2,'Para3':num3,'Para4':num4,'Para5':num5,'Para6':num6}"
+            //发送
+            $.ajax({
+                type:'post',
+                url:"/tBtnSv",
+                data:data,
+                dataType:'json',
+                success:function(data){ //请求成功回调函数
+
+                },
+            });
+        })
+
+        $('.delet').click(function () {
+            $(".textarea2").empty()
+        })
+        
+        //消息回显
+        function message() {
+
+            bug = setInterval(function() {
+
+                 $.ajax({
+                     type:'post',
+                     url:"/tDply",
+                     data:{},
+                     dataType:'json',
+                     success:function(data){ //请求成功回调函数
+                        console.log(data)
+                        if(data.data[0].msg==''){
+                          
+                        }else{
+                        for(var i=0;i<data.data.length;i++){
+                          w+='<div class="form-group row">'+data.data[i].msg+'</div>';
+                    
+                        }
+                           
+                          $(".textarea2").append(w);
+                          var lenght = $("div", ".textarea2").length
+                          if(lenght>100){
+                            $(".textarea2 div:first-child").remove()
+                          }
+                        }
+                                                                      
+                     },
+                 });
+           
+            }, 2000)
+
+        }
+        
+        function load(){
+             $.ajax({
+                type:'post',
+                url:"/getTBtnSv",
+                data:{},
+                dataType:'json',
+                success:function(data){ //请求成功回调函数
+                    
+                    $('#num1').val(data.data[0].Para1)
+                    $('#num2').val(data.data[0].Para2)
+                    $('#num3').val(data.data[0].Para3)
+                    $('#num4').val(data.data[0].Para4)
+                    $('#num5').val(data.data[0].Para5)
+                    $('#num6').val(data.data[0].Para6)
+                },
+            });
+        }
+
+
+
+
+
+    </script>
+
+
+    </body>
+</html>

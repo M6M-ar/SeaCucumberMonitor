@@ -1,0 +1,1512 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>小型定位历史轨迹</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="../static/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../static/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../static/css/animate.css" rel="stylesheet">
+    <link href="../static/css/style.css?v=4.1.0" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../static/css/jquery.bigcolorpicker.css" />
+    <link href="../static/css/sweetalert.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../static/css/ionicons.min.css" />
+    <!-- 全局js -->
+    <script src="../static/js/jquery.min.js?v=2.1.4"></script>
+    <script src="../static/js/bootstrap.min.js?v=3.3.6"></script>
+    <script  src="../static/js/jquery.bigcolorpicker.min.js"></script>
+    <script type="text/javascript" src="../static/js/echarts.min.js"></script>
+    <script src="../static/js/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../static/js/plugins/layer/laydate/laydate.js"></script>
+    <script type="text/javascript" src="../static/js/plugins/layer/layer.min.js"></script>
+    <script type="text/javascript" src="../static/js/calculation.js"></script>
+    <script src="../static/js/currency.js"></script>
+</head>
+<div class="col-sm-12" id="tcmsg" style="display: none;color: #0A0A0A">
+    <div class="msg_div">
+        <ul>
+            <li>信标位置：<span id="position"></span>m</li>
+            <li class="jj">USBL 基站与RTK的方向夹角：<span id="jj"></span></li>
+            <li>使用采样点数：<span id="use_point"></span></li>
+            <li>采样点标准差：<span id="val_all"></span>m</li>
+            <!--<li class="function_2_msg">计算得信标经度：<span id="rst_lng"></span></li>-->
+            <!--<li class="function_2_msg">计算得信标纬度：<span id="rst_lat"></span></li>-->
+            <li class="function_2_msg">安装偏移误差x：<span id="rst_x"></span></li>
+            <li class="function_2_msg">安装偏移误差y：<span id="rst_y"></span></li>
+            <li class="function_2_msg">安装偏移误差z：<span id="rst_z"></span></li>
+            <li class="function_2_msg">安装角误差α：<span id="rst_a"></span></li>
+            <li class="function_2_msg">安装角误差β：<span id="rst_b"></span></li>
+            <li class="function_2_msg">安装角误差γ：<span id="rst_gm"></span></li>
+            <li>平均斜距：<span id="xj"></span>m</li>
+            <li>解算结果：<span id="result"></span></li>
+            <li>提示：<span id="result_msg"></span></li>
+        </ul>
+    </div>
+</div>
+
+<div class="col-sm-12 measure"  style="display: none;color: #0A0A0A;padding: 0;">
+    <div class="measure_div col-sm-12">
+        <ul>
+            <li><span class="public-float">方法一：</span>
+                <button class="btn btn-primary public-float public-magin" type="submit" id="calibration" style="display: block">固定点位置与夹角测量</button>
+                <span class="public-float">角度校准：</span>
+                <input id="angle" name="angle" placeholder="输入角度" type="number" class="form-control public-float public-magin" required="" aria-required="true" style="width: auto">
+                <button class="btn btn-primary public-float public-magin" type="submit" id="angle_calculation">计算</button>
+
+                <button class="btn btn-primary public-float public-magin" type="submit" id="explain" >说明</button>
+            </li>
+            <li>
+                <span class="public-float">方法二：</span>
+                <span class="public-float">安装偏移差</span>
+                <input id="pyc" name="angle"  type="number" class="form-control public-float public-magin" required="" aria-required="true" style="width: 13%">
+                <span class="public-float">信标经度</span>
+                <input id="lng" name="angle"  type="number" class="form-control public-float public-magin" required="" aria-required="true" style="width: 13%">
+                <span class="public-float">信标纬度</span>
+                <input id="lat" name="angle"  type="number" class="form-control public-float public-magin" required="" aria-required="true" style="width: 13%">
+                <button class="btn btn-primary public-float public-magin" type="submit" id="pcy_slect">计算</button>
+            </li>
+        </ul>
+    </div>
+
+</div>
+
+<div class="col-sm-12" id="test_explain" style="display: none;color: #0A0A0A">
+    <div class="title">测量前提</div>
+    <div class="hang">1.此次历史记录，信标的所有轨迹，都必须建立在信标在水域的固定位置，不会移动，否则计算会出错。</div>
+    <div class="title">测量数据</div>
+    <div class="hang">1.信标在水下固定点的GPS位置。</div>
+    <div class="hang zhu">注：严格按照测量步骤，且参数设置正确的前提下，可保证固定点的测量精度>0.1%）</div>
+    <div class="hang">2.USBL 基站阵列方向与RTK方向夹角。</div>
+    <div class="title">测量步骤</div>
+    <div class="hang">1) 配置好基站、信标、RTK、平台。注：“平台配置>船头朝向>偏移角度”的配置项先填0。</div>
+    <div class="hang zhu">注：如果作业环境是海水，必须用CTD传感器测量出海水的盐度，然后把此参数写入基站中,如盐度参数设置不正确，会导致测量不准。</div>
+    <div class="hang">2) 在船上或者浮标上安装好USBL基站（注意需保证USBL基站和浮标或者船体之间是刚性连接，并保证USBL的方向标志和船头基本一致）、带定向功能的RTK，并连接USBL基站、RTK到定位通信系统。</div>
+    <div class="hang">3）把信标放置在水中，距离基站1米处，然后把''平台配置'中的平台坐标偏移，基站位置偏移、角度偏移全部填0，然后在“定位通讯系统/水声定位界面”，点击左下角的红色圆圈，开始定位打点。</div>
+    <div class="hang">4）观察信标和USBL基站的距离是否是1m,如果误差超过0.1m,则需重新给USBL基站上电，USBL基站重新上电后，会重新和信标进行时间同步，以消除时钟周期不一致的累计误差。注意观察基站重新上电后，测距误差是否<0.1m，如>0.1m,要再次尝试重新上电。</div>
+    <div class="hang">5) 保持信标在水中的GPS位置不动。（可以把信标安装在ROV上，适当加配重后沉入水底，也可以把信标，加电池和配重后，沉入水底，保持信标在水底的相对位置不动）</div>
+    <div class="hang">6) 保证基站和信标相距50米以上，同时按实际情况填写''平台配置'中的平台坐标偏移，基站位置偏移，然后在“定位通讯系统/水声定位界面”，点击左下角的红色圆圈，<span style="color: red">重新开始</span>定位打点。</div>
+    <div class="hang">7) 此时，如果平台是船只，缓慢开动船只保持半径基本不变绕着信标转一圈，如果平台是浮漂，让浮漂在原地缓慢转圈（1~3min/圈），收集完信标至少30个轨迹点以后，点击水声定位界面左下角图标，结束打点</div>
+    <div class="hang zhu">注：由于平台设置中的偏移角度和实际不符合，此时定位界面的信标轨迹和实际不符合是正常现象。</div>
+    <div class="hang">8) 切换到“定位通讯系统/历史记录界面”，选择刚才生成的记录，点击’查询‘，然后再点击’固定点位置测量与夹角测量‘，就可以查看测量结果了。</div>
+    <div class="hang">9）如果测量结果中 采样点标准差/平均斜距 <1.5%,则说明此次夹角测量准确，把测量出的USBL 基站与RTK的方向夹角,填入''平台配置/船头朝向/偏移角度'中，就可以正式开始水声定位了。</div>
+</div>
+<div class="col-sm-12" id="mao_line_pop" style="display: none;color: #0A0A0A;padding-top: 9px;">
+    <div class="form-group">
+        <label class="col-sm-3 control-label">名称：</label>
+        <div class="col-sm-8">
+            <div class="input-group m-b line_mao_name">
+
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label"></label>
+        <div class="col-sm-8">
+            <textarea class="form-control" id="distinguish_area" style="max-width: 400px;resize: none;" placeholder="粘贴RTK输出坐标，例如：2813.9908005,N,11252.6285300,E"></textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label"></label>
+        <div class="col-sm-8" style="text-align: right;margin-bottom: 7px;">
+            <button type="button" class="btn btn-info change_distinguish">转化识别</button>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">经度：</label>
+        <div class="col-sm-8">
+            <div class="input-group m-b">
+                <input type="number" class="form-control longitude"> <span class="input-group-addon">°</span>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">纬度：</label>
+        <div class="col-sm-8">
+            <div class="input-group m-b">
+                <input type="number" class="form-control latitude" > <span class="input-group-addon">°</span>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .msg_div{
+        padding: 15px 20px 20px 20px;
+        font-size: 16px;
+        font-weight: 700;
+    }
+    .layui-layer-btn{
+        text-align: center;
+    }
+    .title{
+        font-weight: 600;
+        font-size: 19px;
+        line-height: 52px;
+    }
+    .hang{
+        padding-left: 20px;
+        padding-bottom: 13px;
+    }
+    .zhu{
+        padding-left: 38px;
+        color: red;
+    }
+    .layui-layer-content{
+        position: relative;
+        overflow: auto;
+        /*height: 600px;*/
+    }
+    .layui-layer-title{
+        background: #d7d7d7 !important;
+    }
+    ul li{
+        line-height: 35px;
+    }
+ /*chrome滚动条*/
+::-webkit-scrollbar-track-piece{
+ -webkit-border-radius:0;
+}
+::-webkit-scrollbar{
+ width:8px;
+ height:8px;
+}
+::-webkit-scrollbar-thumb{
+ height:50px;
+ background-color:#19a9d5;
+ -webkit-border-radius:4px;
+ outline-offset:-2px;
+ border: 2px solid #19a9d5;
+}
+::-webkit-scrollbar-thumb:hover{
+ height:50px;
+ background-color:#19a9d5;
+ -webkit-border-radius:4px;
+}
+::-webkit-scrollbar-track{
+ -webkit-box-shadow:inset 0 0 3px rgba(0,0,0,0.1);
+border-radius:5px;
+background:#dddddd;
+}
+</style>
+<body class="gray-bg">
+<div class="row" style="height: 90%; margin: 0;">
+    <div class="col-sm-12" style="top: 16px;left: 33px;z-index: 9999999;">
+        <div class="form-inline">
+            <div class="form-group col-sm-5">
+                <span>查询名称</span>
+                <select class="form-control" name="" id="ls">
+                   
+                </select>
+                <button class="btn btn-primary " type="submit" id="query">查询</button>
+                <button class="btn btn-primary " type="submit" id="del_history">删除</button>
+                <button class="btn btn-primary " type="submit" id="measure" style="display: none">测量校准</button>
+                <!--<button class="btn btn-primary " type="submit" id="calibration" >方法一：固定点位置与夹角测量</button>-->
+                <!--<button class="btn btn-primary " type="submit" id="explain" style="display: none">说明</button>-->
+                <!--<span class="zj_msg"></span>-->
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12" style="height: 100%; margin: 0;">
+        <div id="container" style="height: 1590px;"></div>
+    </div>
+    <div class="ruler_class" style="display: block;top:9.5em;">
+        <input class="ruler" name="" type="button"/>
+    </div>
+    <div class="location_class" style="display: block;top:12.5em;">
+        <input class="location" name="" type="button"/>
+    </div>
+    <div class="location_area" style="display: block;top:15.5em;">
+        <input class="anchor_area" name="" type="button"/>
+    </div>
+    <div class="range" style="top:9.1em">
+        <div class="rangek cj_strat">
+            <!--<span>S：</span><span>-110.000000° , -110.000000°</span>-->
+        </div>
+        <div class="rangek cj_end">
+            <!--<span>E：</span><span>0.000000° , 0.000000°</span>-->
+        </div>
+        <div class="rangek cj_jg">
+            <!--<span>D：</span><span id="distance">100m</span>&nbsp;&nbsp;&nbsp;&nbsp;-->
+            <!--<span>A：</span><span id="angle">300.23°</span>-->
+        </div>
+    </div>
+    <div class="msg_area">
+        <ul class="msg_ul msg_base">
+        </ul>
+        <ul class="msg_ul msg_rov">
+        </ul>
+    </div>
+
+</div>
+
+<div class="modal fade" id="location_point" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="color: #333333">
+        <div class="modal-content" style="top: 46px;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title title" id="myModalLabel">
+                    设置标记
+                </h4>
+            </div>
+            <div class="modal-body">
+
+                <form class="form-horizontal" id="myForm">
+                    <div id="popup_1">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">标记名称：</label>
+                            <div class="col-sm-8">
+                                <input  class="form-control location_point_name" maxlength="5" >
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label"></label>
+                            <div class="col-sm-8">
+                                <textarea class="form-control" id="distinguish_area_1" style="max-width: 400px;resize: none;" placeholder="粘贴RTK输出坐标，例如：2813.9908005,N,11252.6285300,E"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label"></label>
+                            <div class="col-sm-8" style="text-align: right">
+                                <button type="button" class="btn btn-info change_distinguish_1">转化识别</button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">经度：</label>
+                            <div class="col-sm-8">
+                                <div class="input-group m-b">
+                                    <input type="number" class="form-control longitude"> <span class="input-group-addon">°</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">纬度：</label>
+                            <div class="col-sm-8">
+                                <div class="input-group m-b">
+                                    <input type="number" class="form-control latitude" > <span class="input-group-addon">°</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">备注：</label>
+                            <div class="col-sm-8">
+                                <textarea maxlength="30" id="comment" name="comment" class="form-control"  aria-required="true"></textarea>
+                                <!--<div id="contentwordage"></div>-->
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                </button>
+                <button type="button" class="btn btn-primary add_list">
+                    确定
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+<script>
+    //日期范围限制
+/**    var start = {
+        elem: '#start',
+        format: 'YYYY/MM/DD hh:mm:ss',
+        min: laydate.now(), //设定最小日期为当前日期
+        max: '2099-06-16 23:59:59', //最大日期
+        istime: true,
+        istoday: false,
+        choose: function (datas) {
+            end.min = datas; //开始日选好后，重置结束日的最小日期
+            end.start = datas //将结束日的初始值设定为开始日
+        }
+    };
+    var end = {
+        elem: '#end',
+        format: 'YYYY/MM/DD hh:mm:ss',
+        min: laydate.now(),
+        max: '2099-06-16 23:59:59',
+        istime: true,
+        istoday: false,
+        choose: function (datas) {
+            start.max = datas; //结束日选好后，重置开始日的最大日期
+        }
+    };
+    laydate(start);
+    laydate(end);*/
+
+
+
+
+    var dom = document.getElementById("container");
+    var myChart;
+    option = null;
+    var zr;
+    var picture_type=''
+
+
+    $(function () {
+        if (navigator.userAgent.indexOf('Firefox') >= 0) {
+            $('select').css("cssText", "padding:0 !important;");
+        }
+        task_name()
+        $("[data-toggle='tooltip']").tooltip();
+        myChart = echarts.init(dom);
+        myChart.setOption(option);
+        window.addEventListener("resize", function () {
+            myChart.resize();
+        });
+        zr = myChart.getZr();
+        document.oncontextmenu = function () { return false; };
+        //新加上鼠标右击事件
+        zr.on('contextmenu', function (params) {
+            w=0
+            i=0
+            q=0
+            line_area=0
+            line_mao=''
+            zr.off('click')
+            zr.remove(traceEl);
+            $('.range').hide()
+            $('.ruler').removeClass('ruler_focus')
+            $('.location').removeClass('location_focus')
+            $('.anchor_area').removeClass('anchor_foucs')
+            ruler_flag=false
+            point_flag=false
+        });
+        myChart.on('dblclick', function (params) {
+            console.log(params);
+            if(params.value.length==2){
+                var name=params.seriesName
+                var lng=params.value[0]
+                var lat=params.value[1]
+                var dataIndex=params.dataIndex
+                $('.longitude').val(lng)
+                $('.latitude').val(lat)
+                $('.line_mao_name').text(name)
+                layer.open({
+                    title: ['区域点', 'font-size:18px;font-weight: 500;'],
+                    type: 1,
+                    area:  ['500px','350px'],
+                    content: $('#mao_line_pop')
+                    ,btn: [ '确定修改','删除名称为'+name+'的标记点'],
+                    yes: function(index, layero){
+                        var lng=$('.longitude').val()
+                        var lat=$('.latitude').val()
+                        let xIndexstart = myChart.getOption().dataZoom[0].startValue;
+                        let xIndexend = myChart.getOption().dataZoom[0].endValue;
+                        let yIndexstart = myChart.getOption().dataZoom[1].startValue;
+                        let yIndexend = myChart.getOption().dataZoom[1].endValue;
+                        var fixed_arr=myChart.getOption().series
+                        for(var i=0;i<fixed_arr.length;i++){
+                            if(fixed_arr[i].name==name){console.log(option.series[i])
+                                option.series[i].data[dataIndex]=[Number(lng),Number(lat)]
+                            }
+                        }
+                        option.dataZoom= [{
+                            type: 'inside',
+                            xAxisIndex: 0,//控制x轴
+                            startValue: xIndexstart,
+                            endValue: xIndexend,
+                            filterMode: 'none',
+                        },
+                            {
+                                type: 'inside',
+                                yAxisIndex: 0,//控制y轴
+                                startValue: yIndexstart,
+                                endValue: yIndexend,
+                                filterMode: 'none',
+                            }
+                        ]
+                        console.log(option)
+                        myChart.setOption(option,true)
+                        layer.close(index);
+                    }
+                    ,btn2: function(index, layero){
+                        let xIndexstart = myChart.getOption().dataZoom[0].startValue;
+                        let xIndexend = myChart.getOption().dataZoom[0].endValue;
+                        let yIndexstart = myChart.getOption().dataZoom[1].startValue;
+                        let yIndexend = myChart.getOption().dataZoom[1].endValue;
+                        var fixed_arr=myChart.getOption().series
+                        for(var i=0;i<fixed_arr.length;i++){
+                            if(fixed_arr[i].name==name){console.log(option.series[i])
+                                option.series.splice(i,1)
+                            }
+                        }
+                        option.dataZoom= [{
+                            type: 'inside',
+                            xAxisIndex: 0,//控制x轴
+                            startValue: xIndexstart,
+                            endValue: xIndexend,
+                            filterMode: 'none',
+                        },
+                            {
+                                type: 'inside',
+                                yAxisIndex: 0,//控制y轴
+                                startValue: yIndexstart,
+                                endValue: yIndexend,
+                                filterMode: 'none',
+                            }
+                        ]
+                        console.log(option)
+                        myChart.setOption(option,true)
+
+                    }
+                });
+            }
+
+        });
+
+    })
+
+    var Arrow = echarts.graphic.extendShape({
+
+        type: 'arrow',
+
+        shape: {
+            x: 0,
+            y: 0,
+            width: 0,
+            height: 0
+        },
+
+        buildPath: function (ctx, shape) {
+            var height = shape.height;
+            var width = shape.width;
+            var x = shape.x;
+            var y = shape.y;
+            var dx = width / 3 * 2;
+            ctx.moveTo(x, y);
+            ctx.lineTo(x + dx, y + height);
+            ctx.lineTo(x, y + height / 4 * 3);
+            ctx.lineTo(x - dx, y + height);
+            ctx.lineTo(x, y);
+            ctx.closePath();
+        }
+    });
+
+    option = {
+        tooltip: {
+            hideDelay: 1000,
+            trigger: 'item',
+            formatter: function (params) {
+                if(params.data.length==14){
+                    var point_num=params.data[13]
+                    if(point_num.substr(point_num.length-1,1)=='1'){
+                        if(point_num.substr(point_num.length-3,1)=='1'){
+                            return 'id:'+params.seriesId+'<br/>名称:'+params.seriesName+'<br/>经纬度:(' + params.data[0] + ',' + params.data[1]+ ')<br>时间: ' + params.data[4]+'<br/>速度:'+params.data[6]+'<br/>朝向:'+params.data[7];
+                        }else{
+                            return 'id:'+params.seriesId+'<br/>名称:'+params.seriesName+'<br/>经纬度:(' + params.data[0] + ',' + params.data[1]+ ')<br>时间: ' + params.data[4]+'<br/>速度:'+params.data[6]+'<br/>朝向:无效';
+                        }
+                    }else{
+                        return 'id:'+params.seriesId+'<br/>名称:'+params.seriesName+'<br/>经纬度:(' + params.data[0] + ',' + params.data[1]+ ')<br>时间: ' + params.data[4]+'<br/>坐标(北东深/m):'+params.data[8].toFixed(2)+ ',' +params.data[9].toFixed(2)+ ',' +params.data[10];
+                    }
+
+                    if(params.data[13]=='000001'){
+                        return 'id:'+params.seriesId+'<br/>名称:'+params.seriesName+'<br/>经纬度:(' + params.data[0] + ',' + params.data[1]+ ')<br>时间: ' + params.data[4]+'<br/>速度:'+params.data[6];
+                    }else{
+                        return 'id:'+params.seriesId+'<br/>名称:'+params.seriesName+'<br/>经纬度:(' + params.data[0] + ',' + params.data[1]+ ')<br>时间: ' + params.data[4]+'<br/>坐标(北东深/m):'+params.data[8].toFixed(2)+ ',' +params.data[9].toFixed(2)+ ',' +params.data[10];
+                    }
+
+                }else if(params.name=='终点'){
+                    var data_num=params.data.coord[13]
+                    console.log(data_num)
+                    console.log(params)
+                    if(data_num.substr(data_num.length-1,1)=='1'){
+                        if(data_num.substr(data_num.length-3,1)=='1'){
+                            return '经纬度:(' + params.data.coord[0] + ',' + params.data.coord[1]+ ')<br>时间: ' + params.data.coord[4]+'<br/>速度:'+params.data.coord[6]+'<br/>朝向:'+params.data.coord[7];
+                        }else{
+                            return '经纬度:(' + params.data.coord[0] + ',' + params.data.coord[1]+ ')<br>时间: ' + params.data.coord[4]+'<br/>速度:'+params.data.coord[6]+'<br/>朝向:无效';
+                        }
+                    }else{
+                        return '经纬度:(' + params.data.coord[0] + ',' + params.data.coord[1]+ ')<br>时间: ' + params.data.coord[4]+'<br/>坐标(北东深/m):'+params.data.coord[8].toFixed(2)+ ',' +params.data.coord[9].toFixed(2)+ ',' +params.data.coord[10];
+                    }
+
+                }else if(params.name=='起点'){
+                    var data_num=params.data.coord[13]
+                    if(data_num.substr(data_num.length-1,1)=='1'){
+                        if(data_num.substr(data_num.length-3,1)=='1'){
+                            return '经纬度:(' + params.data.coord[0] + ',' + params.data.coord[1]+ ')<br>时间: ' + params.data.coord[4]+'<br/>速度:'+params.data.coord[6]+'<br/>朝向:'+params.data[7];
+                        }else{
+                            return '经纬度:(' + params.data.coord[0] + ',' + params.data.coord[1]+ ')<br>时间: ' + params.data.coord[4]+'<br/>速度:'+params.data.coord[6]+'<br/>朝向:无效';
+                        }
+                    }else{
+                        return '经纬度:(' + params.data.coord[0] + ',' + params.data.coord[1]+ ')<br>时间: ' + params.data.coord[4]+'<br/>坐标(北东深/m):'+params.data.coord[8].toFixed(2)+ ',' +params.data.coord[9].toFixed(2)+ ',' +params.data.coord[10];
+                    }
+                }
+                else if(params.data.length==4){
+                    const label ='<div class=chartLabel>' +
+                        '<div class="label-name">名称：<span id="name_1">'+params.seriesName+'</span></div>' +
+                        '<div >经度：<span>'+params.data[0]+'</span></div>' +
+                        '<div>纬度：<span>'+params.data[1]+'</span></div>' +
+                        '<div style="word-wrap:break-word;word-break:break-all;white-space:normal;overflow: hidden;">备注：'+params.data[2]+'</div>' +
+                        '<input type="hidden" id="mao_id" value='+params.data[3]+'>' +
+                        '<button type="button" class="close" id="del_location">×</button>'
+                    // return '名称:<div class=name_1>'+params.seriesName+'<div><br/>经纬度:<div class=jw>'+params.data[0]+ ',' + params.data[1]+'<div><br/>备注:'+params.data[2]+'<br/> <button id="del_location">删除</button>';
+                    return label
+                }else if(params.data.length==2){
+                    const label_m ='<div class=chartLabel>' +
+                        '<div class="label-name">名称：<span id="name_1">'+params.seriesName+'</span></div>' +
+                        '<div >经度：<span>'+params.data[0]+'</span></div>' +
+                        '<div>纬度：<span>'+params.data[1]+'</span></div>' 
+                       // '<div style="word-wrap:break-word;word-break:break-all;white-space:normal;overflow: hidden;">备注：'+params.data[2]+'</div>' +
+                       // '<input type="hidden" id="mao_id" value='+params.data[3]+'>' +
+                       // '<button type="button" class="close" id="del_location">×</button>'
+                    // return '名称:<div class=name_1>'+params.seriesName+'<div><br/>经纬度:<div class=jw>'+params.data[0]+ ',' + params.data[1]+'<div><br/>备注:'+params.data[2]+'<br/> <button id="del_location">删除</button>';
+                    return label_m
+                }
+
+
+            }
+        },
+        grid: {
+            backgroundColor: '#9fd7fc',
+            show: true,
+            left: '0%',
+            right: '2%',
+            bottom: '2%',
+            containLabel: true,
+           // width:'70%'
+        },
+        // legend:{
+        //     textStyle:{color:'#fff'}
+        //     // data:['3','4','5','6']
+        // },
+        xAxis: {
+            // show:false,
+            splitNumber : 15,  //设置网格间距
+            min: -100,
+            max: 100,
+            type: 'value',
+            axisLabel: {formatter: '{value} ',
+                textStyle: {
+                    fontSize : 12      //更改坐标轴文字大小
+                }
+            },
+            axisLine: {
+                onZero: false,
+                lineStyle:{
+                    color:'#fff',
+                }
+            },
+            splitLine :{    //网格线
+                lineStyle:{
+                    type:'dotted',    //设置网格线类型 dotted：虚线   solid:实线
+                    color: '#000'
+                },
+                show: false
+            },
+            splitArea:{
+                areaStyle:{
+                    color:'#000'
+                }
+            }
+        },
+        yAxis: {
+            // show:false,
+            splitNumber : 15,
+            // minInterval: 0.00000012,
+            // maxInterval: 118.221515,
+            min: -100,
+            max: 100,
+            type: 'value',
+            axisLabel: {formatter: '{value} ',
+                textStyle: {
+                    fontSize : 12      //更改坐标轴文字大小
+                }
+            },
+            axisLine: {
+                onZero: false,
+                lineStyle:{
+                    color:'#fff',
+                }
+            },
+            splitLine :{    //网格线
+                lineStyle:{
+                    type:'dotted',    //设置网格线类型 dotted：虚线   solid:实线
+                    color: '#000'
+                },
+                show: false
+            },
+
+
+        },
+        dataZoom: [
+            {
+                type: 'inside',
+                xAxisIndex: 0,
+                filterMode: 'none',
+                start:0,
+                end:100
+            },
+            {
+                type: 'inside',
+                yAxisIndex: 0,
+                filterMode: 'none',
+                start:0
+            }
+        ],
+        series: [
+
+        ]
+    };
+
+    var i=0
+    var q=0
+    var w=0
+    var line_area=0
+    var line_mao=''
+    var jindu_1=''
+    var weidu_1=''
+    var jindu_2=''
+    var weidu_2=''
+    var ruler_flag=false
+    var point_flag=false
+    var loction_name=1
+    var dataValue={}
+    var info=[]
+    var rov_info=[]
+    var inTimer
+    var chuangkou=1
+    var Arrow = echarts.graphic.extendShape({
+
+        type: 'arrow',
+
+        shape: {
+            x: 0,
+            y: 0,
+            width: 0,
+            height: 0
+        },
+
+        buildPath: function (ctx, shape) {
+            var height = shape.height;
+            var width = shape.width;
+            var x = shape.x;
+            var y = shape.y;
+            var dx = width / 3 * 2;
+            ctx.moveTo(x, y);
+            ctx.lineTo(x + dx, y + height);
+            ctx.lineTo(x, y + height / 4 * 3);
+            ctx.lineTo(x - dx, y + height);
+            ctx.lineTo(x, y);
+            ctx.closePath();
+        }
+    });
+
+    var drawing;
+    var points = [];
+    var startPoint;
+    var traceEl;
+
+    var fn = function(e){
+        drawing = true;
+        startPoint = [e.offsetX, e.offsetY];
+
+        if (traceEl) {
+            zr.remove(traceEl);
+        }
+
+        traceEl = new echarts.graphic.Line({
+            shape: {
+                x1: 0, y1: 0, x2: 0, y2: 0
+            },
+            style: {
+                stroke: 'red',
+                lineWidth: 1
+            }
+        });
+
+        zr.add(traceEl);
+        zr.on('mousemove', function (e) {
+            if (!drawing) {
+                return;
+            }
+            traceEl.attr('shape', {
+                x1: startPoint[0],
+                y1: startPoint[1],
+                x2: e.offsetX,
+                y2: e.offsetY
+            });
+
+
+        })
+    }
+    $('.location').click(function () {
+        console.log(q)
+        zr.off('click')
+        fn_point()
+        q++
+        $(this).toggleClass('location_focus')
+        $('.ruler').removeClass('ruler_focus')
+        $('.range').hide()
+        zr.remove(traceEl);
+        $('.anchor_area').removeClass('anchor_foucs')
+        if(q==2){
+            q=0
+            zr.off('click')
+        }else{
+            w=0
+            i=0
+            line_mao=''
+            line_area=0
+        }
+    })
+    var fn_point = function(){
+        zr.on('click', function (params) { console.log('2的点击'+i)
+            var pointInPixel = [params.offsetX, params.offsetY];
+            var pointInGrid = myChart.convertFromPixel('grid', pointInPixel);
+            console.log(pointInGrid)
+            // weidu_2=pointInGrid[0]
+            // jindu_1=pointInGrid[1]
+            $('#location_point').modal('show');
+            $('.longitude').val(pointInGrid[0].toFixed(6))
+            $('.latitude').val(pointInGrid[1].toFixed(6))
+            $('.location_point_name').val('POI'+loction_name)
+            // console.log(params)
+        });
+    }
+
+    $('#location_point').on('hide.bs.modal', function () {
+        document.getElementById("myForm").reset()
+    })
+
+    $('.ruler').click(function () {
+        $('.range').show()
+        $('.cj_strat').html('')
+        $('.cj_end').html('')
+        $('.cj_jg').html('')
+        console.log(w)
+        zr.off('click')
+        zr.on('click', function (e) {
+            var pointInPixel = [e.offsetX, e.offsetY];
+            var pointInGrid = myChart.convertFromPixel('grid', pointInPixel);
+            console.log(pointInGrid)
+            if(i==0){console.log(i)
+                jindu_1=pointInGrid[0]
+                weidu_1=pointInGrid[1]
+                fn(e)
+                $('.cj_strat').html('&nbsp;<span>start：</span><span>'+jindu_1.toFixed(6)+'° , '+weidu_1.toFixed(6)+'°</span></div>&nbsp;&nbsp;')
+                $('.cj_end').html('')
+                $('.cj_jg').html('')
+                i++
+            }else {console.log(i)
+                jindu_2=pointInGrid[0]
+                weidu_2=pointInGrid[1]
+                var Distance =getDistance(weidu_1,jindu_1,weidu_2,jindu_2)
+                var Angle =getAngle(weidu_1,jindu_1,weidu_2,jindu_2)
+                $('.cj_end').html('&nbsp;<span>end：</span><span>'+jindu_2.toFixed(6)+'° , '+weidu_2.toFixed(6)+'°</span></div>&nbsp;&nbsp;')
+                $('.cj_jg').html('&nbsp;<span>D：</span><span>'+Distance+'</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>A：</span><span>'+Angle+'°</span>')
+                i=0
+                drawing = false;
+                points.length = 0;
+                startPoint = null;
+            }
+
+
+        });
+        w++
+        console.log('w的点击'+w)
+        console.log('ruler的值:'+ruler_flag+',point的值:'+point_flag)
+        // if(ruler_flag==false && point_flag==false){
+        //     $(this).addClass('ruler_focus')
+        //     ruler_flag=true
+        // }else if(ruler_flag==false && point_flag==true){
+        //     $(this).addClass('ruler_focus')
+        //     $('.location').removeClass('location_focus')
+        //     ruler_flag=true
+        //     point_flag=false
+        // }else if(ruler_flag==true && point_flag==true){
+        //     $('.location').removeClass('location_focus')
+        //     $(this).addClass('ruler_focus')
+        //     point_flag=false
+        // }else if(ruler_flag==true && point_flag==false){
+        //     $(this).removeClass('ruler_focus')
+        //     ruler_flag=false
+        // }
+        $(this).toggleClass('ruler_focus')
+        $('.location').removeClass('location_focus')
+        $('.anchor_area').removeClass('anchor_foucs')
+        if(w==2){
+            w=0
+            i=0
+            zr.off('click')
+            zr.remove(traceEl);
+            $('.range').hide()
+        }else{
+            q=0
+        }
+    })
+
+    $('.anchor_area').click(function () {
+        console.log(line_area)
+        zr.off('click')
+        zr.on('click', function (params) { console.log(loction_name)
+            var time1 = Date.now();
+            // var mao_id='mao_line'+time1
+
+            var pointInPixel = [params.offsetX, params.offsetY];
+            var pointInGrid = myChart.convertFromPixel('grid', pointInPixel);
+            console.log(pointInGrid)
+            let xIndexstart = myChart.getOption().dataZoom[0].startValue;
+            let xIndexend = myChart.getOption().dataZoom[0].endValue;
+            let yIndexstart = myChart.getOption().dataZoom[1].startValue;
+            let yIndexend = myChart.getOption().dataZoom[1].endValue;
+            var fixed=''
+            var fixed_arr=[]
+            var data=[[Number(pointInGrid[0].toFixed(6)),Number(pointInGrid[1].toFixed(6))]]
+            console.log('=========')
+            console.log(line_mao)
+            console.log(loction_name)
+            console.log('=========')
+            if(line_mao==''){
+                line_mao='mao_line'+loction_name
+                fixed  ={
+                    id: line_mao,
+                    name:line_mao,
+                    type: 'line',
+                    custom_type:'line_mao',
+                    symbolSize: [30,30],
+                    symbol:"image://../static/image/location.png",
+                    zlevel:9999,
+                    data:data,
+                }
+                option.series.push(fixed)
+                var fixed_arr=myChart.getOption().series
+                fixed_arr.push(fixed)
+                option.series=fixed_arr
+                console.log(fixed)
+                loction_name++
+            }else {
+                 fixed  ={
+                    name:line_mao,
+                    type: 'line',
+                    custom_type:'line_mao',
+                    symbolSize: [30,30],
+                    symbol:"image://../static/image/location.png",
+                    zlevel:9999,
+                    data:data,
+                }
+                var fixed_arr=myChart.getOption().series
+                for(var i=0;i<fixed_arr.length;i++){
+                    if(fixed_arr[i].id==line_mao){console.log(option.series[i])
+                        option.series[i].data.push([Number(pointInGrid[0].toFixed(6)),Number(pointInGrid[1].toFixed(6))])
+                    }
+                }
+                // option.series.concat(fixed);
+                // option.series=option.series.concat(fixed)
+
+            }
+            console.log(line_mao)
+            //var option_num = option.series.length
+            // option.series[option_num]=fixed
+
+            option.dataZoom= [{
+                type: 'inside',
+                xAxisIndex: 0,//控制x轴
+                startValue: xIndexstart,
+                endValue: xIndexend,
+                filterMode: 'none',
+            },
+                {
+                    type: 'inside',
+                    yAxisIndex: 0,//控制y轴
+                    startValue: yIndexstart,
+                    endValue: yIndexend,
+                    filterMode: 'none',
+                }
+            ]
+            console.log(option)
+            myChart.setOption(option,true)
+
+        });
+        line_area++
+        $(this).toggleClass('anchor_foucs')
+        $('.location').removeClass('location_focus')
+        $('.ruler').removeClass('ruler_focus')
+        $('.range').hide()
+        zr.remove(traceEl);
+        if(line_area==2){
+            line_mao=''
+            line_area=0
+            zr.off('click')
+        }else{
+            w=0
+            i=0
+            q=0
+        }
+    })
+
+    function task_name(){
+        var task_list=''
+        $.ajax({
+            type:'post',
+            url:"/getSmallAllTaskName",
+            data:{},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+                if(data){
+                  if(data.All!=null){
+                    for(var ii=0;ii<data.All.length;ii++){
+                        task_list+="<option>"+data.All[ii].Task+"</option>"
+                    }
+                    $("#ls").append(task_list);
+
+                }
+                }
+            },
+        });
+    }
+
+    $('#query').click(function () {
+        var ls = $('#ls').val()
+        var data={'TaskName':ls}
+        var url ="/postSmallTwoHistory"
+        draw_ec(url,data)
+        w=0
+        i=0
+        q=0
+        zr.off('click')
+        zr.remove(traceEl);
+        $('.range').hide()
+        $('.ruler').removeClass('ruler_focus')
+        $('.location').removeClass('location_focus')
+        ruler_flag=false
+        point_flag=false
+    })
+
+    $('#angle_calculation').click(function () {
+        var ls = $('#ls').val()
+        var angle= $('#angle').val()
+        if(angle==''){
+            alert('值不能为空,请输入角度')
+            return false
+        }
+        var data={'TaskName':ls,'JiaoDu':angle}
+        var url ="/postSmallTwoRecalcHistory"
+        draw_ec(url,data)
+
+    })
+
+    function draw_ec(url,data){
+        option.series=[]
+        myChart.setOption(option,true);
+        $.ajax({
+            type:'post',
+            url:url,
+            data:data,
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+                $('.zj_msg').html('')
+                let xIndexstart = myChart.getOption().dataZoom[0].startValue;
+                let xIndexend = myChart.getOption().dataZoom[0].endValue;
+                let yIndexstart = myChart.getOption().dataZoom[1].startValue;
+                let yIndexend = myChart.getOption().dataZoom[1].endValue;
+                picture_type=data.ShiFouHuaXian
+                one_point(data,xIndexstart,xIndexend,yIndexstart,yIndexend)
+            },
+        });
+    }
+    
+    $(document).on('change','#ls',function () {
+      $('.zj_msg').html('')
+    })
+      
+
+    $('#calibration').click(function () {
+        var ls = $('#ls').val()
+        var start = $('#start').val()
+        var end = $('#end').val()
+        console.log(ls)
+        $('#result_msg').text('')
+        var info={'TaskName':ls,'SuanFa':'1'}
+        var url="/postAdjustDevByPointOpt"
+        msgtc(info,url,'function_1')
+    })
+
+    $('#pcy_slect').click(function () {
+        var ls = $('#ls').val()
+        var lng= $('#lng').val()
+        var lat= $('#lat').val()
+        var pyc=$('#pyc').val()
+        $('#result_msg').text('')
+        var url="/postAdjustDevByPointOpt"
+        var info={'TaskName':ls,'PianYiCha':pyc,'Jingdu':lng,'Weidu':lat,'SuanFa':'2'}
+        msgtc(info,url,'function_2')
+    })
+
+
+    $('#measure').click(function () {
+        layer.open({
+            title: ['校准方法与结果', 'font-size:18px;font-weight: 700;'],
+            type: 1,
+            area: '50%',
+            content: $('.measure') //这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
+            ,btn: [ '确定'],
+            offset:  't'
+        });
+    })
+
+    function msgtc(info,url,function_name){
+        $.ajax({
+            type:'post',
+            url:url,
+            data:info,
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+                if(function_name=='function_1'){
+                    $('.function_2_msg').hide()
+                    $('.jj').show()
+                    $('#jj').text(data.Theta_U)
+                }else {
+                    $('.function_2_msg').show()
+                    $('.jj').hide()
+                    $('#rst_x').text(data.AnZhuangPianYiWuChaX)
+                    $('#rst_y').text(data.AnZhuangPianYiWuChaY)
+                    $('#rst_z').text(data.AnZhuangPianYiWuChaZ)
+                    $('#rst_a').text(data.AnZhuangJiaoWuChaA)
+                    $('#rst_b').text(data.AnZhuangJiaoWuChaB)
+                    $('#rst_gm').text(data.AnZhuangJiaoWuChaG)
+                }
+                var position=data.Weidu+','+data.Jindu+','+data.Deep
+                $('#position').text(position)
+                $('#use_point').text(data.UsePiont)
+                $('#val_all').text(data.Var_all)
+                $('#xj').text(data.Xieju)
+                switch (data.ResultType) {
+                    case 0:
+                        $('#result').text("正常")
+                        break;
+                    case 1:
+                        $('#result').text("非最优解")
+                        $('#result_msg').text("信标数据点小于50，固定点和夹角的解算结果可能存在偏差")
+                        break;
+                    case 2:
+                        $('#result').text("非最优解")
+                        $('#result_msg').text("测试标准差过大，建议重新测量，请确保RTK天线&USBL基站的相对位置保持不变，RTK天线方向和USBL基准线的夹角保持不变")
+                        break;
+                    case 3:
+                        $('#result').text("非最优解")
+                        $('#result_msg').text("基站定位点范围与信标点之间的夹角小于30°，固定点定位的计算可能会产生偏差")
+                        break;
+                    case 4:
+                        $('#result').text("错误")
+                        $('#result_msg').text("USBL基站数据点的轨迹近似于直线，此情况无法获取准确的校准结果")
+                        break;
+                    case 5:
+                        $('#result').text("非最优解")
+                        $('#result_msg').text("采集数据时，基站和信标的距离过小，测量出的方向夹角有可能存在3度以上的偏差，建议USBL基站以100米半径绕信标转圈")
+                        break;
+                    case 9999:
+                        $('#result').text("错误")
+                        $('#result_msg').text("测量期间，信标位置必须固定，才能使用此工具")
+                        break;
+                    case 10000:
+                        $('#result').text("错误")
+                        $('#result_msg').text("数据库没定位点")
+                        break;
+                    case 10001:
+                        $('#result').text("错误")
+                        $('#result_msg').text("没有合法定位点")
+                        break;
+                }
+                layer.open({
+                    title: ['测量结果', 'font-size:18px;font-weight: 700;'],
+                    type: 1,
+                    area: '36%',
+                    content: $('#tcmsg') //这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
+                    ,btn: [ '确定'],
+                    offset:  't'
+                });
+
+            },
+        });
+    }
+
+    $('#explain').click(function () {
+        layer.open({
+            title: ['测量说明', 'font-size:18px;font-weight: 700;'],
+            type: 1,
+            area:  ['50%', '600px'],
+            content: $('#test_explain') //这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
+            ,btn: [ '确定'],
+            offset: '40px'
+        });
+    })
+
+    
+    $('#del_history').click(function(){
+         var ls = $('#ls').val()
+             swal({
+            title: "您确定要删除吗",
+            text: "删除后将无法恢复，请谨慎操作！",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "确定",
+            closeOnConfirm: false
+        }, function () {
+           $.ajax({
+            type:'post',
+            url:"/postDeleteOneSamllTask",
+            data:{'TaskName':ls},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+              if(data.Status=="1"){
+                $('.zj_msg').html('')
+                 swal("删除成功！", "您已经永久删除了。", "success");
+                 setTimeout(function() {
+                      window.location.reload()
+                  },2000)
+              }else{
+                swal("删除失败！", "请重新操作。", "success");
+              }
+                
+            },
+            });
+           
+        });
+   
+    })
+
+
+    function one_point(data,xIndexstart,xIndexend,yIndexstart,yIndexend) {
+        var arr =[];
+        var tempSeries=[]
+        var big=[]
+        var color =[]
+        var label
+        var label_rov
+
+
+        if(data.FixedZongShu){
+            loction_name=data.FixedZongShu
+        }
+        $(".msg_base").empty()
+        $(".msg_rov").empty()
+        if(data.Dev){
+            for(var p=0;p<data.Dev.length;p++){
+                info.push(data.Dev[p].TargetName)
+                if(data.Dev[p].TargetType=='USBL基站'){
+                    label='<li class="msg_li">' +
+                        '<div class="msg_div">' +
+                        '<span class="msg_span">名称：<span class="msg_name">'+data.Dev[p].TargetName+'</span></span>' +
+                        '<span class="msg_span">ID：<span class="msg_id">'+data.Dev[p].MdmId+'</span></span>' +
+                        '<span class="msg_color" style="background-color:'+data.Dev[p].TargetColour+'"></span></div>'
+                        '</li>'
+                    $(".msg_base").append(label);
+                }else {
+                    label_rov='<li class="msg_li"><div class="msg_div">' +
+                        '<span class="msg_span">名称：<span class="msg_name">'+data.Dev[p].TargetName+'</span></span>' +
+                        '<span class="msg_span">ID：<span class="msg_id">'+data.Dev[p].MdmId+'</span></span>' +
+                        '<span class="msg_color" style="background-color:'+data.Dev[p].TargetColour+'"></span></div>'
+                        '</li>'
+                    $(".msg_rov").append(label_rov);
+                }
+            }
+        }
+
+        if(data.Fixed !=null){
+            for(var o=0;o<data.Fixed.length;o++){
+                var m={
+                    id: data.Fixed[o].OnlyId,
+                    name:data.Fixed[o].Name,
+                    type: 'line',
+                    //smooth: true,
+                    symbolSize: [30,30],
+                    symbol:"image://../static/image/location.png",
+                    zlevel:9999,
+                    data: [[data.Fixed[o].JinDu,data.Fixed[o].WeiDu,data.Fixed[o].BeiZhu,data.Fixed[o].OnlyId]],
+                }
+                tempSeries.push(m)
+
+            }
+        }
+        
+        if(data.Line !=null){
+            for(var j=0;j<data.Line.length;j++){
+                var n={
+                    id: data.Line[j].Name,
+                    name:data.Line[j].Name,
+                    type: 'line',
+                   // smooth: true,
+                    symbolSize: [30,30],
+                    symbol:"image://../static/image/location.png",
+                    zlevel:9999,
+                    data: data.Line[j].Site,
+                }
+                tempSeries.push(n)
+
+            }
+        }
+        if(data.Ponit !=null){
+            for (var j=0;j<data.Ponit.length;j++){
+                if(data.Ponit[j].Site !=null){
+                    if(data.Ponit[j].TargetType=='USBL基站'){
+                        var o ={
+                            id:data.Ponit[j].MdmId,
+                            name:data.Ponit[j].TargetName,
+                            type:picture_type,
+                            // smooth:true,
+                            symbolSize:12,
+                            symbol:'circle',
+                            data:data.Ponit[j].Site,
+                            itemStyle:
+                                {
+                                    color: data.Ponit[j].TargetColour,
+                                    // lineStyle: {color: color[j]}
+                                },
+                            markPoint: {
+                                data: [
+                                    {
+                                        name: '起点',
+                                        coord: data.Ponit[j].StartSite,
+                                        symbolSize:20,
+                                        symbol:'',
+                                        value: '起',
+                                        silent: true
+                                    },
+                                    {
+                                        name: '终点',
+                                        coord: data.Ponit[j].NewSite,
+                                        symbolRotate: data.Ponit[j].ChaoXiang,
+                                        symbol:"image://../static/image/tc.png",
+                                        silent: true
+                                    },
+                                ]
+                            },
+                            animation:false
+                        }
+                    }else {
+                        $('#measure').show()
+                        var o ={
+                            id:data.Ponit[j].MdmId,
+                            name:data.Ponit[j].TargetName,
+                            type:picture_type,
+                            // smooth:true,
+                            symbolSize:12,
+                            symbol:'circle',
+                            data:data.Ponit[j].Site,
+                            itemStyle:
+                                {
+                                    color: data.Ponit[j].TargetColour,
+                                    // lineStyle: {color: color[j]}
+                                },
+                            markPoint: {
+                                data: [
+                                    {
+                                        name: '起点',
+                                        coord: data.Ponit[j].StartSite,
+                                        symbolSize:20,
+                                        symbol:'',
+                                        value: '起',
+                                        silent: true
+                                    },
+                                    {
+                                        name: '终点',
+                                        coord: data.Ponit[j].NewSite,
+                                        symbolSize:20,
+                                        symbol:'',
+                                        value: '终',
+                                        silent: true
+                                    },
+                                ]
+                            },
+                            animation:false
+                        }
+                    }
+
+                    color.push(data.Ponit[j].TargetColour)
+                    big.push(data.Ponit[j].NewSite)
+                    arr.push(''+data.Ponit[j].TargetName+'')
+                    tempSeries.push(o)
+                    // dataValue[data.Ponit[j].MdmId]=data.Ponit[j].NewSite
+                }
+            }
+        }
+        // option.legend.data=arr
+
+
+        if(tempSeries.length !=0){
+            option.series=option.series.concat(tempSeries)
+
+            option.yAxis.max=data.MaxWeiDu;
+            option.yAxis.min=data.MinWeiDu;
+            option.xAxis.max=data.MaxJinDu;
+            option.xAxis.min=data.MinJinDu;
+            option.xAxis.axisLabel.formatter='{value} °';
+            option.yAxis.axisLabel.formatter='{value} °';
+
+            // option.series.push(tempSeries)
+            if(data.Ponit !=null && chuangkou==1){
+                option.dataZoom= [{
+                    type: 'inside',
+                    xAxisIndex: 0,//控制x轴
+                    startValue: data.MinRangJinDu,
+                    endValue: data.MaxRangJinDu,
+                    filterMode: 'none',
+                },
+                    {
+                        type: 'inside',
+                        yAxisIndex: 0,//控制y轴
+                        startValue: data.MinRangWeiDu,
+                        endValue: data.MaxRangWeiDu,
+                        filterMode: 'none',
+                    }
+                ]
+                chuangkou==2
+            }else{
+                option.dataZoom= [{
+                    type: 'inside',
+                    xAxisIndex: 0,//控制x轴
+                    startValue: xIndexstart,
+                    endValue: xIndexend,
+                    filterMode: 'none',
+                },
+                    {
+                        type: 'inside',
+                        yAxisIndex: 0,//控制y轴
+                        startValue: yIndexstart,
+                        endValue: yIndexend,
+                        filterMode: 'none',
+                    }
+                ]
+            }
+
+
+            myChart.setOption(option,true);
+
+            console.log(option)
+        }
+
+    }
+
+    $('.add_list').click(function () {
+        var location_point_name=$('.location_point_name').val()
+        var longitude=$('.longitude').val()
+        var latitude=$('.latitude').val()
+        var comment=$('#comment').val()
+        var time1 = Date.now();
+        var mao_id='mao'+time1
+        var data=[[Number(longitude),Number(latitude),comment,mao_id]]
+        if(comment.length>15){
+            alert("备注不能超过15个字符，请重新输入")
+            return false
+        }
+        if(longitude.length>13 || latitude.length>13){
+            alert("经纬度不能超过13个字符，请重新输入")
+            return false
+        }
+        let xIndexstart = myChart.getOption().dataZoom[0].startValue;
+        let xIndexend = myChart.getOption().dataZoom[0].endValue;
+        let yIndexstart = myChart.getOption().dataZoom[1].startValue;
+        let yIndexend = myChart.getOption().dataZoom[1].endValue;
+        var fixed_arr=[]
+        var fixed  ={
+            id: mao_id,
+            name:location_point_name,
+            type: 'line',
+            //smooth: true,
+            symbolSize: [30,30],
+            symbol:"image://../static/image/location.png",
+            zlevel:9999,
+            data:data,
+        }
+        //var option_num = option.series.length
+        // option.series[option_num]=fixed
+        option.series.push(fixed)
+        var fixed_arr=myChart.getOption().series
+        fixed_arr.push(fixed)
+        option.series=fixed_arr
+        option.dataZoom= [{
+            type: 'inside',
+            xAxisIndex: 0,//控制x轴
+            startValue: xIndexstart,
+            endValue: xIndexend,
+            filterMode: 'none',
+        },
+            {
+                type: 'inside',
+                yAxisIndex: 0,//控制y轴
+                startValue: yIndexstart,
+                endValue: yIndexend,
+                filterMode: 'none',
+            }
+        ]
+
+        myChart.setOption(option,true)
+
+        $('#location_point').modal('hide');
+        loction_name++
+
+
+
+    })
+
+
+    $('.change_distinguish').click(function (){
+        var str_1 =$('#distinguish_area').val()
+         change_distinguish_all(str_1)
+
+    })
+    
+    
+ $('.change_distinguish_1').click(function (){
+        var str_1 =$('#distinguish_area_1').val()
+        change_distinguish_all(str_1)
+
+    })
+    
+    function change_distinguish_all(str){
+        var str =str.replace(/\，/g,"\,")
+        var res=str.split(',')     
+        var lat=''
+        var lng=''
+        if(res.length ==4){
+            var gpslat = parseFloat(res[0]);
+            var gpslng = parseFloat(res[2]);
+            var resultlat = parseInt(gpslng/100) + (gpslng/100.0 - parseInt(gpslng/100)) *100.0 / 60.0;
+            var resultlng = parseInt(gpslat/100) + (gpslat/100.0 - parseInt(gpslat/100)) *100.0 / 60.0;
+            if(res[1].toUpperCase()=='N'){
+                lat=resultlat.toFixed(6)
+            }else if(res[3].toUpperCase()=='S') {
+                lat=-resultlat.toFixed(6)
+            }else {
+                layer_tc('提示', '请检查字母是否正确，纬度半球N（北半球）或S（南半球）')
+            }
+            if(res[3].toUpperCase()=='E'){
+                lng=resultlng.toFixed(6)
+            }else if(res[3].toUpperCase()=='W'){
+                lng=-resultlng.toFixed(6)
+            }else {
+                layer_tc('提示','请检查字母是否正确，经度半球E（东经）或W（西经）')
+            }
+            $('.longitude').val(lat)
+            $('.latitude').val(lng)
+          
+        }else {
+            layer_tc('提示', '请输入正确的格式,确保逗号是英文输入下的逗号,如：2813.9908005,N,11252.6285300,E')
+        }
+    }
+
+
+</script>
+
+
+
+
+
+
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+
+    <title> 甲板单元系统</title>
+
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+
+   <link href="../static/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../static/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="../static/css/animate.css" rel="stylesheet">
+    <link href="../static/css/style.css?v=4.1.0" rel="stylesheet">
+</head>
+
+<body class="fixed-sidebar full-height-layout gray-bg" style="overflow:hidden">
+<div id="wrapper">
+    <!--左侧导航开始-->
+    <nav class="navbar-default navbar-static-side" role="navigation">
+        <div class="nav-close"><i class="fa fa-times-circle"></i>
+        </div>
+        <div class="sidebar-collapse">
+            <ul class="nav" id="side-menu">
+                <li class="nav-header">
+                    <div class="dropdown profile-element">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                                <span class="clear">
+                                    <span class="block m-t-xs" style="font-size:20px;">
+                                        <strong class="font-bold">甲板单元系统</strong>
+                                    </span>
+                                </span>
+                        </a>
+                    </div>
+                    <div class="logo-element">甲板单元系统
+                    </div>
+                </li>
+          
+                <li>
+                    <a href="#">
+                        <i class="fa fa fa-location-arrow"></i>
+                        <span class="nav-label">定位通信系统</span>
+                        <span class="fa arrow"></span>
+                    </a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a class="J_menuItem" href="setting_2">系统配置</a>
+                        </li>
+                        <li>
+                            <a class="J_menuItem" href="equipment_details">设备管理</a>
+                        </li>
+                        <li>
+                            <a class="J_menuItem" href="index_3">水声定位</a>
+                        </li>
+                        <li>
+                            <a class="J_menuItem" href="smallDisPlayWtRd">水声通信</a>
+                        </li>
+                         <li>
+                            <a class="J_menuItem" href="history_small">历史记录</a>
+                        </li>
+                        <li>
+                            <a class="J_menuItem" href="seting_tool">配置工具</a>
+                        </li>
+                        <!--
+	          <li>
+                            <a class="J_menuItem" href="seting_lbl">lbl配置</a>
+                        </li>
+                        <li>
+                            <a class="J_menuItem" href="lblindex">lbl打点</a>
+                        </li>
+                        <li>
+                            <a class="J_menuItem" href="history_lbl">lbl历史</a>
+                        </li>
+                      -->
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!--左侧导航结束-->
+    <!--右侧部分开始-->
+    <div id="page-wrapper" class="gray-bg dashbard-1">
+        <div class="row border-bottom">
+            <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                <div class="navbar-header"><a class="navbar-minimalize minimalize-styl-2 btn btn-info " href="#"><i class="fa fa-bars"></i> </a>
+                </div>
+                <ul class="nav navbar-top-links navbar-right">
+                    <li class="dropdown company_name">
+                        深圳市智慧海洋科技有限公司
+                    </li>
+                    <li class="dropdown">
+                       <img src="../static/image/logo.png">
+                    </li>
+
+                </ul>
+            </nav>
+        </div>
+        <div class="row J_mainContent" id="content-main">
+            <iframe id="J_iframe" width="100%" height="100%" src="equipment_details" frameborder="0" data-id="" seamless></iframe>
+        </div>
+    </div>
+    <!--右侧部分结束-->
+</div>
+
+
+
+<!-- 全局js -->
+<script src="../static/js/jquery.min.js?v=2.1.4"></script>
+<script src="../static/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="../static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="../static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="../static/js/plugins/layer/layer.min.js"></script>
+
+<!-- 自定义js -->
+<script src="../static/js/hAdmin.js?v=4.1.0"></script>
+<script type="text/javascript" src="../static/js/index.js"></script>
+<style>
+    .active1{
+        background-color: #0864a7;
+        color: #fff;
+    }
+    .active2{
+        color:#fff;
+    }
+</style>
+<script>
+    $(document).ready(function (){
+        var dk = $(window.parent.document).find("#J_iframe").attr("src");
+        $('.nav-second-level').addClass('in')
+        $(".nav-second-level li a").each(function(){
+            var self=$(this);
+            if(self.attr('href')=='equipment_details'){
+                self.parent().siblings().removeClass("active1");
+                self.parent().toggleClass('active1')
+                self.parent().parent().find('a').removeClass("active2");
+                self.toggleClass('active2')
+            }
+        });
+    });
+
+    $('.J_menuItem').click(function () {
+        $(this).parent().siblings().removeClass("active1");
+        $(this).parent().toggleClass('active1')
+        $(this).parent().parent().find('a').removeClass("active2");
+        $(this).toggleClass('active2')
+
+    })
+
+</script>
+
+</body>
+
+</html>

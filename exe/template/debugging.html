@@ -1,0 +1,1845 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小型定位</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+     <link href="../static/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../static/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../static/css/animate.css" rel="stylesheet">
+    <link href="../static/css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../static/css/sweetalert.css" rel="stylesheet">
+    <link href="../static/css/sweetalert.css" rel="stylesheet">
+    <script type="text/javascript" src="../static/js/echarts.min.js"></script>
+</head>
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox">
+                    <div class="ibox-title">
+                        <h3>设备信息</h3>
+                    </div>
+                    <div class="ibox-content tables tables-color">
+                        <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>设备名称</th>
+                                        <th>类型</th>
+                                        <th>通讯接口</th>
+                                        <th>串口端口/IP</th>
+                                        <th>波特率/网口端口</th>
+                                        <th>编号</th>
+                                        <!--<th>定位包时间间隔</th>-->
+                                        <!--<th>使用环境</th>-->
+                                        <!--<th>声速类型</th>-->
+                                        <!--<th>声速</th>-->
+                                        <!--<th>时间同步间隔</th>-->
+                                        <th>颜色</th>
+                                        <th>状态</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <!--<tr>-->
+                                        <!--<td>GPS</td>-->
+                                        <!--<td>RTK</td>-->
+                                        <!--<td>串口</td>-->
+                                        <!--<td>dev</td>-->
+                                        <!--<td>115200</td>-->
+                                        <!--<td></td>-->
+                                        <!--<td></td>-->
+                                        <!--<td></td>-->
+                                        <!--<td></td>-->
+                                        <!--<td></td>-->
+                                        <!--<td></td>-->
+                                        <!--<td></td>-->
+                                        <!--<td>已连接</td>-->
+                                        <!--<td><a class="break_off">断开</a>&nbsp;&nbsp;<a class="details">详情</a>&nbsp;&nbsp;<a class="set_usblbase">设置</a>-->
+                                        <!--</td>-->
+                                    <!--</tr>-->
+                                    <!--<tr>
+                                       <td>1号船基站</td>
+                                        <td>USBL基站小型定位</td>
+                                        <td>网口</td>
+                                        <td>217.0.0.1</td>
+                                        <td>80</td>
+                                        <td>0</td>
+                                        <td></td>
+                                        <td>已连接</td>
+                                        <td><a class="break_off">断开</a>&nbsp;&nbsp;<a class="details">详情</a>&nbsp;&nbsp;<a class="set_usblbase">设置</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>1号船基站</td>
+                                        <td>USBL基站1发6收</td>
+                                        <td>网口</td>
+                                        <td>217.0.0.1</td>
+                                        <td>80</td>
+                                        <td>0</td>
+                                        <td></td>
+                                        <td>已连接</td>
+                                        <td><a class="break_off">断开</a>&nbsp;&nbsp;<a class="details">详情</a>&nbsp;&nbsp;<a class="set_usblbase">设置</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>1号ROV</td>
+                                        <td>定位信标</td>
+                                        <td>串口2 波特率115200</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>1</td>
+                                        <td></td>
+                                        <td>已连接</td>
+                                        <td><a class="break_off">断开</a>&nbsp;&nbsp;<a class="details">详情</a>&nbsp;&nbsp;<a class="set_usblbase">设置</a>
+                                        </td>
+                                    </tr>-->
+                                    </tbody>
+                                </table>
+                            </div>
+
+                    </div>
+                    <div class="ibox-content">
+                        <div class="area_1" style="display: none;height: 500px;">
+                        <div class="col-sm-6">
+                            <div class="ibox-title">
+                                <h3>基本信息</h3>
+                            </div>
+                            <div class="col-sm-7">
+                                <dl class="dl-horizontal">
+                                    <dt>设备名称：</dt>
+                                    <dd id="equipment_name">1号船基站</dd>
+                                    <dt>设备类型：</dt>
+                                    <dd id="equipment_type">USBL基站</dd>
+                                    <dt>声速模式：</dt>
+                                    <dd id="sound_velocity">自动</dd>
+                                    <dt>当前声速：</dt>
+                                    <dd id="current_sound">1480<samp>m/s</samp></dd>
+                                    <dt>软件版本：</dt>
+                                    <dd id="version_number">v000</dd>
+                                    <dt>定位包时间间隔：</dt>
+                                    <dd id="loctimeset"></dd>
+                                    <div class="form-group">
+                                        <button class="btn btn-primary  refresh">
+                                            刷新数据
+                                        </button>
+                                        <span id="shuaxing_msg">dasdasdasdas</span>
+                                    </div>
+                                </dl>
+                            </div>
+                            <div class="col-sm-5">
+                                <dl class="dl-horizontal">
+                                    <dt>工作环境：</dt>
+                                    <dd id="use_environment">海洋</dd>
+                                    <dt>工作温度：</dt>
+                                    <dd id="temperature">20<samp>℃</samp></dd>
+                                    <dt>工作深度：</dt>
+                                    <dd id="depth">3<samp>m</samp></dd>
+                                    <dt>同步间隔：</dt>
+                                    <dd id="tbjg">120<samp>min</samp></dd>                                
+                                     <dt>信标个数：</dt>
+                                    <dd id="NumOfId"></dd>
+                                    <dt>信标mid号：</dt>
+                                    <dd id="WantGetId"></dd>
+                                    <dt>工作范围：</dt>
+                                    <dd id="Range"></dd>
+                                    <dt>轮询间隔：</dt>
+                                    <dd id="PollT"></dd>
+                                </dl>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="ibox-title">
+                                <h3>姿态</h3>
+                            </div>
+                                <ul>
+                                    <li class="rov_li">
+                                        <div>
+                                            <span style="margin-right: 14px;">Roll：<span id="roll">--</span><samp>°</samp></span>
+                                            <span style="margin-right: 14px;">Pich：<span id="pich">--</span><samp>°</samp></span>
+                                            <span style="margin-right: 14px;">yaw：<span id="yaw">--</span><samp>°</samp></span>
+
+                                        </div>
+                                        <div>
+                                            <span>状态：<span id="status">未校准</span></span>
+                                        </div>
+                                        <div class="form-group ">
+                                            <button class="btn btn-primary  start_jz">
+                                                开始较准
+                                            </button>
+
+                                        </div>
+                                    </li>
+                                    <li class="rov_li">
+                                    <div class="zijian_detail" style="display:none">
+                                        <div>
+                                            <span style="margin-right: 14px;">mid：<span id="mid"></span></span>
+                                            <span style="margin-right: 14px;">sn：<span id="sn"></span></span>
+                                            <span style="margin-right: 14px;">imuState：<span id="imuState"></span></span>
+                                        </div>
+                                        <div>
+                                            <span style="margin-right: 14px;">syncState：<span id="syncState"></span></span>
+                                            <span style="margin-right: 14px;">Td：<span id="Td"></span></span>
+                                            <span style="margin-right: 14px;">WorkEnv：<span id="WorkEnv"></span></span>
+                                            <span style="margin-right: 14px;">txInterval：<span id="txInterval"></span><samp></samp></span>
+                                        </div>
+                                        <div>
+                                            <span>状态：<span id="base_status"></span></span>
+                                        </div>
+                                        </div>
+                                        <div class="form-group ">
+                                            <button class="btn btn-primary  base_zijian">
+                                                基站自检测
+                                            </button>
+
+                                        </div>
+                                    </li>
+                                </ul>
+
+                        </div>
+                        </div>
+                        <div class="area_2" style="display: none;height: 500px;">
+                            <div class="col-sm-6">
+                                <div class="ibox-title">
+                                    <h3>基本信息</h3>
+                                </div>
+                                <div class="col-sm-6">
+                                    <dl class="dl-horizontal">
+                                        <dt>设备名称：</dt>
+                                        <dd id="equipment_name_1">GPS</dd>
+                                        <dt>设备类型：</dt>
+                                        <dd id="equipment_type_1">RTK</dd>
+                                        <!--<dt>外接GPS信号质量：</dt>-->
+                                        <!--<dd>11</dd>-->
+                                        <dt>卫星数：</dt>
+                                        <dd id="number_of_satellites">1</dd>
+                                        <dt>水平精度系数：</dt>
+                                        <dd id="accuracy_factor">v1.4.2</dd>
+                                    </dl>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="area_3" style="display: none">
+                            <div class="col-sm-6">
+                                <div class="ibox-title">
+                                    <h3>基本信息</h3>
+                                </div>
+                                <div class="col-sm-3">
+                                    <dl class="dl-horizontal">
+                                        <dt>设备名称：</dt>
+                                        <dd id="equipment_name_2">1号ROV</dd>
+                                        <dt>设备类型：</dt>
+                                        <dd id="equipment_type_2">定位信标</dd>
+                                        <!--<dt>发送间隔：</dt>-->
+                                        <!--<dd id="sending_interval">1<samp>S</samp></dd>-->
+                                        <dt>编号：</dt>
+                                        <dd id="number">3</dd>
+                                   
+                                    </dl>
+
+                                </div>
+                                <div class="col-sm-3">
+                                    <dl class="dl-horizontal">
+                                        <!--<dt>工作环境：</dt>-->
+                                        <!--<dd id="use_environment_1">海洋</dd>-->
+                                        <dt>工作温度：</dt>
+                                        <dd id="temperature_1">--<samp>℃</samp></dd>
+                                        <dt>工作深度：</dt>
+                                        <dd id="depth_1">--<samp>m</samp></dd>
+                                    </dl>
+                                </div>
+                                <div class="col-sm-12">
+                                <div class="form-group ">
+                                    <button class="btn btn-success  start_send">
+                                        开始发送信号
+                                    </button> 
+                                    <span id="start_msg"></span>                                                      
+                                </div>
+                                 <div class="form-group ">                         
+                                    <button class="btn btn-danger  stop_send">
+                                        停止发送信号
+                                    </button>     
+                                     <span id="stop_msg"></span>                            
+                                </div>
+                               <div class="form-group ">                         
+                                    <button class="btn btn-info  Rsync_time">
+                                        远程同步信标
+                                    </button>   
+                                    <span id="Rsync_msg"></span>                             
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ibox-content area_4" style="display: none">
+                            <div class="col-sm-12" >
+                                <div class="form-inline">
+                                    <div class="form-group">
+                                        <span>查询名称</span>
+                                        <select class="form-control" name="" id="ls">
+
+                                        </select>
+                                    </div>
+                                    <button class="btn btn-primary " type="submit" id="query">查询</button>
+                                </div>
+
+                            </div>
+                            <div class="ibox-title">
+                                <h3>深度历史</h3>
+                            </div>
+                            <div id="shendu" style="height: 500px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+    </div>
+    </div>
+
+    <!-- 添加修改 -->
+    <div class="modal fade" id="base_equipment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog add_modify">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title title" id="myModalLabel">
+                        基站设置
+                    </h4>
+                </div>
+                <div class="modal-body">
+
+                    <form class="form-horizontal" id="myForm">
+                        <div id="popup_1">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">设备名称：</label>
+                            <div class="col-sm-8">
+                                <input  class="form-control usbl_equipment_name" disabled>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">设备类型：</label>
+                            <div class="col-sm-8">
+                                <input  class="form-control usbl_equipment_type"  disabled>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">通讯接口：</label>
+                            <div class="col-sm-8">
+                                <input  class="form-control communication"  disabled>
+                            </div>
+                        </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">编号：</label>
+                                <div class="col-sm-8">
+                                    <input id="equipment_number"  name="equipment_number"  type="text" class="form-control interval" disabled>
+                                </div>
+                            </div>
+                            <div class="small_position">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">使用环境：</label>
+                                <div class="col-sm-8 environment">
+                                    <input type="radio" value="0" id="base_use_environment" name="base_use_environment" >&nbsp;海水 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <input type="radio" value="1" id="base_use_environment" name="base_use_environment">&nbsp;淡水
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">盐度：</label>
+                                <div class="col-sm-8">
+                                    <input  class="form-control interval salinity" value=""><span class="ppt">PPT &nbsp;&nbsp;<a href="#" data-toggle="tooltip" data-placement="right" title="取值范围0~45，海水的平均盐度为35pp,淡水的盐度一般小于0.5ppt,建议取0">说明</a></span>
+
+                                </div>
+                            </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">声速：</label>
+                                    <div class="col-sm-8 environment">
+                                        <div class="col-sm-2">
+                                            <input type="radio" value="ON" id="base_sound_velocity" name="base_sound_velocity" >&nbsp;自动计算 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <input type="radio" value="OFF" id="base_sound_velocity" name="base_sound_velocity">&nbsp;手动配置
+                                            <input id="set_sound"  name="base_set_sound"  type="text" class="form-control" >
+                                            <span class="company">m/s</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">定位模式：</label>
+                                    <div class="col-sm-8 position_mode">
+                                        <input type="radio" value="0" id="mode_option" name="mode_option" disabled>&nbsp;同步模式&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <input type="radio" value="1" id="mode_option" name="mode_option" checked>&nbsp;异步模式
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">信标个数：</label>
+                                <div class="col-sm-8">
+                                    <input  type="number" class="form-control interval beacon_num" value="">
+                                </div>
+                            </div>
+                            <div class="beacon_num_id">
+                            </div>
+                            <div class="one_send_six_recev">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">声速：</label>
+                                    <div class="col-sm-8">
+                                        <input id="one_send_six_recev_sound" name="one_send_six_recev_sound" type="text" class="form-control interval"><span class="minute">m/s</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">定位模式：</label>
+                                    <div class="col-sm-8">
+                                        <input id="one_send_six_recev_model" name="one_send_six_recev_model" type="text" class="form-control interval" disabled="" value="异步模式">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">工作水深：</label>
+                                    <div class="col-sm-8">
+                                        <input  class="form-control interval working_sound" value="0"><span class="minute">m</span>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="asyn_mode">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">工作范围：</label>
+                                    <div class="col-sm-8">
+                                        <input  class="form-control interval one_six_rang" value=""><span class="minute">m</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">轮询间隔：</label>
+                                    <div class="col-sm-8">
+                                        <input  class="form-control interval polling_interval" value="" type="number"><span class="minute">s</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="syn_mode">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">时间同步间隔：</label>
+
+                                    <div class="col-sm-8">
+                                        <input  class="form-control interval base_tbjg" value="0"><span class="minute">分钟</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">定位刷新频率：</label>
+
+                                    <div class="col-sm-8">
+                                        <input  class="form-control interval position_interval" value=""><span class="minute">S</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div id="popup_2">
+                            <div class="form-group">
+                                <label class="col-sm-8 control-label"> <span class="glyphicon glyphicon-warning-sign btn-lg" aria-hidden="true" ></span>此功能仅用于改信标的编号，使用前请把甲板单元和主机的连接线接到信标上。</label>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">通讯接口：</label>
+                                <div class="col-sm-8">
+                                    <input  class="form-control communication_1"  disabled>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">编号：</label>
+                                <div class="col-sm-3">
+                                    <input id="equipment_number_2"  name="equipment_number_2"  type="text" class="form-control" style="width:56%">
+                                   
+                                </div>
+                             <span class="col-sm-6" id="becoan_msg" style="top: 5px;margin-left: -10.5%;"></span>
+                    
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">定位模式：</label>
+                                <div class="col-sm-8 beacon_position_mode">
+                                    <input type="radio" value="1" id="beacon_mode_option" name="beacon_mode_option">&nbsp;同步模式&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <input type="radio" value="0" id="beacon_mode_option" name="beacon_mode_option">&nbsp;异步模式
+                                <span id="position_mode_msg" style="margin-left: 27px;"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                             <label class="col-sm-12 control-label msg" style="right: 65%;"></label>
+                            </div>
+                        </div>
+
+                    </form>
+
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                    </button>
+                    <button type="button" class="btn btn-primary add_list">
+                        确定
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+    <!-- 全局js -->
+    <script src="../static/js/jquery.min.js?v=2.1.4"></script>
+    <script src="../static/js/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 自定义js -->
+    <script src="../static/js/content.js?v=1.0.0"></script>
+    <script src="../static/js/plugins/sweetalert/sweetalert.min.js"></script>
+    <script>
+        $(function () {
+            $("[data-toggle='tooltip']").tooltip();
+            load_1()
+            if (navigator.userAgent.indexOf('Firefox') >= 0) {
+                $('select').css("cssText", "padding:0 !important;");
+            }
+        })
+        var timing_1
+        var timing_2
+        var timing_3
+        var timing_4
+        var timing_5
+        var timing_6
+        var dom1 = document.getElementById("shendu");
+        var shendu;
+        var beacon_num=''
+        var positioning_mode=''
+
+        option1 = {
+            title: {
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'cross',
+                    label: {
+                        backgroundColor: '#6a7985'
+                    }
+                },
+            },
+            legend:{
+                width:'80%',
+                textStyle:{color:'#fff'}
+            },
+            xAxis: {
+                axisLine: {
+                    onZero: false,
+                    lineStyle:{
+                        color:'#fff',
+                    }
+                },
+
+                data: []
+            },
+
+            yAxis: {
+                axisLine: {
+                    onZero: false,
+                    lineStyle:{
+                        color:'#fff',
+                    }
+                },
+                axisLabel: {formatter: '{value} m'},
+                gridIndex: 0
+            },
+            grid:{
+                backgroundColor: new echarts.graphic.LinearGradient(
+                    0, 0, 0, 1,
+                    [
+                        {offset: 0, color: '#8ab1dc'},
+                        {offset: 1, color: '#0a35ab'}
+                    ]
+                ),
+                show: true,
+            },
+            series: []
+        };
+        $(document).on('click','.details',function(){
+            var status=''
+            var info 
+            var name=$(this).parent().parent().find('td').eq(0).text()
+            var type=$(this).parent().parent().find('td').eq(1).text()
+            info={'Name':name,'DevType':type,'ActionStatus':'askForAndGet'}
+            if($(this).parent().parent().find('td').eq(1).text()=='USBL基站小型定位'){
+                close_timing_1()
+                $('.area_1').show()
+                $('.area_2').hide()
+                $('.area_3').hide()
+                $('.area_4').hide()
+                $('#equipment_name').text(name)
+                $('#equipment_type').text(type)
+            
+                $.ajax({
+                  type:'post',
+                  url:"/getSmallBase",
+                  data:info,
+                  dataType:'json',
+                  success:function(data){
+                    $('#current_sound').text(data.BaseSpeed)
+                    $('#version_number').text(data.BaseVer)
+                    $('#temperature').text(data.BaseWorkTpt)
+                    $('#depth').text(data.BaseWorkDeep)
+                    $('#loctimeset').text(data.BaseLocTimeSet)
+                    $('#roll').text(data.ZiTaiRoll)
+                    $('#pich').text(data.ZiTaiPich)
+                    $('#yaw').text(data.ZiTaiYaw)
+                    $('#status').text(data.ZiTaiStatusMsg)
+                    $('#tbjg').text(data.BaseTimeSync)
+                    $('#sound_velocity').text(data.BaseSpeedType)
+                    $('#use_environment').text(data.BaseWorkEnv)  
+                    $("#shuaxing_msg").text(data.Msg)            
+                    if(data.IsAskAgain=="1"){
+                      info={'Name':name,'DevType':type,'ActionStatus':'onlyGet'}
+                        timing_1=setTimeout(function() {
+                          details_settime(info)
+                      },3000)
+                      
+                    }
+                   var imu_info={'ActionStatus':'onlyGetStatus'}
+                      timing_2=setInterval(function() {
+                          zt_settime(imu_info)
+                      },6000)
+                  }
+              });
+                  $.ajax({
+                  type:'post',
+                  url:"/postSmallAdjustBaseIMU",
+                  data:{'ActionStatus':'onlyGet'},
+                  dataType:'json',
+                  success:function(data){
+                    if(data.D5=="1"){
+                      $('.zijian_detail').show()
+                    }else{
+                      $('.zijian_detail').hide()
+                    }
+                  }
+              });
+              
+            }else if($(this).parent().parent().find('td').eq(1).text()=='USBL基站1发6收'){
+                close_timing_1()
+                $('.area_1').show()
+                $('.area_2').hide()
+                $('.area_3').hide()
+                $('.area_4').hide()
+                $('#equipment_name').text(name)
+                $('#equipment_type').text(type)
+            
+                $.ajax({
+                  type:'post',
+                  url:"/getOneSixBase",
+                  data:info,
+                  dataType:'json',
+                  success:function(data){
+                    $('#current_sound').text(data.BaseSpeed)
+                    $('#version_number').text(data.BaseVer)
+                    $('#temperature').text(data.BaseWorkTpt)
+                    $('#depth').text(data.BaseWorkDeep)
+                    $('#loctimeset').text(data.BaseLocTimeSet)
+                    $('#roll').text(data.ZiTaiRoll)
+                    $('#pich').text(data.ZiTaiPich)
+                    $('#yaw').text(data.ZiTaiYaw)
+                    $('#status').text(data.ZiTaiStatusMsg)
+                    $('#tbjg').text(data.BaseTimeSync)
+                    $('#sound_velocity').text(data.BaseSpeedType)
+                    $('#use_environment').text(data.BaseWorkEnv)  
+                    $("#shuaxing_msg").text(data.Msg)            
+                    if(data.IsAskAgain=="1"){
+                      info={'Name':name,'DevType':type,'ActionStatus':'onlyGet'}
+                        timing_1=setTimeout(function() {
+                          one_six_details_settime(info)
+                      },3000)
+                      
+                    }
+              
+                  }
+              });
+       
+              
+            }else if($(this).parent().parent().find('td').eq(1).text()=='RTK' || $(this).parent().parent().find('td').eq(1).text()=='RTK带指北'){
+                close_timing_1()
+                $('.area_1').hide()
+                $('.area_2').show()
+                $('.area_3').hide()
+                $('.area_4').hide()
+                $('#equipment_name_1').text(name)
+                $('#equipment_type_1').text(type)
+               $.ajax({
+                  type:'post',
+                  url:"/getSmallGps",
+                  data:info,
+                  dataType:'json',
+                  success:function(data){
+                      $('#number_of_satellites').text(data.SatelliteNum)
+                      $('#accuracy_factor').text(data.Hdop)
+                  }
+              });
+            }else {
+                close_timing_1()
+                var num =$(this).parent().parent().find('td').eq(5).text()
+                $('.area_1').hide()
+                $('.area_2').hide()
+                $('.area_3').show()
+                $('.area_4').show()
+                $('#equipment_name_2').text(name)
+                $('#equipment_type_2').text(type)
+                // $('#sending_interval').text($(this).parent().parent().find('td').eq(6).text()+'S')
+                $('#number').text(num)
+                // $('#use_environment_1').text($(this).parent().parent().find('td').eq(7).text())
+                shendu = echarts.init(dom1);
+                shendu.setOption(option1, true);
+                var w
+               $.ajax({
+                  type:'post',
+                  url:"/getSmallRov",
+                  data:info,
+                  dataType:'json',
+                  success:function(data){
+                      $('#depth_1').text(data.NewDeep)
+                      $('#temperature_1').text(data.WorkTemperature)               
+                     // one_depth(data.WorkDeep,num)
+  
+                  }
+              });
+              
+             $.ajax({
+                  type:'post',
+                  url:"/getSmallTwoDeepTaskName",
+                  data:{'DevId':num},
+                  dataType:'json',
+                  success:function(data){
+                  if(data.All!=null){               
+                      for(var i=0;i<data.All.length;i++){
+                          w+="<option>"+data.All[i].Task+"</option>"
+                      }
+                      $("#ls").append(w);
+                  }
+                  } 
+              });
+
+
+            }
+
+        })
+
+        $('#query').click(function () {
+            var ls = $('#ls').val()
+            var num = $('#number').text()
+            option1.series=[]
+            option1.xAxis.data=[]
+            shendu.setOption(option1,true);
+            console.log(ls)
+            $.ajax({
+                type:'post',
+                url:"/postSmallTwoDeepHistory",
+                data:{'TaskName':ls,'DevId':num},
+                dataType:'json',
+                success:function(data){ //请求成功回调函数
+                    one_depth(data.Deep,num)
+                },
+            });
+        })
+
+
+        function close_timing_1(){
+            clearInterval(timing_2);
+            setTimeout(timing_1);
+        }
+
+        $(".beacon_num").bind('input propertychange', function() {
+            $(".beacon_num_id").empty()
+            var p=''
+            var num = $(".beacon_num").val();
+            if(num>20){
+                alert('信标设置不能超过20')
+                $(".beacon_num").val('');
+                return false
+            }
+            if(num<1){
+                alert('信标设置不能小于1')
+                $(".beacon_num").val('');
+                return false
+            }
+            if(!(/(^[1-9]\d*$)/.test(num))){
+                alert('输入的不是正整数');
+                $(".beacon_num").val('');
+                return false;
+            }
+            for(var i=1;i<=num;i++){
+                p+='<div class="form-group">'+
+                    '<label class="col-sm-3 control-label">信标'+i+'_ID：</label>'+
+                    '<div class="col-sm-8"><input class="form-control interval beacon_num" value="" name="beacon_id['+i+']"></div></div>';
+            }
+            $(".beacon_num_id").append(p);
+        })
+
+
+        function one_depth(data,num) {
+            var dateList = data.map(function (item) {
+                return item[1];
+            });
+            var valueList = data.map(function (item) {
+                return item[0];
+            });
+            var tempSeries=[]
+            var arr =[];
+            option1.series=[]
+            if(data !=null){
+                var o ={
+                    id:num,
+                    name:num,
+                    type:'line',
+                    smooth:true,
+                    symbolSize:10,
+                    showSymbol: false,
+                    data:valueList,
+                    // itemStyle:
+                    //     {normal:
+                    //             {
+                    //                 color: data.Target[j].DeepColour,
+                    //                 // lineStyle: {color: color[j]}
+                    //             }
+                    //     },
+                }
+                // arr.push(''+data.Target[j].TargetName+'')
+                tempSeries.push(o)
+                option1.xAxis.data=dateList
+                option1.series=option1.series.concat(tempSeries)
+                shendu.setOption(option1,true);
+                console.log(option1)
+            }else {
+                option1.series=[]
+                shendu.setOption(option1,true);
+            }
+
+
+
+
+
+
+        }
+
+        $(document).on('click','.refresh',function(){
+          var name= $('#equipment_name').text()
+          var type=$('#equipment_type').text()
+          if(type=='USBL基站小型定位'){
+            $.ajax({
+                type:'post',
+                url:"/getSmallBase",
+                data:{'Name':name,'DevType':type,'ActionStatus':'askForAndGet'},
+                dataType:'json',
+                success:function(data){
+                     $('#shuaxing_msg').text(data.Msg)
+                    if(data.IsAskAgain=="1"){
+                      var info={'Name':name,'DevType':type,'ActionStatus':'onlyGet'}
+                      setTimeout(function() {
+                          details_settime(info)
+                      },3000)                     
+                    }else{
+                      if(data.Status=='1'){
+                        $('#current_sound').text(data.BaseSpeed)
+                        $('#version_number').text(data.BaseVer)
+                        $('#temperature').text(data.BaseWorkTpt)
+                        $('#depth').text(data.BaseWorkDeep)
+                        $('#loctimeset').text(data.BaseLocTimeSet)                    
+                      }
+                    }
+
+                },
+            });
+            }else{
+              $.ajax({
+                type:'post',
+                url:"/getOneSixBase",
+                data:{'Name':name,'DevType':type,'ActionStatus':'askForAndGet'},
+                dataType:'json',
+                success:function(data){
+                     $('#shuaxing_msg').text(data.Msg)
+                    if(data.IsAskAgain=="1"){
+                      var info={'Name':name,'DevType':type,'ActionStatus':'onlyGet'}
+                      setTimeout(function() {
+                          one_six_details_settime(info)
+                      },3000)                     
+                    }else{
+                      if(data.Status=='1'){
+                        $('#current_sound').text(data.BaseSpeed)
+                        $('#version_number').text(data.BaseVer)
+                        $('#temperature').text(data.BaseWorkTpt)
+                        $('#depth').text(data.BaseWorkDeep)
+                        $('#loctimeset').text(data.BaseLocTimeSet)                    
+                      }
+                    }
+
+                },
+            });
+            }
+        })
+
+        $(document).on('click','.start_jz',function(){
+            var Status='askForAndGet'
+            $.ajax({
+                type:'post',
+                url:"/postSmallAdjustBaseIMU",
+                data:{'ActionStatus':Status},
+                dataType:'json',
+                success:function(data){
+                    $('#status').text(data.Msg)
+                },
+            });
+        })
+
+        $(document).on('click','.base_zijian',function(){
+            $('.zijian_detail').show()
+            var info={'ActionStatus':'askForAndGet'}
+           base_jc(info)
+        })
+
+        $(document).on('click','.break_off',function(){
+            var info 
+            var name=$(this).parent().parent().find('td').eq(0).text()
+            var type=$(this).parent().parent().find('td').eq(1).text()
+             var td_status=$(this).parent().parent().find('td').eq(7)
+            var td_operation=$(this).parent().parent().find('td').eq(8)
+            var status='未连接'
+            info={'Name':name,'DevType':type,'Opt':'disconnect'}
+            $.ajax({
+                type:'post',
+                url:"/postSmallOneDev",
+                data:info,
+                dataType:'json',
+                success:function(data){
+                 if(data.IsCnct==0){
+                       var operation='<a class="connect">连接</a>&nbsp;&nbsp;<a class="details">详情</a>&nbsp;&nbsp;<a class="set_usblbase">设置</a>'
+                        td_status.text(status)
+                        td_operation.html(operation)
+                        if(type=='USBL基站小型定位' || type=='USBL基站1发6收'){
+                            $('.set_usblbase').hide()
+                        }
+                    }
+                },
+            });
+        })
+
+        $(document).on('click','.set_point',function(){
+           var time=$('#position_interval').val()
+            $.ajax({
+                type:'post',
+                url:"/postSmallTmilLocPkgTime",
+                data:{'BaseLocTimeSet':time},
+                dataType:'json',
+                success:function(data){
+
+                },
+            });
+        })
+
+        $(document).on('click','.connect',function(){
+            var name=$(this).parent().parent().find('td').eq(0).text()
+            var type=$(this).parent().parent().find('td').eq(1).text()
+            var td_status=$(this).parent().parent().find('td').eq(7)
+            var td_operation=$(this).parent().parent().find('td').eq(8)              
+            var status='未连接'
+            $.ajax({
+                type:'post',
+                url:"/postSmallOneDev",
+                data:{'Name':name,'DevType':type,'Opt':'connect'},
+                dataType:'json',
+                success:function(data){console.log(type)
+                    if(data.IsCnct==1){                     
+                        if(type=='USBL基站小型定位' || type=='USBL基站1发6收'){
+                           var operation='<a class="break_off">断开</a>&nbsp;&nbsp;<a class="details">详情</a>&nbsp;&nbsp;<a class="set_usblbase">设置</a>'
+                            status='已连接'
+                            td_status.text(status)
+                            td_operation.html(operation)
+                            $('.set_usblbase').show()
+                        }else if(type=='RTK' || type=='RTK带指北'){
+                           var operation='<a class="break_off">断开</a>&nbsp;&nbsp;<a class="details">详情</a>'
+                            status='已连接'
+                             td_status.text(status)
+                            td_operation.html(operation)
+                        }
+                    }else {
+                        if(type=='USBL基站小型定位' || type=='USBL基站1发6收'){
+                            var operation='<a class="connect">连接</a>&nbsp;&nbsp;<a class="details">详情</a>&nbsp;&nbsp;<a class="set_usblbase">设置</a>'
+                            td_status.text(status)            
+                            td_operation.html(operation)
+                            $('.set_usblbase').hide()
+                        }else if(type=='RTK' || type=='RTK带指北'){
+                          var operation='<a class="connect">连接</a>&nbsp;&nbsp;<a class="details">详情</a>'
+                            td_status.text(status)
+                            td_operation.html(operation)
+                        }
+                    }
+
+                },
+            });
+        })
+
+        var w=''
+        function load_1() {
+            var status=''
+            var operation=''
+            var UseEnv=''
+            var WaterSpeedType=''
+            var WaterSpeed=''
+            $.ajax({
+                type:'post',
+                url:"/getSmallAllDev",
+                data:{},
+                dataType:'json',
+                success:function(data){
+                    if(data.IsHave>0){
+                        for(i=0;i<data.InforAy.length;i++){
+                            if(data.InforAy[i].IsCnct==1){
+                                status='已连接'
+                                operation='<a class="break_off">断开</a>&nbsp;&nbsp;<a class="details">详情</a>'
+                            }else if(data.InforAy[i].IsCnct==''){
+                                status=''
+                                operation='<a class="connect">连接</a>&nbsp;&nbsp;<a class="details">详情</a>'
+                            }else {
+                                status='未连接'
+                                operation='<a class="connect">连接</a>&nbsp;&nbsp;<a class="details">详情</a>'
+                            }
+                     
+                            if(data.InforAy[i].DevType=='USBL基站小型定位' || data.InforAy[i].DevType=='USBL基站1发6收'){
+                                if(data.InforAy[i].IsCnct==1){
+                                    operation='<a class="break_off">断开</a>&nbsp;&nbsp;<a class="details">详情</a>&nbsp;&nbsp;<a class="set_usblbase" style="display:contents">设置</a>'
+                                   
+                                }else {
+                                    operation='<a class="connect">连接</a>'
+                                }
+                                if(data.InforAy[i].UseEnv==0){
+                                    UseEnv='海水'
+                                }else {
+                                    UseEnv='淡水'
+                                }
+                                if(data.InforAy[i].WaterSpeedType=='ON'){
+                                    WaterSpeedType='自动计算'
+                                }else {
+                                    WaterSpeedType='手动计算'
+                                    WaterSpeed=data.InforAy[i].BaseTimeSync
+                                }
+                                w+='<tr>'+
+                                    '<td>'+data.InforAy[i].Name+'</td>'+
+                                    '<td>'+data.InforAy[i].DevType+'</td>'+
+                                    '<td>'+data.InforAy[i].DevCnctType+'</td>'+
+                                    '<td>'+data.InforAy[i].UartName+data.InforAy[i].IpName+'</td>'+
+                                    '<td>'+data.InforAy[i].UartBtl+data.InforAy[i].IpPort+'</td>'+
+                                    '<td>'+data.InforAy[i].DevId+'</td>' +
+                                    '<td><span class="table_color" style="background-color:'+data.InforAy[i].Colour+'">'+data.InforAy[i].Colour+'</span></td>' +
+                                    '<td>'+status+'</td>'+
+                                    '<td>'+operation+'</td>' +
+                                    '</tr>'
+                                    
+                            }else if(data.InforAy[i].DevType=='RTK'){
+                                w+='<tr>'+
+                                    '<td>'+data.InforAy[i].Name+'</td>'+
+                                    '<td>'+data.InforAy[i].DevType+'</td>'+
+                                    '<td>'+data.InforAy[i].DevCnctType+'</td>'+
+                                    '<td>'+data.InforAy[i].UartName+data.InforAy[i].IpName+'</td>'+
+                                    '<td>'+data.InforAy[i].UartBtl+data.InforAy[i].IpPort+'</td>'+
+                                    '<td></td>' +
+                                    '<td></td>' +
+                                    '<td>'+status+'</td>'+
+                                    '<td>'+operation+'</td>' +
+                                    '</tr>'
+                            }else {
+                                w+='<tr>'+
+                                    '<td>'+data.InforAy[i].Name+'</td>'+
+                                    '<td>'+data.InforAy[i].DevType+'</td>'+
+                                    '<td></td>'+
+                                    '<td></td>'+
+                                    '<td></td>'+
+                                    '<td>'+data.InforAy[i].DevId+'</td>' +
+                                    '<td><span class="table_color" style="background-color:'+data.InforAy[i].Colour+'">'+data.InforAy[i].Colour+'</span></td>' +
+                                    '<td>'+status+'</td>'+
+                                    '<td><a class="details">详情</a>&nbsp;&nbsp;<a class="set_usblbase" style="display:contents">设置</a></td>' +
+                                    '</tr>'
+                            }
+                        }
+
+                        $("tbody").append(w);
+                    }
+                }
+            });
+        }
+        
+        function settime(Status){
+             $.ajax({
+                type:'post',
+                url:"/postSmallAdjustBaseIMU",
+                data:{},
+                dataType:'json',
+                success:function(data){              
+                    $('#status').text(data.Msg)
+                    if(data.IsAskAgain!='1'){
+                      $('.start_jz').removeAttr('disabled',false)
+                    }else{
+                        var Status='onlyGet'
+                      $('.start_jz').attr('disabled','true')
+                      setTimeout(function() {
+                          settime(Status)
+                      },15000)
+                      
+                    }
+                },
+            });
+        }
+
+        function base_jc(info){
+            $.ajax({
+                type:'post',
+                url:"/postSmallBaseZiJian",
+                data:info,
+                dataType:'json',
+                success:function(data){
+                    if(data.IsAskAgain!='1'){
+                        $('#mid').text(data.D1)
+                        $('#sn').text(data.D2)
+                        $('#imuState').text(data.D3)
+                        $('#syncState').text(data.D4)
+                        $('#Td').text(data.D5)
+                        $('#WorkEnv').text(data.D6)
+                        $('#txInterval').text(data.D7)
+                        $('#base_status').text(data.Msg)
+                        $('.base_zijian').removeAttr('disabled',false)
+                    }else{
+                        var info={'ActionStatus':'onlyGet'}
+                        $('.base_zijian').attr('disabled','true')
+                        setTimeout(function() {
+                            base_jc(info)
+                        },5000)
+
+                    }
+                },
+            });
+        }
+        
+        function details_settime(info){
+             $.ajax({
+                type:'post',
+                url:"/getSmallBase",
+                data:info,
+                dataType:'json',
+                success:function(data){    
+                 if(data.IsAskAgain=="1"){
+                     timing_1=setTimeout(function() {
+                          details_settime(info)
+                      },2000)
+                    }else{
+                      if(data.Status=="1"){
+                    $('#current_sound').text(data.BaseSpeed)
+                    $('#version_number').text(data.BaseVer)
+                    $('#temperature').text(data.BaseWorkTpt)
+                    $('#depth').text(data.BaseWorkDeep)
+                    $('#loctimeset').text(data.BaseLocTimeSet)
+                    $("#shuaxing_msg").text(data.Msg) 
+                    $('#sound_velocity').text(data.BaseSpeedType)                  
+                   if(data.BaseWorkEnv=="0"){
+                      $("input[name='base_use_environment'][value='1']").attr("checked",false)
+                      $("input[name='base_use_environment'][value='0']").attr("checked",true)
+                      $('#use_environment').text('海水')  
+                  }else if(data.BaseWorkEnv=="1"){
+                      $("input[name='base_use_environment'][value='0']").attr("checked",false)
+                      $("input[name='base_use_environment'][value='1']").attr("checked",true)
+                      $('#use_environment').text('淡水')  
+                  }
+                   $('.salinity').val(data.Naci)
+                 if(data.BaseSpeedType=='ON'){
+                      $("input[name='base_sound_velocity'][value='OFF']").attr("checked",false)
+                      $("input[name='base_sound_velocity'][value='ON']").attr("checked",true)
+                  }else {
+                      $("input[name='base_sound_velocity'][value='ON']").attr("checked",false)
+                      $("input[name='base_sound_velocity'][value='OFF']").attr("checked",true)
+                      $('#set_sound').val(data.BaseSpeed)
+                  }
+                  $('.base_tbjg').val(data.BaseTimeSync)
+                  $('.position_interval').val(data.BaseLocTimeSet)
+                      }
+                    }          
+   
+              
+                },
+            });
+        }
+        
+         function one_six_details_settime(info){
+             $.ajax({
+                type:'post',
+                url:"/getOneSixBase",
+                data:info,
+                dataType:'json',
+                success:function(data){    
+                 if(data.IsAskAgain=="1"){
+                     timing_1=setTimeout(function() {
+                          one_six_details_settime(info)
+                      },2000)
+                    }else{
+                      if(data.Status=="1"){
+                    $('#current_sound').text(data.BaseSpeed)
+                    $('#version_number').text(data.BaseVer)
+                    $('#temperature').text(data.BaseWorkTpt)
+                    $('#depth').text(data.BaseWorkDeep)
+                    $('#loctimeset').text(data.BaseLocTimeSet)
+                    $('#shuaxing_msg').text(data.Msg) 
+                    $('#sound_velocity').text(data.BaseSpeedType)                  
+                   if(data.BaseWorkEnv=="0"){
+                      $("input[name='base_use_environment'][value='1']").attr("checked",false)
+                      $("input[name='base_use_environment'][value='0']").attr("checked",true)
+                      $('#use_environment').text('海水')  
+                  }else if(data.BaseWorkEnv=="1"){
+                      $("input[name='base_use_environment'][value='0']").attr("checked",false)
+                      $("input[name='base_use_environment'][value='1']").attr("checked",true)
+                      $('#use_environment').text('淡水')  
+                  }
+                   $('.salinity').val(data.Naci)
+                 if(data.BaseSpeedType=='ON'){
+                      $("input[name='base_sound_velocity'][value='OFF']").attr("checked",false)
+                      $("input[name='base_sound_velocity'][value='ON']").attr("checked",true)
+                  }else {
+                      $("input[name='base_sound_velocity'][value='ON']").attr("checked",false)
+                      $("input[name='base_sound_velocity'][value='OFF']").attr("checked",true)
+                      $('#set_sound').val(data.BaseSpeed)
+                  }
+                  $('.base_tbjg').val(data.BaseTimeSync)
+                  $('.position_interval').val(data.BaseLocTimeSet)
+               
+                  $('#NumOfId').text(data.OneSix.NumOfId)
+                  $('#WantGetId').text(data.OneSix.WantGetId)
+                  $('#PollT').text(data.OneSix.PollT)
+                  $('#Range').text(data.OneSix.Range)
+                  $('#current_sound').text(data.OneSix.Sound)
+                  $('#depth').text(data.OneSix.Deep)
+               
+                      }
+                    }          
+   
+              
+                },
+            });
+        }
+        
+        function base_settime(name,type,status){
+              $.ajax({
+                type:'post',
+                url:"/readSmallBaseCfg",
+                data:{'Name':name,'DevType':type,'ActionStatus':status},
+                dataType:'json',
+                success:function(data){    
+                 if(data.IsAskAgain=="1"){
+                  var status='onlyGet'           
+                     timing_1=setTimeout(function() {
+                          base_settime(name,type,status)
+                      },2000)
+                    }else{
+                      console.log(data.BaseSpeedType)
+                      alert(data.Msg)
+                      if(data.Status=="1"){
+                    $('#equipment_number').val(data.DevId)
+                    $('#current_sound').text(data.BaseSpeed)
+                    $('#version_number').text(data.BaseVer)
+                    $('#temperature').text(data.BaseWorkTpt)
+                    $('#depth').text(data.BaseWorkDeep)
+                    $('#loctimeset').text(data.BaseLocTimeSet)
+                    $("#shuaxing_msg").text(data.Msg) 
+                   if(data.BaseWorkEnv=="0"){
+                     $(":radio[name='base_use_environment'][value='0']").prop("checked", "checked");                  
+                  }else if(data.BaseWorkEnv=="1"){
+                    $(":radio[name='base_use_environment'][value='1']").prop("checked", "checked");                                 
+                  }
+                   $('.salinity').val(data.Naci)
+                 if(data.BaseSpeedType=="ON"){
+                      $(":radio[name='base_sound_velocity'][value='ON']").prop("checked", "checked");
+                      //$("input[name='base_sound_velocity'][value='OFF']").attr("checked",false)
+                      //$("input[name='base_sound_velocity'][value='ON']").attr("checked",true)
+                  }else {
+                     $(":radio[name='base_sound_velocity'][value='OFF']").prop("checked", "checked");                   
+                      $('#set_sound').val(data.BaseSpeed)
+                  }
+                  $('.base_tbjg').val(data.BaseTimeSync)
+                  $('.position_interval').val(data.BaseLocTimeSet)
+                      }
+                    }          
+   
+              
+                },
+            });
+        }
+
+        $(document).on('click','.one_six_read',function(){
+            var name = $('.usbl_equipment_name').val()
+            var type = $('.usbl_equipment_type').val()
+            var status='askForAndGet'
+            one_six_base_settime_1(name,type,status)
+        })
+
+        function one_six_base_settime_1(name,type,status){
+            $.ajax({
+                type:'post',
+                url:"/getOneSixBase",
+                data:{'Name':name,'DevType':type,'ActionStatus':status},
+                dataType:'json',
+                success:function(data){
+                    if(data.IsAskAgain=="1"){
+                        var status='onlyGet'
+                        timing_1=setTimeout(function() {
+                            one_six_base_settime_1(name,type,status)
+                        },2000)
+                    }else{
+                        console.log(data)
+                        alert(data.Msg)
+                        if(data.Status=="1"){
+                          var p=''
+                            $('#equipment_number').val(data.DevId)
+                            $('#one_send_six_recev_sound').val(data.OneSix.Sound)
+                            $('.working_sound').val(data.OneSix.Deep)
+                            $('.timeout_interval').val(data.OneSix.BaseWorkTpt)
+                            $('.one_six_rang').val(data.OneSix.Range)
+                            $('.polling_interval').val(data.OneSix.PollT)
+                            $('.beacon_num').val(data.OneSix.NumOfId)
+                            if(data.OneSix.NumOfId>0){
+                              $(".beacon_num_id").empty()
+                             var ids=data.OneSix.WantGetId.split(',');
+                               for(var i=1;i<=data.OneSix.NumOfId;i++){
+                                 var idx=i-1
+                                    p+='<div class="form-group">'+
+                                        '<label class="col-sm-3 control-label">信标'+i+'_ID：</label>'+
+                                        '<div class="col-sm-8"><input class="form-control interval beacon_num" value="'+ids[idx]+'" name="beacon_id['+i+']"></div></div>';
+                                }
+                                $(".beacon_num_id").append(p);
+                            }
+                        }
+                    }
+
+
+                },
+            });
+        }
+        
+          function one_six_base_settime(name,type,status){
+              $.ajax({
+                type:'post',
+                url:"/getOneSixBase",
+                data:{'Name':name,'DevType':type,'ActionStatus':status},
+                dataType:'json',
+                success:function(data){    
+                 if(data.IsAskAgain=="1"){
+                  var status='onlyGet'           
+                     timing_1=setTimeout(function() {
+                          one_six_base_settime(name,type,status)
+                      },2000)
+                    }else{
+                      console.log(data.BaseSpeedType)
+                      alert(data.Msg)
+                      if(data.Status=="1"){
+                    $('#equipment_number').val(data.DevId)
+                    $('#current_sound').text(data.BaseSpeed)
+                    $('#version_number').text(data.BaseVer)
+                    $('#temperature').text(data.BaseWorkTpt)
+                    $('#depth').text(data.BaseWorkDeep)
+                    $('#loctimeset').text(data.BaseLocTimeSet)
+                    $("#shuaxing_msg").text(data.Msg) 
+                   if(data.BaseWorkEnv=="0"){
+                     $(":radio[name='base_use_environment'][value='0']").prop("checked", "checked");                  
+                  }else if(data.BaseWorkEnv=="1"){
+                    $(":radio[name='base_use_environment'][value='1']").prop("checked", "checked");                                 
+                  }
+                   $('.salinity').val(data.Naci)
+                 if(data.BaseSpeedType=="ON"){
+                      $(":radio[name='base_sound_velocity'][value='ON']").prop("checked", "checked");
+                      //$("input[name='base_sound_velocity'][value='OFF']").attr("checked",false)
+                      //$("input[name='base_sound_velocity'][value='ON']").attr("checked",true)
+                  }else {
+                     $(":radio[name='base_sound_velocity'][value='OFF']").prop("checked", "checked");                   
+                      $('#set_sound').val(data.BaseSpeed)
+                  }
+                  $('.base_tbjg').val(data.BaseTimeSync)
+                  $('.position_interval').val(data.BaseLocTimeSet)
+                      }
+                    }          
+   
+              
+                },
+            });
+        }
+        
+      function zt_settime(data){
+             $.ajax({
+                type:'post',
+                url:"/postSmallAdjustBaseIMU",
+                data:data,
+                dataType:'json',
+                success:function(data){              
+                    $('#roll').text(data.D6)
+                    $('#Pich').text(data.D7)
+                    $('#yaw').text(data.D8)  
+                    $('#status').text(data.Msg)  
+                                              
+                },
+            });
+            
+        }
+
+        $(document).on('click','.set_usblbase',function(){
+            var row_index =$(this).parent().parent().index()
+            var name=$(this).parent().parent().find('td').eq(0).text()
+            var type=$(this).parent().parent().find('td').eq(1).text()
+            $('#base_equipment').modal('show');
+            if(type=='定位信标'){
+                $('#popup_1').hide()
+                $('#popup_2').show()
+                $('#myModalLabel').text('信标设置')
+                $('.modal-footer').empty()
+                $('.modal-footer').append(
+                    '<button type="button" class="btn btn-info read_2" >读取</button>&nbsp;&nbsp;&nbsp;&nbsp;'+
+                    '<button type="button" class="btn btn-info " onclick="update_list_2('+row_index+')">写入</button>'
+                )
+            }else{
+                $('#myModalLabel').text('读取和配置基站内部设置(此设置保存在基站内部)')
+                $('#popup_1').show()
+                $('#popup_2').hide()
+                var communication=$(this).parent().parent().find('td').eq(3).text()
+                var equipment_number=$(this).parent().parent().find('td').eq(5).text()
+                $('.usbl_equipment_name').val(name)
+                $('.usbl_equipment_type').val(type)
+                $('.communication').val(communication)
+                $('#equipment_number').val(equipment_number)
+                $("input[name='base_sound_velocity'][value='ON']").attr('disabled',false)
+                if(type=='USBL基站小型定位'){
+                    $('.one_send_six_recev').hide()
+                    $('.asyn_mode').hide()
+                    $('.syn_mode').show()
+                    $('.small_position').show()
+                    $('#mode_option').attr('disabled',false)
+                    if($(this).parent().parent().find('td').eq(7).text()=='海水'){
+                        $("input[name='base_use_environment'][value='1']").attr("checked",false)
+                        $("input[name='base_use_environment'][value='0']").attr("checked",true)
+                    }else {
+                        $("input[name='base_use_environment'][value='0']").attr("checked",false)
+                        $("input[name='base_use_environment'][value='1']").attr("checked",true)
+                    }
+                    if($(this).parent().parent().find('td').eq(8).text()=='自动计算'){
+                        $("input[name='base_sound_velocity'][value='OFF']").attr("checked",false)
+                        $("input[name='base_sound_velocity'][value='ON']").attr("checked",true)
+                    }else {
+                        $("input[name='base_sound_velocity'][value='ON']").attr("checked",false)
+                        $("input[name='base_sound_velocity'][value='OFF']").attr("checked",true)
+                        $('#set_sound').val($(this).parent().parent().find('td').eq(9).text())
+                    }
+                    $('.base_tbjg').val($(this).parent().parent().find('td').eq(10).text())
+                    //$('.position_interval').val($(this).parent().parent().find('td').eq(6).text())
+                    $('.modal-footer').empty()
+                    $('.modal-footer').append(
+                        '<button type="button" class="btn btn-info read_1" >读取</button>&nbsp;&nbsp;&nbsp;&nbsp;'+
+                        '<button type="button" class="btn btn-info " onclick="update_list_1('+row_index+')">写入</button>&nbsp;&nbsp;&nbsp;&nbsp;'+
+                        '<button type="button" class="btn btn-info restore_default">恢复默认设置</button>'
+                    )
+                }else if(type=='USBL基站1发6收'){
+                    $('.small_position').hide()
+                    $('.asyn_mode').show()
+                    $('#mode_option').attr('disabled',true)
+                    $('.syn_mode').hide()
+                    $('.one_send_six_recev').show()
+                    $("input[name='base_sound_velocity'][value='ON']").attr('disabled',true)
+
+                    $('.modal-footer').empty()
+                    $('.modal-footer').append(
+                        '<button type="button" class="btn btn-info one_six_read" >读取</button>&nbsp;&nbsp;&nbsp;&nbsp;'+
+                        '<button type="button" class="btn btn-info " onclick="one_six_update_list_1('+row_index+')">写入</button>&nbsp;&nbsp;&nbsp;&nbsp;'+
+                        '<button type="button" class="btn btn-info one_six_restore_default">恢复默认设置</button>'
+                    )
+                }
+
+
+            }
+
+        })
+
+        $("input:radio[name='mode_option']").change(function (){
+            if($(this).val()==0){
+                $('.asyn_mode').hide()
+                $('.syn_mode').show()
+            }else {
+                $('.syn_mode').hide()
+                $('.asyn_mode').show()
+            }
+        });
+
+        $(document).on('click','.read_1',function(){
+          var name = $('.usbl_equipment_name').val()
+          var type = $('.usbl_equipment_type').val()      
+          var status='askForAndGet'
+          base_settime(name,type,status)       
+        })
+
+        $(document).on('click','.read_2',function(){
+          var status='askForAndGet'
+            beacon_num=''
+            positioning_mode=''
+            $('#becoan_msg').text('')
+            $('#position_mode_msg').text('')
+            clearTimeout(timing_3)
+            clearTimeout(timing_5)
+           read_settime(status)
+           read_model_settime(status)
+        })
+
+
+        function read_settime(status){
+             $.ajax({
+                type:'post',
+                url:"/getSmallBeaconId",
+                data:{'ActionStatus':status},
+                dataType:'json',
+                success:function(data){              
+                  if(data.IsAskAgain=='1'){
+                    var status='onlyGet'
+                      timing_3=setTimeout(function() {
+                          read_settime(status)
+                      },2000)
+                  }else{
+                      beacon_num=data.Msg
+                      if(data.Status=='1'){
+                          $('#equipment_number_2').val(data.DataOne)
+                          
+                      }
+                      two_agreements()
+                    }
+                },
+            });
+        }
+        
+       function read_model_settime(status){
+             $.ajax({
+                type:'post',
+                url:"/getSmallBeaconMode",
+                data:{'ActionStatus':status},
+                dataType:'json',
+                success:function(data){              
+                  if(data.IsAskAgain=='1'){
+                    var status='onlyGet'
+                      timing_5=setTimeout(function() {
+                          read_model_settime(status)
+                      },2000)
+                  }else{
+                      positioning_mode=data.Msg
+                      if(data.Status=='1'){                       
+                        $("input[name='beacon_mode_option'][value='"+data.DataOne+"']").prop("checked",true)
+                       
+                      }
+                      two_agreements()
+                    }
+                },
+            });
+        }
+
+        $(document).on('click','.restore_default',function(){
+            $('#equipment_number').val('7')
+            $(":radio[name='base_use_environment'][value='0']").prop("checked", "checked");
+            $('.salinity').val('35')
+            $('.base_tbjg').val('120')
+            $('.position_interval').val('1')
+            $(":radio[name='base_sound_velocity'][value='ON']").prop("checked", "checked");
+        })
+
+        $(document).on('click','.one_six_restore_default',function(){
+            //$('#equipment_number').val('7')
+            $('.one_six_rang').val('1000')
+            $('.polling_interval').val('10')
+            $('.beacon_num_id').empty()
+            $('.beacon_num').val('1')
+            $('.working_sound').val(100)
+            $('#one_send_six_recev_sound').val(1500)
+            var r='<div class="form-group">'+
+                    '<label class="col-sm-3 control-label">信标'+1+'_ID：</label>'+
+                    '<div class="col-sm-8"><input class="form-control interval beacon_num" value="1" name="beacon_id[1]"></div></div>';
+            
+            $(".beacon_num_id").append(r);
+        })
+
+        function update_list_1(row_index) {
+            var name =$('.usbl_equipment_name').val()
+            var type =$('.usbl_equipment_type').val()
+            var communication =$('.communication').val()
+            var equipment_number =$('#equipment_number').val()
+            var salinity =$('.salinity').val()
+            var sound_velocity=''
+            var set_sound=''
+            var UseEnv=$("input[name='base_use_environment']:checked").val()
+            
+            if(UseEnv=='0'){
+                var use_environment='海水'
+            }else if(UseEnv=='1'){
+                var use_environment='淡水'
+            }else {
+                alert('请选择使用环境')
+                return
+            }
+            var WaterSpeedType =$("input[name='base_sound_velocity']:checked").val()
+            if(WaterSpeedType=='ON'){
+                sound_velocity= '自动计算'
+            }else if(WaterSpeedType=='OFF'){
+                sound_velocity= '手动配置'
+                set_sound = $('#set_sound').val()
+            }else {
+                alert('请选择声速')
+                return
+            }
+            var tbjg=$('.base_tbjg').val()
+            var position_interval=$('.position_interval').val()
+            // $("tbody").each(function(){
+            //     $(this).find('tr').eq(row_index).find('td').eq(5).text(0)
+            //     $(this).find('tr').eq(row_index).find('td').eq(6).text(position_interval)
+            //     $(this).find('tr').eq(row_index).find('td').eq(7).text(use_environment)
+            //     $(this).find('tr').eq(row_index).find('td').eq(8).text(sound_velocity)
+            //     $(this).find('tr').eq(row_index).find('td').eq(9).text(set_sound)
+            //     $(this).find('tr').eq(row_index).find('td').eq(10).text(tbjg)
+            // })
+            $.ajax({
+                type:'post',
+                url:"/postSmallModifyDevOne",
+                data:{'Name':name,'DevType':type,'DevId':equipment_number,'UseEnv':UseEnv,'Naci':salinity,'WaterSpeedType':WaterSpeedType,'WaterSpeed':set_sound,'BaseTimeSync':tbjg,'BeaconSentTime':position_interval},
+                dataType:'json',
+                success:function(data){
+                  alert(data.Msg)              
+             
+                },
+            });
+
+           // $('#base_equipment').modal('hide');
+        }
+
+        function one_six_update_list_1(row_index) {
+            try {
+                var name =$('.usbl_equipment_name').val()
+                var type =$('.usbl_equipment_type').val()
+                var communication =$('.communication').val()
+                var equipment_number =$('#equipment_number').val()            
+                var one_six_rang = $('.one_six_rang').val()
+                var polling_interval = $('.polling_interval').val()
+                var one_send_six_recev_sound = $('#one_send_six_recev_sound').val()
+                var working_sound = $('.working_sound').val()
+                var beacon_num = $('.beacon_num').val()
+                if(polling_interval==''){
+                    throw '轮询间隔请输入0~65535范围的值'
+                    return false
+                }else if(polling_interval<0){
+                    throw '轮询间隔请输入0~65535范围的值'
+                    return false
+                }else if(polling_interval>65535){
+                    throw '轮询间隔请输入0~65535范围的值'
+                    return false
+                }
+
+                if(beacon_num==''){
+                    throw '信标个数设置不能为空'
+                    return false
+                }
+                var beacon_id_arr=[]
+                var beacon_id_str=""
+                $("input[name^='beacon_id']").each(function () {
+                    if($(this).val()==''){
+                        throw '信标ID不能为空'
+                        return false
+                    }
+                    var index = $.inArray($(this).val(), beacon_id_arr);
+                    if(index>=0){
+                        throw '信标ID不能重复'
+                        return false
+                    }else {
+                        beacon_id_arr.push($(this).val())
+                    }
+                    beacon_id_str+=$(this).val() + ",";
+                })
+                if (beacon_id_str.length > 0) {
+                    beacon_id_str = beacon_id_str.substr(0,beacon_id_str.length - 1);
+                }
+                console.log(beacon_id_str)
+                console.log(beacon_id_arr)
+                // $("tbody").each(function(){
+                //     $(this).find('tr').eq(row_index).find('td').eq(5).text(0)
+                //     $(this).find('tr').eq(row_index).find('td').eq(6).text(position_interval)
+                //     $(this).find('tr').eq(row_index).find('td').eq(7).text(use_environment)
+                //     $(this).find('tr').eq(row_index).find('td').eq(8).text(sound_velocity)
+                //     $(this).find('tr').eq(row_index).find('td').eq(9).text(set_sound)
+                //     $(this).find('tr').eq(row_index).find('td').eq(10).text(tbjg)
+                // })
+                $.ajax({
+                    type:'post',
+                    url:"/postSmallModifyDevOne",
+                    //data:{'Name':name,'DevType':type,'DevId':equipment_number,'OneSix':{'LocationMode':'异步模式','NumOfId':beacon_num,'WantGetId':beacon_id_str,'Range':one_six_rang,'PollT':polling_interval,'Sound':one_send_six_recev_sound,'Deep':working_sound}},
+                    data:{'Name':name,'DevType':type,'DevId':equipment_number,'LocationMode':'异步模式','NumOfId':beacon_num,'WantGetId':beacon_id_str,'Range':one_six_rang,'PollT':polling_interval,'Sound':one_send_six_recev_sound,'Deep':working_sound},
+                    dataType:'json',
+                    success:function(data){
+                        alert(data.Msg)
+
+                    },
+                });
+            }catch(e) {
+                alert(e)
+                return false
+            }
+
+        }
+
+
+        
+        function update_list_2(row_index) {
+            var id =$('#equipment_number_2').val()
+            var status ='askForAndGet'
+            var position_mode=$("input[name='beacon_mode_option']:checked").val()
+            beacon_num=''
+            positioning_mode=''
+            $('#becoan_msg').text('')
+            $('#position_mode_msg').text('')
+            clearTimeout(timing_4);
+            clearTimeout(timing_6);
+            wt_settime(id,status)
+            wt_position_settime(position_mode,status)
+           // $('#base_equipment').modal('hide');
+        }
+        
+        function wt_settime(id,status){
+             $.ajax({
+                type:'post',
+                url:"/wtSmallBeaconId",
+                data:{'DevId':id,'ActionStatus':status},
+                dataType:'json',
+                success:function(data){              
+                  if(data.IsAskAgain=='1'){
+                    var status='onlyGet'
+                    var id=''
+                     timing_4=setTimeout(function() {
+                          wt_settime(id,status)
+                      },2000)
+                  }else{
+                      beacon_num=data.Msg
+                      if(data.Status=='1'){
+                        $('#equipment_number_2').val(data.DataOne)
+                      }
+                      two_agreements()
+                    }
+                },
+            });
+        }
+        
+        function wt_position_settime(position_mode,status){
+             $.ajax({
+                type:'post',
+                url:"/wtSmallBeaconMode",
+                data:{'LocationMode':position_mode,'ActionStatus':status},
+                dataType:'json',
+                success:function(data){              
+                  if(data.IsAskAgain=='1'){
+                    var status='onlyGet'
+                    var id=''
+                     timing_6=setTimeout(function() {
+                          wt_position_settime(position_mode,status)
+                      },2000)
+                  }else{
+                      positioning_mode=data.Msg
+                      if(data.Status=='1'){
+                        $(":radio[name='beacon_mode_option'][value='"+data.DataOne+"']").prop("checked", "checked");
+                        
+                      }
+                      two_agreements()
+                    }
+                },
+            });
+        }
+
+        function two_agreements(){
+            if(beacon_num !=''&& positioning_mode !=''){
+                $('#becoan_msg').text(beacon_num)
+                $('#position_mode_msg').text(positioning_mode)
+            }
+        }
+
+        $('#base_equipment').on('hide.bs.modal', function () {
+            document.getElementById("myForm").reset()
+        })
+
+        $(document).on('click','.start_send',function(){
+            var num = $('#number').text()
+            var opt='askForAndGet'
+            start_send(num,opt)
+        })
+
+        $(document).on('click','.stop_send',function(){
+            var num = $('#number').text()
+            var opt='askForAndGet'
+            stop_send(num,opt)
+        })
+
+        $(document).on('click','.Rsync_time',function(){
+            var id = $('#number').text()
+            var opt='askForAndGet'
+            rsync_time(id,opt)
+
+        })
+        
+      function start_send(id,opt){console.log(id)
+             $.ajax({
+                type:'post',
+                url:"/postSmallStartXinBiao",
+                data:{'DevId':id,'ActionStatus':opt},
+                dataType:'json',
+                success:function(data){
+                    if(data.IsAskAgain=='1'){  
+                    var opt='onlyGet'          
+                         setTimeout(function() {
+                          start_send(id,opt)
+                      },3000)                      
+                      }
+         
+                 
+                  $('#start_msg').text(data.Msg)
+                },
+            });
+        }
+        
+      function stop_send(id,opt){console.log(id)
+             $.ajax({
+                type:'post',
+                url:"/postSmallStopXinBiao",
+                data:{'DevId':id,'ActionStatus':opt},
+                dataType:'json',
+                success:function(data){
+                    if(data.IsAskAgain=='1'){  
+                    var opt='onlyGet'          
+                         setTimeout(function() {
+                          stop_send(id,opt)
+                      },3000)                      
+                      }                    
+                  $('#stop_msg').text(data.Msg)
+                },
+            });
+        }
+
+        function rsync_time(id,opt){
+            $.ajax({
+                type:'post',
+                url:"/postSmallBcnSentTimeSync",
+                data:{'DevId':id,'ActionStatus':opt},
+                dataType:'json',
+                success:function(data){
+                    if(data.IsAskAgain=='1'){
+                        var opt='onlyGet'
+                        setTimeout(function() {
+                            rsync_time(id,opt)
+                        },3000)
+                    }
+                    $('#Rsync_msg').text(data.Msg)
+                },
+            });
+        }
+
+    </script>
+
+    </body>
+</html>

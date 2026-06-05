@@ -1,0 +1,2021 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>甲板单元系统</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link href="../static/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../static/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../static/css/animate.css" rel="stylesheet">
+    <link href="../static/css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../static/css/sweetalert.css" rel="stylesheet">
+    <link href="../static/css/sweetalert.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../static/css/jquery.bigcolorpicker.css" />
+    <script type="text/javascript" src="../static/js/echarts.min.js"></script>
+    <script src="../static/js/currency.js"></script>
+    <script src="../static/js/quanju.js"></script>
+
+</head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h3>设备管理</h3>
+                </div>
+                <div class="ibox-content tables tables-color">
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <button class="btn btn-primary  add_equipment" data-toggle="modal" data-target="#equipment">
+                                添加设备
+                            </button>
+                        </div>
+                        <div class="ibox-content tables">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>设备名称</th>
+                                        <th>类型</th>
+                                        <th>通讯接口</th>
+                                        <th>串口端口/IP</th>
+                                        <th>波特率/网口端口</th>
+                                        <th>编号</th>
+                                        <th>颜色</th>
+                                        <th>状态</th>
+                                        <th>操作</th>
+                                        <th>管理</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="ibox-content col-sm-12">
+                    <div id="base_area" style="display: none">
+                        <div class="col-sm-6">
+                            <div class="equit_detail">
+                                <h3>基本信息</h3>
+                            </div>
+                            <div class="row detail-lineheight">
+                                <div class="col-sm-4 detail_left">
+                                    <div>产品名称：<span id="product_name"></span></div>
+                                </div>
+                                <div class="col-sm-4 detail_left">
+                                    <div>产品类型：<span id="product_type"></span></div>
+                                </div>
+                                <div class="col-sm-4 detail_left">
+                                    <div>SN：<span id="sn"></span></div>
+                                </div>
+                                <div class="col-sm-4 detail_left">
+                                    <div>设备ID：<span id="product_number"></span></div>
+                                </div>
+                                <div class="col-sm-4 detail_left">
+                                    <div>软件版本：<span id="edition_number"></span></div>
+                                </div>
+
+                            </div>
+                             <div class="equit_detail">
+                                <h3>通讯参数</h3>
+                            </div>
+                            <div class="row detail-lineheight">
+                                <div class="col-sm-4 detail_left">
+                                    <div>发送模式：<span id="send_model"></span></div>
+                                </div>
+                                 <div class="col-sm-4 detail_left">
+                                    <div>发射功率：<span id="send_power"></span></div>
+                                </div>
+                                <div class="col-sm-4 detail_left">
+                                    <div>数据块保护间隔：<span id="protection_interval"></span></div>
+                                </div>
+                             </div>
+                            
+                            <div class="equit_detail">
+                                <h3>环境信息</h3>
+                            </div>
+                            <div class="row detail-lineheight">
+                                <div class="col-sm-4 detail_left">
+                                    <div>使用环境：<span id="use_env"></span></div>
+                                </div>
+                                <div class="col-sm-4 detail_left">
+                                    <div>盐度：<span id="salinity"></span></div>
+                                </div>
+                                <div class="col-sm-4 detail_left">
+                                    <div>工作水温：<span id="work_temp"></span></div>
+                                </div>
+                                <div class="col-sm-4 detail_left">
+                                    <div>当前深度：<span id="depth"></span></div>
+                                </div>
+                                <div class="col-sm-4 detail_left">
+                                    <div>水声声速：<span id="sound_model"></span></div>
+                                </div>
+                                <div class="col-sm-4 detail_left">
+                                    <div>当前声速：<span id="now_sound"> </span></div>
+                                </div>
+
+                            </div>
+                            <div class="equit_detail">
+                                <h3>定位参数</h3>
+                            </div>
+                            <div class="row detail-lineheight">
+                                <div class="beacon_syn_color">
+                                    <div class="col-sm-12">
+                                        <input type="radio" value="1" id="beacon_syn" name="beacon_syn">同步模式
+                                    </div>
+                                    <div class="col-sm-4 detail_left">
+                                        <div>配对信标ID：<span id="pair_beacon_id"></span></div>
+                                    </div>
+                                    <div class="col-sm-4 detail_left">
+                                        <div>定位时间间隔：<span id="position_interval"></span></div>
+                                    </div>
+                                    <div class="col-sm-4 detail_left">
+                                        <div>同步时间间隔：<span id="sny_interval"></span></div>
+                                    </div>
+                                </div>
+                                <div class="beacon_asyn_color">
+                                    <div class="col-sm-12">
+                                        <input type="radio" value="0" id="beacon_asyn" name="beacon_asyn">问答模式
+                                    </div>
+                                    <div class="col-sm-4 detail_left">
+                                        <div>工作范围：<span id="work_range"></span></div>
+                                    </div>
+                                    <div class="col-sm-4 detail_left">
+                                        <div>轮询间隔：<span id="polling_interval"></span></div>
+                                    </div>
+                                    <div class="col-sm-4 detail_left">
+                                        <div>轮询信标ID：<span id="polling_id"> </span></div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-sm-1"></div>
+                        <div class="col-sm-5">
+                            <div class="equit_detail">
+                                <h3>AHRS</h3>
+                            </div>
+                            <div class="row detail-lineheight">
+                                <div class="col-sm-4 detail_left">
+                                    <div>Roll：<span id="roll">--</span></div>
+                                </div>
+                                <div class="col-sm-4 detail_left">
+                                    <div>Pitch：<span id="pitch">--</span></div>
+                                </div>
+                                <div class="col-sm-4 detail_left">
+                                    <div>Yaw：<span id="yaw">--</span></div>
+                                </div>
+                                <div class="col-sm-8 detail_left">
+                                    <div>状态：<span id="state"></span></div>
+                                </div>
+                                <div class="col-sm-8 detail_left ">
+                                    <div class="imu_msg1" style="display: none;">消息：<span id="imu_msg"></span></div>
+                                </div>
+                                <div class="col-sm-4 detail_left">
+                                    <button class="btn btn-info  start_jz" style="display: none">
+                                        开始较准
+                                    </button>
+                                    <button class="btn btn-info  again_jz" style="display: none">
+                                        重新校准
+                                    </button>
+                                </div>
+                                <div class="col-sm-4 detail_left">
+                                    <div><span id="msg"></span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="beacon_area" style="display: none">
+                        <div class="col-sm-6">
+                            <div class="equit_detail">
+                                <h3>基本信息</h3>
+                            </div>
+                            <div class="row detail-lineheight">
+                                <div class="col-sm-4 detail_left">
+                                    <div>产品名称：<span id="beacon_product_name"></span></div>
+                                </div>
+                                <div class="col-sm-4 detail_left">
+                                    <div>产品类型：<span id="beacon_product_type"></span></div>
+                                </div>
+                                <div class="col-sm-4 detail_left">
+                                    <div>设备ID：<span id="beacon_id"></span></div>
+                                </div>
+
+                            </div>
+                            <div class="equit_detail">
+                                <h3>环境信息</h3>
+                            </div>
+                            <div class="row detail-lineheight">
+                                <div class="col-sm-4 detail_left">
+                                    <div>当前深度：<span id="beacon_depth"></span></div>
+                                </div>
+                                <div class="col-sm-4 detail_left asyn_temp">
+                                    <div>工作水温：<span id="beacon_work_temp">--</span></div>
+                                </div>
+                                <div class="col-sm-4 detail_left">
+                                    <div>当前电量：<span id="beacon_electric_quantity">--</span></div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="col-sm-1"></div>
+                        <div class="col-sm-5">
+                            <div class="equit_detail">
+                                <h3>信标操作</h3>
+                            </div>
+                            <div class="row detail-lineheight col-sm-3">
+                                <button class="btn btn-info syn_switch" id="stop_location">
+                                    停止定位
+                                </button>
+                                <button class="btn btn-info syn_switch" id="start_location">
+                                    开始定位
+                                </button>
+                                <button class="btn btn-info syn_switch" id="time_syn">
+                                    时间同步
+                                </button>
+                                <button class="btn btn-info asyn_switch" id="dormancy"
+                                        style="display: flex;position: relative;top: 7px;">
+                                    休眠
+                                </button>
+                                <button class="btn btn-info asyn_switch" id="awaken"
+                                        style="display: inline;position: relative;top: 12px;">
+                                    唤醒
+                                </button>
+
+                            </div>
+                            <div class="row detail-lineheight col-sm-9">
+                                <ul class="list-unstyled project-files beacon_li">
+
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="equit_detail">
+                                <h3>深度历史</h3>
+                            </div>
+                            <div class="row detail-lineheight">
+                                <div class="col-sm-12">
+                                    <div class="form-inline">
+                                        <div class="form-group">
+                                            <span>名称</span>
+                                            <select class="form-control" name="" id="ls">
+
+                                            </select>
+                                        </div>
+                                        <button class="btn btn-primary " type="submit" id="query">查询</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div id="shendu" style="height: 500px;"></div>
+                        </div>
+                    </div>
+                    <div id="rtk_area" style="display: none">
+                        <div class="col-sm-6">
+                            <div class="equit_detail">
+                                <h3>基本信息</h3>
+                            </div>
+                            <div class="row detail-lineheight">
+                                <div class="col-sm-4 detail_left">
+                                    <div>产品名称：<span id="rtk_product_name">20</span></div>
+                                </div>
+                                <div class="col-sm-4 detail_left">
+                                    <div>产品类型：<span id="rtk_product_type">定位信标</span></div>
+                                </div>
+
+                            </div>
+                            <div class="equit_detail">
+                                <h3>GPS定位信息</h3>
+                            </div>
+                            <div class="row detail-lineheight">
+                                <div class="col-sm-4 detail_left">
+                                    <div>使用卫星数：<span id="use_satellite_num">13</span></div>
+                                </div>
+                                <div class="col-sm-4 detail_left">
+                                    <div>质量因子：<span id="quality_factor">差分GPS</span></div>
+                                </div>
+                                <div class="col-sm-4 detail_left">
+                                    <div>方向输出：<span id="direction_output">有</span></div>
+                                </div>
+                                <div class="col-sm-4 detail_left">
+                                    <div>水平精度因子：<span id="accuracy">1.2</span></div>
+                                </div>
+                                <div class="col-sm-4 detail_left">
+                                    <div>天线高程：<span id="antenna">5m</span></div>
+                                </div>
+                                <div class="col-sm-4 detail_left">
+                                    <div>IMU输出：<span id="guandao">5m</span></div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div id="st_area" style="display: none">
+                        <div class="col-sm-6">
+                            <div class="equit_detail">
+                                <h3>基本信息</h3>
+                            </div>
+                            <div class="row detail-lineheight">
+                                <div class="col-sm-4 detail_left">
+                                    <div>产品名称：<span id="st_product_name"></span></div>
+                                </div>
+                                <div class="col-sm-4 detail_left">
+                                    <div>产品类型：<span id="st_product_type"></span></div>
+                                </div>
+                                <div class="col-sm-4 detail_left">
+                                    <div>SN：<span id="st_sn"></span></div>
+                                </div>
+                                <div class="col-sm-4 detail_left">
+                                    <div>软件版本：<span id="st_ver"></span></div>
+                                </div>
+                             <!--   <div class="col-sm-4 detail_left">
+                                    <div>系统时间：<span id="st_system_time"></span></div>
+                                </div>-->
+                            </div>
+                            <div class="equit_detail">
+                                <h3>通讯参数</h3>
+                            </div>
+                            <div class="row detail-lineheight">
+                                <div class="col-sm-4 detail_left">
+                                    <div>本机ID地址：<span id="st_local_id"></span></div>
+                                </div>
+                                <div class="col-sm-4 detail_left">
+                                    <div>目标声通ID地址：<span id="st_target_id"></span></div>
+                                </div>
+                                <div class="col-sm-4 detail_left">
+                                    <div>屏蔽非目标ID的数据：<span id="st_shield"></span></div>
+                                </div>
+                                <div class="col-sm-4 detail_left">
+                                    <div>发射功率：<span id="st_power"></span></div>
+                                </div>
+                                <div class="col-sm-4 detail_left">
+                                    <div>数据块保护间隔：<span id="st_interval"></span></div>
+                                </div>
+                                <div class="col-sm-4 detail_left">
+                                    <div>串口波特率：<span id="st_baud"></span></div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div id="tuoluo_area" style="display: none">
+                        <div class="col-sm-6">
+                            <div class="equit_detail">
+                                <h3>设备状态</h3>
+                            </div>
+                            <div class="row detail-lineheight">
+                                <div class="col-sm-4 detail_left">
+                                    <div>校准状态：<span id="tuoluo_status"></span></div>
+                                </div>
+                                <div class="col-sm-4 detail_left">
+                                    <div>校准结果：<span id="tuoluo_rst"></span></div>
+                                </div>
+                                <div class="col-sm-4 detail_left">
+                                    <div>惯性导航精度：<span id="tuoluo_jingdu"></span></div>
+                                </div>
+                                <div class="col-sm-4 detail_left">
+                                    <div>导航模式：<span id="tuoluo_model"></span></div>
+                                </div>
+                                <div class="col-sm-4 detail_left">
+                                    <div>距上次校准成功时间：<span id="tuoluo_time"></span></div>
+                                </div>
+                                 <div class="col-sm-4 detail_left">
+                                    <div>更新时间：<span id="tuoluo_gxtime"></span></div>
+                                </div>
+                                 <div class="col-sm-4 detail_left">
+                                    <div>卫星定位状态：<span id="tuoluo_point"></span></div>
+                                </div>
+                                <div class="col-sm-4 detail_left">
+                                    <div>经纬度是否有效：<span id="tuoluo_jwd"></span></div>
+                                </div>
+                            </div>
+                            <div class="equit_detail">
+                                <h3>输出数据</h3>
+                            </div>
+                            <div class="row detail-lineheight">
+                                <div class="col-sm-4 detail_left">
+                                    <div>横滚角：<span id="tuoluo_roll"></span></div>
+                                </div>
+                                <div class="col-sm-4 detail_left">
+                                    <div>航向角：<span id="tuoluo_yaw"></span></div>
+                                </div>
+                                <div class="col-sm-4 detail_left">
+                                    <div>俯仰角：<span id="tuoluo_pitch"></span></div>
+                                </div>
+                                <div class="col-sm-4 detail_left">
+                                    <div>经度：<span id="tuoluo_lng"></span></div>
+                                </div>
+                                <div class="col-sm-4 detail_left">
+                                    <div>纬度：<span id="tuoluo_lat"></span></div>
+                                </div>
+                                <div class="col-sm-4 detail_left">
+                                    <div>导航误差估计值：<span id="tuoluo_value"></span></div>
+                                </div>
+                                  <div class="col-sm-4 detail_left">
+                                    <div>校准条件不足：<span id="tuoluo_tiaojian"></span></div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<!-- 添加修改 -->
+<div class="modal fade" id="equipment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog add_modify">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title title" id="myModalLabel">
+                    添加设备
+                </h4>
+            </div>
+            <div class="modal-body">
+
+                <form class="form-horizontal" id="myForm">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">设备名称：</label>
+
+                        <div class="col-sm-8">
+                            <input  class="form-control equipment_name" maxlength="6">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">设备类型：</label>
+                        <div class="col-sm-8">
+                            <select class="form-control" class="equipment_type" id="equipment_type">
+                                <option value="小型USBL基站">小型USBL基站</option>
+                                <option value="USBL基站">USBL基站</option>
+                                <option value="USBL基站12K">USBL基站12K</option>
+                                <option value="RTK">RTK</option>
+                                <!-- <option value="RTK带惯导">RTK(内置IMU)</option>-->
+                                <!--                                        <option value="RTK带指北">RTK带指北</option>-->
+                                <option value="定位信标">定位信标</option>
+                                <option value="本地声通">本地声通</option>
+                                <option value="远程声通">远程声通</option>
+                                <option value="光纤陀螺">光纤陀螺</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="area_1">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">本机编号：</label>
+                            <div class="col-sm-8">
+                                <input  class="form-control" id="base_terminal_number" placeholder="1~255" type="number" min="1" max="255">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">通讯接口：</label>
+                        </div>
+                        <div class="form-group interface">
+                            <label class="col-sm-1">
+                                <input type="radio" value="uart" id="serial_port_1" name="serial_port_1" >串口
+                            </label>
+                            <label class="col-sm-2 control-label">系统的串口列表：</label>
+                            <div class="col-sm-3">
+                                <select class="input-sm form-control input-s-sm inline " id="com_1">
+
+                                </select>
+                            </div>
+                            <label class="col-sm-2 control-label">波特率：</label>
+                            <div class="col-sm-3">
+                                <input id="baud_1" name="baud"  placeholder="输入波特率" type="text" class="form-control" value="115200" >
+                            </div>
+                        </div>
+                        <div class="form-group interface" id="now_serial" style="color: #ff5050;">
+                            <label class="col-sm-3 control-label" style="padding-top:0px;">当前使用的串口：</label>
+                            <label class="col-sm-3" id="now_com" style="font-weight: 100;font-size: 14px;padding-left: 26px;"></label>
+
+                        </div>
+                        <div class="form-group interface">
+                            <label class="col-sm-1">
+                                <input type="radio" value="net" id="serial_port_1" name="serial_port_1">网口
+                            </label>
+                            <label class="col-sm-2 control-label">IP：</label>
+                            <div class="col-sm-3">
+                                <input id="ip_1" name="ip"  placeholder="输入主机IP地址" type="text" class="form-control" required="" aria-required="true">
+                            </div>
+                            <label class="col-sm-2 control-label">端口：</label>
+                            <div class="col-sm-3">
+                                <input id="port_number_1"  name="port_number" placeholder="输入端口号" type="text" class="form-control" required="" aria-required="true">
+                            </div>
+                        </div>
+                        <div class="form-group">
+
+                            <label for="color_2" class="col-sm-3 control-label label-color">颜色：</label>
+                            <div class="col-sm-8 ">
+                                <a href="javascript:void(0)" id="color_2"></a>
+                            </div>
+                            <input type="hidden" id="color2" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">基站轨迹时间间隔：</label>
+
+                            <div class="col-sm-8">
+                                <input  class="form-control base_point" >
+                            </div>
+                        </div>
+                    </div>
+                    <div id="area_3">
+                        <div class="form-group area_3_1">
+                            <label class="col-sm-3 control-label">设备编号：</label>
+                            <div class="col-sm-8">
+                                <input  class="form-control" id="terminal_number" placeholder="1~255" type="number" min="1" max="255">
+                            </div>
+                        </div>
+                        <div class="form-group area_3_2">
+                            <label for="color" class="col-sm-3 control-label label-color">颜色：</label>
+                            <div class="col-sm-8 ">
+                                <a href="javascript:void(0)" id="color"></a>
+                            </div>
+                            <input type="hidden" id="color1" class="form-control">
+                        </div>
+                    </div>
+                    <div id="area_2">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">通讯接口：</label>
+                        </div>
+                        <div class="form-group interface">
+                            <label class="col-sm-1">
+                                <input type="radio" value="uart" id="serial_port_2" name="serial_port_2" >串口
+                            </label>
+                            <label class="col-sm-2 control-label">系统的串口列表：</label>
+                            <div class="col-sm-3">
+                                <select class="input-sm form-control input-s-sm inline " id="com_2">
+
+                                </select>
+                            </div>
+                            <label class="col-sm-2 control-label">波特率：</label>
+                            <div class="col-sm-3">
+                                <input id="baud_2" name="baud"  placeholder="输入波特率" type="text" class="form-control" required="" >
+                            </div>
+                        </div>
+                        <div class="form-group interface" id="now_serial_1" style="color: #ff5050;">
+                            <label class="col-sm-3 control-label" style="padding-top:0px;">当前使用的串口：</label>
+                            <label class="col-sm-3" id="now_com_1" style="font-weight: 100;font-size: 14px;padding-left: 26px;"></label>
+
+                        </div>
+                         <div class="form-group interface">
+                             <label class="col-sm-1">
+                                 <input type="radio" value="net" id="serial_port_2" name="serial_port_2">网口
+                             </label>
+                             <label class="col-sm-2 control-label">IP：</label>
+                             <div class="col-sm-3">
+                                 <input id="ip_2" name="ip"  placeholder="输入主机IP地址" type="text" class="form-control" required="" aria-required="true">
+                             </div>
+                             <label class="col-sm-2 control-label">端口：</label>
+                             <div class="col-sm-3">
+                                 <input id="port_number_2"  name="port_number" placeholder="输入端口号" type="text" class="form-control" required="" aria-required="true">
+                             </div>
+                         </div>
+                    </div>
+
+                </form>
+
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                </button>
+                <button type="button" class="btn btn-primary add_list">
+                    添加
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<!-- 全局js -->
+<script src="../static/js/jquery.min.js?v=2.1.4"></script>
+<script src="../static/js/bootstrap.min.js?v=3.3.6"></script>
+<!-- 自定义js -->
+<script src="../static/js/content.js?v=1.0.0"></script>
+<script src="../static/js/plugins/sweetalert/sweetalert.min.js"></script>
+<script type="text/javascript" src="../static/js/plugins/layer/layer.min.js"></script>
+<script type="text/javascript" src="../static/js/currency.js"></script>
+<script  src="../static/js/jquery.bigcolorpicker.min.js"></script>
+<script>
+    $("#color").bigColorpicker(function (e1,color) {
+        $('#color1').css("background-color",color);
+        $('#color').css("background-color",color);
+    });
+    $("#color_2").bigColorpicker(function (e2,color_2) {
+        $('#color2').css("background-color",color_2);
+        $('#color_2').css("background-color",color_2);
+    });
+
+    $(function () {
+        $("[data-toggle='tooltip']").tooltip();
+        if (navigator.userAgent.indexOf('Firefox') >= 0) {
+            $('select').css("cssText", "padding:0 !important;");
+        }
+        load_1()
+        $('.syn_switch').hide()
+        $('.asyn_switch').hide()
+    })
+
+    var dom1 = document.getElementById("shendu");
+    var shendu;
+    var timing_1
+    var timing_2
+    var xf_num = ''
+    var synorasyn = ''
+    var use_com=''
+
+    option1 = {
+        title: {},
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                label: {
+                    backgroundColor: '#6a7985'
+                }
+            },
+        },
+        legend: {
+            width: '80%',
+            textStyle: {color: '#fff'}
+        },
+        xAxis: {
+            axisLine: {
+                onZero: false,
+                lineStyle: {
+                    color: '#fff',
+                }
+            },
+
+            data: []
+        },
+
+        yAxis: {
+            axisLine: {
+                onZero: false,
+                lineStyle: {
+                    color: '#fff',
+                }
+            },
+            axisLabel: {formatter: '{value} m'},
+            gridIndex: 0
+        },
+        grid: {
+            backgroundColor: new echarts.graphic.LinearGradient(
+                0, 0, 0, 1,
+                [
+                    {offset: 0, color: '#8ab1dc'},
+                    {offset: 1, color: '#0a35ab'}
+                ]
+            ),
+            show: true,
+        },
+        series: []
+    };
+    $(document).on('click', '.details', function () {
+        var name = $(this).parent().parent().find('td').eq(0).text()
+        var type = $(this).parent().parent().find('td').eq(1).text()
+        var id = $(this).parent().parent().find('td').eq(5).text()
+        var info = {'Name': name, 'DevType': type, 'ActionStatus': 'askForAndGet'}
+        var type = $(this).parent().parent().find('td').eq(1).text()
+
+        var url = ''
+        info = {'Name': name, 'DevType': type, 'ActionStatus': 'askForAndGet'}
+        $.ajax({
+            type: 'post',
+            url: '/postSmallStatusOneDev',
+            data: {"Name": name, "DevId": id, "DevType": type},
+            dataType: 'json',
+            success: function (data) {
+                $("tbody").find('tr').each(function () {
+                    if ($(this).find('td').eq(0).text() == data.Name && $(this).find('td').eq(1).text() == data.DevType) {
+                        if (data.DevStatus == '11') {
+                            $(this).find('td').eq(7).css('color', '')
+                        } else {
+                            $(this).find('td').eq(7).css('color', 'red')
+                        }
+                        $(this).find('td').eq(7).text(switch_status(data.DevStatus))
+                    }
+                })
+            },
+        });
+        if (type == CnstSmlBsOneFour || type == CnstSmlBsOneSix || type == CnstSmlBs12K) {
+            $('#base_area').show()
+            $('#beacon_area').hide()
+            $('#rtk_area').hide()
+            $('#st_area').hide()
+            $('#tuoluo_area').hide()
+            var url = "/getSmallBase"
+            details_settime(url, info, type)
+           
+
+        } else if (type == '定位信标') {
+            clearInterval(timing_2);
+            $('#beacon_area').show()
+            $('#base_area').hide()
+            $('#rtk_area').hide()
+            $('#st_area').hide()
+            $('#tuoluo_area').hide()
+            var num = $(this).parent().parent().find('td').eq(5).text()
+            shendu = echarts.init(dom1);
+            shendu.setOption(option1, true);
+            $('.beacon_li').empty()
+            var w
+            var url = "/getSmallRov"
+            gg_ajax(url, info, '定位信标')
+            gg_ajax('/postTmTongBuDsply', {'DevId': num}, 'msg')
+            gg_ajax('/getSmallTwoDeepTaskName', {'DevId': num}, 'option_history')
+
+        }else if(type == '本地声通'){
+            $('#beacon_area').hide()
+            $('#base_area').hide()
+            $('#rtk_area').hide()
+            $('#st_area').show()
+            $('#tuoluo_area').hide()
+            var url = "/getSmallBase"
+            details_settime(url, info, type)
+        }else if(type == '光纤陀螺'){
+            $('#beacon_area').hide()
+            $('#base_area').hide()
+            $('#rtk_area').hide()
+            $('#st_area').hide()
+            $('#tuoluo_area').show()
+            var url = "/getGqgd"
+            gg_ajax(url, info,type)
+        }else {
+            $('#beacon_area').hide()
+            $('#base_area').hide()
+            $('#rtk_area').show()
+            $('#st_area').hide()
+            $('#tuoluo_area').hide()
+            clearInterval(timing_2);
+            var url = "/getSmallGps"
+            gg_ajax(url, info, 'rtk')
+
+        }
+
+
+    })
+
+  /**  function details_settime(url, info) {
+        $.ajax({
+            type: 'post',
+            url: url,
+            data: info,
+            dataType: 'json',
+            success: function (data) {
+                if (data.IsAskAgain == "1") {
+                    timing_1 = setTimeout(function () {
+                        details_settime(url, info)
+                    }, 2000)
+                } else {
+                    if (data.Status == "1") {
+
+                    }
+                }
+            },
+        });
+    }
+*/
+
+    $('#query').click(function () {
+        var ls = $('#ls').val()
+        var num = $('#beacon_id').text()
+        option1.series = []
+        option1.xAxis.data = []
+        shendu.setOption(option1, true);
+        console.log(ls)
+       
+        $.ajax({
+            type: 'post',
+            url: "/postSmallTwoDeepHistory",
+            data: {'TaskName': ls, 'DevId': num},
+            dataType: 'json',
+            success: function (data) {
+              var num = $('#beacon_id').text()
+              one_depth(data.Deep, num)
+            }
+            })
+       
+
+    })
+
+    var w = ''
+
+    function load_1() {
+        var status = ''
+        var operation = ''
+        $.ajax({
+            type: 'post',
+            url: "/getSmallAllDev",
+            data: {},
+            dataType: 'json',
+            success: function (data) {
+                var status_color = ''
+                if (data.IsHave > 0) {
+                    for (var i = 0; i < data.InforAy.length; i++) {
+                        var return_status = switch_status(data.InforAy[i].DevStatus)
+                        var return_operation = switch_cnct(data.InforAy[i].IsCnct)
+
+                        var style = "<td></td>"
+                        if (data.InforAy[i].Colour) {
+                            style = '<td><span class="table_color" style="background-color:' + data.InforAy[i].Colour + '"></span></td>'
+                        }
+
+                        if (data.InforAy[i].DevStatus == '11') {
+                            status_color = '<td>' + return_status + '</td>'
+                        } else {
+                            status_color = '<td style="color:red">' + return_status + '</td>'
+                        }
+
+                        w += '<tr>' +
+                            '<td>' + data.InforAy[i].Name + '</td>' +
+                            '<td>' + data.InforAy[i].DevType + '</td>' +
+                            '<td>' + data.InforAy[i].DevCnctType + '</td>' +
+                            '<td>' + data.InforAy[i].UartName + data.InforAy[i].IpName + '</td>' +
+                            '<td>' + data.InforAy[i].UartBtl + data.InforAy[i].IpPort + '</td>' +
+                            '<td>' + data.InforAy[i].DevId + '</td>' +
+                            style +
+                            status_color +
+                            '<td><a class="edit_ship">修改</a>&nbsp;&nbsp;<a class="del_row">删除</a></td>' +
+                            '<td>' + return_operation + '</td>' +
+                            '</tr>'
+                    }
+                    $("tbody").append(w);
+                }
+            }
+        });
+    }
+
+    $(document).on('click', '.break_off', function () {
+        var info
+        var name = $(this).parent().parent().find('td').eq(0).text()
+        var type = $(this).parent().parent().find('td').eq(1).text()
+        var td_status = $(this).parent().parent().find('td').eq(7)
+        var td_operation = $(this).parent().parent().find('td').eq(9)
+        var status = '未连接'
+        info = {'Name': name, 'DevType': type, 'Opt': 'disconnect'}
+        $.ajax({
+            type: 'post',
+            url: "/postSmallOneDev",
+            data: info,
+            dataType: 'json',
+            success: function (data) {
+                if (data.IsCnct == 0) {
+                    var operation = '<a class="connect">连接</a>&nbsp;&nbsp;<a class="details">详情</a>'
+                    td_status.text('')
+                    td_operation.html(operation)
+                }
+            },
+        });
+    })
+
+    $(document).on('click', '.connect', function () {
+        var id = $(this).parent().parent().find('td').eq(5).text()
+        var name = $(this).parent().parent().find('td').eq(0).text()
+        var type = $(this).parent().parent().find('td').eq(1).text()
+        var td_status = $(this).parent().parent().find('td').eq(7)
+        var td_operation = $(this).parent().parent().find('td').eq(9)
+
+        // var status='未连接'
+        var operation = ''
+
+        /**
+         var flag=1
+         var content1='您配置的设备类型USBL基站（小型定位）和您连接的设备类型不符！'
+         var content2='您配置的设备编号和您连接的设备编号不符合'
+         var content3='未检测到设备，请检查串口配置，串口线连接和连接设备是否正常'
+         if(flag){
+            layer_tc('警告',content3)
+            return false
+        }
+         */
+        var return_info = ''
+        $.ajax({
+            type: 'post',
+            url: "/postSmallOneDev",
+            data: {'Name': name, 'DevType': type, 'Opt': 'connect'},
+            dataType: 'json',
+            beforeSend: function () {
+                loading = showLoad();
+            },
+            success: function (data) {
+                if (data.IsCnct == 0) {
+                    closeLoad(loading)
+                    layer_tc('警告', '未检测到设备，请检查接口配置，接口连接')
+                } else {
+                    switch (data.IsCnct) {
+                        case 0:
+                            operation = '<a class="connect">连接</a>&nbsp;&nbsp;<a class="details">详情</a>';
+                            break;
+                        case 1:
+                            operation = '<a class="break_off">断开</a>&nbsp;&nbsp;<a class="details">详情</a>'
+                            break;
+                        default:
+                            operation = '<a class="details">详情</a>'
+                    }
+                    td_operation.html(operation)
+                    setTimeout(function () {
+                        $.ajax({
+                            type: 'post',
+                            url: '/postSmallStatusOneDev',
+                            data: {'Name': name, 'DevType': type, 'DevId': id},
+                            dataType: 'json',
+                            success: function (data) { //请求成功回调函数
+                                closeLoad(loading)
+                                //switch_status(data.DevStatus)
+                                var ck_msg = ''
+                                if (data.DevType == 'RTK') {
+
+                                    $("tbody").find('tr').each(function () {
+                                        if ($(this).find('td').eq(0).text() == data.Name && $(this).find('td').eq(1).text() == data.DevType) {
+                                            if (data.DevStatus == '11') {
+                                                $(this).find('td').eq(7).css('color', '')
+                                            } else {
+                                                $(this).find('td').eq(7).css('color', 'red')
+                                            }
+                                            $(this).find('td').eq(7).text(switch_status(data.DevStatus))
+                                        }
+                                    })
+                                } else {
+                                    if (data.DevStatus == '5') {
+                                        layer_tc('警告', '您配置的设备类型USBL基站和您连接的设备类型不符！')
+                                        return false
+                                    } else if (data.DevStatus == '7') {
+                                        layer_tc('警告', '您配置的设备编号和您连接的设备编号不符合')
+                                        return false
+                                    } else if (data.DevStatus == '3') {
+                                        layer_tc('警告', '未检测到设备')
+                                        return false
+                                    } else {
+                                        $("tbody").find('tr').each(function () {
+                                            if ($(this).find('td').eq(0).text() == data.Name && $(this).find('td').eq(1).text() == data.DevType) {
+                                                if (data.DevStatus == '11') {
+                                                    $(this).find('td').eq(7).css('color', '')
+                                                } else {
+                                                    $(this).find('td').eq(7).css('color', 'red')
+                                                }
+                                                $(this).find('td').eq(7).text(switch_status(data.DevStatus))
+                                            }
+                                        })
+                                    }
+                                }
+
+
+                            },
+                        });
+                    }, 3000)
+
+                }
+
+
+            },
+            error: function (data) {
+                layer_tc('提示', '请打开后台服务')
+            }
+        });
+    })
+
+    $('#stop_location').click(function () {
+
+        submit_all('stop_location')
+    })
+    $('#start_location').click(function () {
+        submit_all('start_location')
+    })
+    $('#time_syn').click(function () {
+        submit_all('time_syn')
+    })
+    $('#dormancy').click(function () {
+        submit_all('dormancy')
+    })
+    $('#awaken').click(function () {
+        submit_all('awaken')
+    })
+
+    function submit_all(type) {
+        //loading=showLoad();
+        var num = $('#beacon_id').text()
+        var url = ''
+        switch (type) {
+            case 'stop_location':
+                url = '/postSmallStopXinBiao'
+                break;
+            case 'start_location':
+                url = '/postSmallStartXinBiao'
+                break;
+            case 'time_syn':
+                url = '/postSmallBcnSentTimeSync'
+                break;
+            case 'dormancy':
+                url = '/postSmallTmXiuMian'
+                break;
+            case 'awaken':
+                url = '/postSmallTmHuanXing'
+                break;
+        }
+        var info = {'DevId': num, 'ActionStatus': 'askForAndGet'}
+        details_settime(url, info, 'beacon_msg')
+    }
+
+
+    function gg_ajax(url, info, type) {
+        $.ajax({
+            type: 'post',
+            url: url,
+            data: info,
+            dataType: 'json',
+            success: function (data) { //请求成功回调函数     
+          
+             if (type == 'option_history') {
+                    var w = ''
+                    if (data.All != null) {
+                        $("#ls").empty()
+                        
+                        for (var i = 0; i < data.All.length; i++) {
+                            w += "<option>" + data.All[i].Task + "</option>"
+                        }
+                        $("#ls").append(w);
+                    }
+                }
+                if (type == 'AHRS') {
+                    if(data.D1!=''){
+                      $('#state').text(data.D1)
+                    }
+                 
+                    $('#roll').text(data.D6)
+                    $('#pitch').text(data.D7)
+                    $('#yaw').text(data.D8)
+                    $('#imu_msg').text(data.Msg)
+                }
+                if (type == 'rtk') {
+                    $('#rtk_product_name').text(data.Infor.Dev.Name)
+                    $('#rtk_product_type').text(data.Infor.Dev.DevType)
+                    $('#use_satellite_num').text(data.SatelliteNum)
+                    $('#quality_factor').text(data.ZiLianYinZi)
+                    $('#direction_output').text(data.FangXiangShuChu)
+                    $('#accuracy').text(data.Hdop)
+                    $('#antenna').text(data.HaiBa)
+                    $('#guandao').text(data.ImuShuChu)
+                }
+                if (type == '光纤陀螺') {
+                    $('#tuoluo_status').text(data.JiaoZhunZhuangTai)
+                    $('#tuoluo_rst').text(data.JiaoZhunJieGuo)
+                    $('#tuoluo_jingdu').text(data.GuanXingDaoHangJingDu)
+                    $('#tuoluo_model').text(data.DaoHangMoShi)
+                    $('#tuoluo_time').text(data.JuShangCiJiaoZhunShiJian)
+                    $('#tuoluo_roll').text(data.HengGunJiao)
+                    $('#tuoluo_yaw').text(data.HangXiangJiao)
+                    $('#tuoluo_pitch').text(data.FuYangJiao)
+                    $('#tuoluo_lng').text(data.JinDu)
+                    $('#tuoluo_lat').text(data.WeiDu)
+                    $('#tuoluo_value').text(data.DaoHangWuCha)
+                     $('#tuoluo_gxtime').text(data.GetTime)
+                     $('#tuoluo_point').text(data.WeiXingDingWeiZhuanTai)
+                    $('#tuoluo_jwd').text(data.JinWeiDuYouXiao)
+                    $('#tuoluo_tiaojian').text(data.JiaoZhunTiaoJianBuZu)
+                }
+                if (type == '定位信标') {
+                    option1.series = []
+                    shendu.setOption(option1, true);
+                    $('#beacon_product_name').text(data.Infor.Dev.Name)
+                    $('#beacon_product_type').text(data.Infor.Dev.DevType)
+                    $('#beacon_id').text(data.Infor.Dev.DevId)
+                    $('#beacon_depth').text(data.NewDeep)
+                    $('#beacon_work_temp').text(data.WorkTemperature)
+                    var power=''
+                    if(data.DanQianDianLiang=='1'){
+                      power='20%'
+                    }else if(data.DanQianDianLiang=='2'){
+                      power='40%'
+                    }else if(data.DanQianDianLiang=='3'){
+                      power='60%'
+                    }else if(data.DanQianDianLiang=='4'){
+                      power='80%'
+                    }else if(data.DanQianDianLiang=='5'){
+                      power='100%'
+                    }else{
+                      power='--'
+                    }
+                    $('#beacon_electric_quantity').text(power)
+                    if (data.Infor.Dev.YiOrTong == "0") {
+                        $('.asyn_switch').show()
+                        $('.syn_switch').hide()
+                        $('.asyn_temp').show()
+                    } else if (data.Infor.Dev.YiOrTong == "1") {
+                        $('.asyn_switch').hide()
+                        $('.syn_switch').show()
+                        $('.asyn_temp').hide()
+                    }
+                }
+    
+                if (type == 'msg') {
+                    var p = ''
+                    if (data.Dsply != null) {
+                        $(".beacon_li").empty()
+                        for (var i = 0; i < data.Dsply.length; i++) {
+                            p += "<li>" + data.Dsply[i] + "</li>";
+
+                        }
+
+                        $(".beacon_li").append(p);
+                    }
+
+                }
+               
+            
+            },
+        });
+
+    }
+
+    function one_depth(data, num) {
+        var dateList = data.map(function (item) {
+            return item[1];
+        });
+        var valueList = data.map(function (item) {
+            return item[0];
+        });
+        var tempSeries = []
+        var arr = [];
+        option1.series = []
+        if (data != null) {
+            var o = {
+                id: num,
+                name: num,
+                type: 'line',
+                smooth: true,
+                symbolSize: 10,
+                showSymbol: false,
+                data: valueList,
+                // itemStyle:
+                //     {normal:
+                //             {
+                //                 color: data.Target[j].DeepColour,
+                //                 // lineStyle: {color: color[j]}
+                //             }
+                //     },
+            }
+            // arr.push(''+data.Target[j].TargetName+'')
+            tempSeries.push(o)
+            option1.xAxis.data = dateList
+            option1.series = option1.series.concat(tempSeries)
+            shendu.setOption(option1, true);
+            console.log(option1)
+        } else {
+            option1.series = []
+            shendu.setOption(option1, true);
+        }
+    }
+
+    function switch_ck(type) {
+        switch (type) {
+            case "3":
+                layer_tc('警告', '未检测到设备，请检查串口配置，串口线连接和连接设备是否正常')
+                break;
+            case "5":
+                layer_tc('警告', '配置的设备类型USBL基站（小型定位）和您连接的设备类型不符！')
+                break;
+            case "7":
+                layer_tc('警告', '您配置的设备编号和您连接的设备编号不符合')
+                break;
+            default:
+                layer_tc('警告', '非法操作')
+        }
+    }
+
+    function switch_cnct(iscnct) {
+        var return_operation
+        switch (iscnct) {
+            case "0":
+                return_operation = '<a class="connect">连接</a>&nbsp;&nbsp;<a class="details">详情</a>';
+                return return_operation
+                break;
+            case "1":
+                return_operation = '<a class="break_off">断开</a>&nbsp;&nbsp;<a class="details">详情</a>'
+                return return_operation
+                break;
+            case "10":
+                return_operation = ''
+                return return_operation
+                break;
+            default:
+                return_operation = '<a class="details">详情</a>'
+                return return_operation
+        }
+    }
+
+    function switch_status(status) {
+        var return_status
+        switch (status) {
+            //类型错误,编号错误,离线,正常,停止定位,休眠
+            case "5":
+                return_status = '类型错误';
+                return return_status
+                break;
+            case "7":
+                return_status = '编号错误';
+                return return_status
+                break;
+            case "3":
+                return_status = '离线';
+                return return_status
+                break;
+            case "11":
+                return_status = '正常';
+                return return_status
+                break;
+            case "9":
+                return_status = '停止定位';
+                return return_status
+                break;
+            case "10":
+                return_status = '休眠';
+                return return_status
+                break;
+            case "12":
+                return_status = '未同步';
+                return return_status
+                break;
+            case "31":
+                return_status = '服务失败';
+                return return_status
+                break;
+            case "32":
+                return_status = '服务启动';
+                return return_status
+                break;
+            default:
+                return_status = '';
+                return return_status
+        }
+    }
+
+    function details_settime(url, info, type) {
+        $.ajax({
+            type: 'post',
+            url: url,
+            data: info,
+            dataType: 'json',
+            success: function (data) {
+                if (data.IsAskAgain == "1") {
+                    if (type == CnstSmlBsOneFour || type == CnstSmlBsOneSix || type == CnstSmlBs12K) {
+                        info = {'Name': info.Name, 'DevType': info.DevType, 'ActionStatus': 'onlyGet'}
+                    }
+                    if (type == 'beacon_msg') {
+                        info = {'DevId': info.DevId, 'ActionStatus': 'onlyGet'}
+                        if (data.Msg != '') {
+                            $(".beacon_li").append('<li>' + data.Msg + '</li>');
+                            var lenght = $(".beacon_li li").length
+                            if (lenght > 5) {
+                                $(".beacon_li li:first-child").remove()
+                            }
+                        }
+                    }
+                    
+                    if(type == '本地声通'){
+                      info = {'Name': info.Name, 'DevType': info.DevType, 'ActionStatus': 'onlyGet'}
+                    }
+
+                    timing_1 = setTimeout(function () {
+                        details_settime(url, info, type)
+                    }, 3000)
+                } else {
+                    if (type == CnstSmlBsOneFour || type == CnstSmlBsOneSix || type == CnstSmlBs12K) {
+                        if (data.Status == 1) {
+                            $('#product_name').text(data.Infor.Dev.Name)
+                            $('#product_type').text(data.Infor.Dev.DevType)
+                            $('#sn').text(data.SnVer)
+                            $('#product_number').text(data.Infor.Dev.DevId)
+                            $('#edition_number').text(data.SnSoft)
+                            $('#use_env').text(data.BaseWorkEnv)
+                            $('#salinity').text(data.Naci)
+                            $('#work_temp').text(data.BaseWorkTpt)
+                            $('#depth').text(data.BaseWorkDeep)
+                            $('#send_model').text(data.FaSongMoShi)
+                            $('#send_power').text(data.FaSheGongLv)
+                            $('#protection_interval').text(data.ShuJuKuanBaoFuJianGe)
+                            var speedtype = ''
+                            if (data.BaseSpeedType == "ON") {
+                                speedtype = '自动计算'
+                            } else if (data.BaseSpeedType == "OFF") {
+                                speedtype = '手动设置'
+                            } else {
+                                speedtype = ''
+                            }
+                            $('#sound_model').text(speedtype)
+                            $('#now_sound').text(data.BaseSpeed)
+                            if (data.LocationMode == "1") {
+                                xf_num = 0
+                                $("input[name='beacon_asyn'][value='" + xf_num + "']").attr("disabled", true)
+                                $("input[name='beacon_syn'][value='" + data.LocationMode + "']").prop("checked", true)
+                            } else {
+                                xf_num = 1
+                                $("input[name='beacon_syn'][value='" + xf_num + "']").attr("disabled", true)
+                                $("input[name='beacon_asyn'][value='" + data.LocationMode + "']").prop("checked", true)
+                            }
+                            
+                          
+                            $('#pair_beacon_id').text(data.NumOfPeiDuiId)
+                            $("#position_interval").text(data.BaseLocTimeSet)
+                            $("#sny_interval").text(data.BaseTimeSync)
+                            $("#work_range").text(data.WorkFangWei)
+                            $("#polling_interval").text(data.LunXunJianGe)
+                            $("#polling_id").text(data.NumOfASkForId)
+                            if(data.ImuStatus=='2' || data.ImuStatus=='' /*||  data.Status=='5'*/){
+                              $('#state').text('未安装')
+                              $('.start_jz').hide()
+                              $('.imu_msg1').hide()
+                            }else if(data.ImuStatus=='1'){
+                              $('#state').text('已校准')
+                                 $('.start_jz').show()
+                               $('.imu_msg1').show()
+                               var imu_info = {'ActionStatus': 'onlyGetStatus'}
+                                timing_2 = setInterval(function () {
+                                    gg_ajax('/postSmallAdjustBaseIMU', imu_info, 'AHRS')
+                                }, 6000)
+                            }else{
+                              $('#state').text('未校准')
+                              $('.start_jz').show()
+                               $('.imu_msg1').show()
+                               var imu_info = {'ActionStatus': 'onlyGetStatus'}
+                                timing_2 = setInterval(function () {
+                                    gg_ajax('/postSmallAdjustBaseIMU', imu_info, 'AHRS')
+                                }, 6000)
+                            }
+                        } else {
+                            $('#product_name').text(data.Infor.Dev.Name)
+                            $('#product_type').text(data.Infor.Dev.DevType)
+                        }
+                    }
+                    if (type == 'beacon_msg') {     
+                        if (data.Msg != '') {
+                            $(".beacon_li").append('<li>' + data.Msg + '</li>');
+                            var lenght = $(".beacon_li li").length
+                            if (lenght > 5) {
+                                $(".beacon_li li:first-child").remove()
+                            }
+                        }
+                    }
+                    
+                  if(type == '本地声通'){
+                    $('#st_product_name').text(data.Infor.Dev.Name)
+                    $('#st_product_type').text(data.Infor.Dev.DevType)
+                    $('#st_sn').text(data.SnVer)
+                    $('#st_ver').text(data.SnSoft)
+                    $('#st_local_id').text(data.DevId)
+                    $('#st_target_id').text(data.DstId)
+                    var pingbi=''
+                    if(data.PingBiId=='0'){
+                      pingbi='否'
+                    }else if(data.PingBiId=='1'){
+                      pingbi='是'
+                    }else if(data.PingBiId=='OFF'){
+                      pingbi='否'
+                    }else if(data.PingBiId=='ON'){
+                      pingbi='是'
+                    }
+                    
+                    $('#st_shield').text(pingbi)
+                    $('#st_power').text(data.FaSheGongLv)
+                    $('#st_interval').text(data.ShuJuKuanBaoFuJianGe)
+                    $('#st_baud').text(data.CuanKouBtl)
+                
+                  }
+                }
+
+
+            },
+        });
+    }
+
+    $(document).on('click', '.start_jz', function () {
+        var info = {'ActionStatus': 'askForAndGet'}
+        var url = "/postSmallAdjustBaseIMU"
+        gg_ajax(url, info, 'AHRS')
+
+    })
+    $(document).on('click', '.again_jz', function () {
+        var info = {'ActionStatus': 'askForAndGet'}
+        var url = "/postSmallAdjustBaseIMU"
+        gg_ajax(url, info, 'AHRS')
+
+    })
+
+    $(document).on('click','.del_row',function(){
+        init_close()
+        var row=$(this).parent().parent()
+        var name=$(this).parent().parent().find('td').eq(0).text()
+        var type=$(this).parent().parent().find('td').eq(1).text()
+        swal({
+            title: "您确定要删除这条信息吗",
+            text: "删除后将无法恢复，请谨慎操作！",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "确定",
+            closeOnConfirm: false
+        }, function () {
+            $.ajax({
+                type:'post',
+                url:"/postSmallOneDev",
+                data:{'Name':name,'DevType':type,'Opt':'delete'},
+                dataType:'json',
+                success:function(data){ //请求成功回调函数
+
+                }
+            });
+            row.remove()
+            swal("删除成功！", "您已经永久删除了这条信息。", "success");
+
+        });
+
+    })
+
+    $("#equipment_type").on("change",function() {
+        if($("#equipment_type").val()==CnstSmlBsOneFour ||$("#equipment_type").val()==CnstSmlBsOneSix ||$("#equipment_type").val()==CnstSmlBs12K) {
+            $('#area_1').show()
+            $('#area_2').hide()
+            $('#area_3').hide()
+            $('#base_terminal_number').attr("disabled",false);
+        }else if($("#equipment_type").val()=='RTK'|| $("#equipment_type").val()=='光纤陀螺'){
+            $('#area_1').hide()
+            $('#area_2').show()
+            $('#area_3').hide()
+        }else if($("#equipment_type").val()=='本地声通'){
+            $('#area_1').hide()
+            $('#area_2').show()
+            $('#area_3').show()
+            $('.area_3_2').hide()
+        }else {
+            $('#area_1').hide()
+            $('#area_2').hide()
+            $('#area_3').show()
+        }
+    });
+
+    $(document).on('click','.add_list',function(){
+        var equipment_name_arr=[]
+        var equipment_name = $('.equipment_name').val()
+        var equipment_type =$("#equipment_type").val()
+        var tx_interface=''
+        var merge=''
+        var  com=''
+        var  baud=''
+        var  ip=''
+        var  port_number=''
+        var  info
+        var set_sound =''
+        var sound_velocity=''
+        var equipment_type_arr=[]
+        
+        $("tbody").find('tr').each(function(){
+            equipment_name_arr.push($(this).find('td').eq(0).text())
+            if($(this).find('td').eq(1).text()==CnstSmlBsOneSix || $(this).find('td').eq(1).text()==CnstSmlBsOneFour || $(this).find('td').eq(1).text()==CnstSmlBs12K){
+                // equipment_type_arr.push($(this).find('td').eq(1).text())
+                equipment_type_arr.push(CnstSmlBsOneFour)
+                equipment_type_arr.push(CnstSmlBsOneSix)
+                equipment_type_arr.push(CnstSmlBs12K)
+            }
+
+
+        })
+        if(equipment_name ==''){
+            alert('设备名称不能为空，请检查是否输入')
+            return
+        }
+        if($.inArray(equipment_name, equipment_name_arr) !=-1){
+            alert('设备名称重复，请重新输入')
+            return
+        }
+        if($.inArray(equipment_type, equipment_type_arr) !=-1){
+            alert('基站只能添加一个')
+            return
+        }
+
+        if(equipment_type==CnstSmlBsOneFour || equipment_type==CnstSmlBsOneSix || equipment_type==CnstSmlBs12K) {
+            var base_point=$(".base_point").val()
+            var color = $('#color2').css("background-color");         
+            if(color==''){
+                alert("请选择颜色")
+                return
+            }
+            var equipment_color=[]
+            $("tbody").find('tr').each(function(){
+                equipment_color.push($(this).find('.table_color').css("background-color"))
+            })
+            if($.inArray(color, equipment_color) !=-1){
+                alert('颜色不能重复')
+                return
+            }
+            var base_numnber=$('#base_terminal_number').val()
+            if(base_numnber<1 || base_numnber>255){
+                alert("编号范围为1～255")
+                return false
+            }
+            if($("input[name='serial_port_1']:checked").val()=='uart'){
+                var interface_1='串口'
+                com= $('#com_1').val()
+                baud= $('#baud_1').val()
+                if(com==null){
+                    alert("使用串口不能为空，请插入串口线后重新打开此窗口")
+                    $('#equipment').modal('hide');
+                    return false
+                }
+                if(baud==''){
+                    alert("请输入波特率")
+                    return false
+                }
+            }else if($("input[name='serial_port_1']:checked").val()=='net'){
+                var interface_1='网口'
+                ip = $('#ip_1').val()
+                port_number = $('#port_number_1').val()
+
+            }else {
+                alert('请选择通讯接口')
+                return
+            }
+            $('tbody').append(' <tr>' +
+                '<td>'+equipment_name+'</td>' +
+                '<td>'+equipment_type+'</td>' +
+                '<td>'+interface_1+'</td>' +
+                '<td>'+com+ip+'</td>' +
+                '<td>'+baud+port_number+'</td>' +
+                '<td>'+base_numnber+'</td>' +
+                '<td><span class="table_color" style="background-color:'+color+'"></span></td>'+
+                '<td></td>' +
+                '<td><a class="edit_ship">修改</a>&nbsp;&nbsp;<a class="del_row">删除</a>' +
+                '</td>' +
+                '<td><a class="connect">连接</a>&nbsp;&nbsp;<a class="details">详情</a></td>' +
+                '</tr>')
+            info={'Name':equipment_name,'DevType':equipment_type,'DevCnctType':interface_1,'UartName':com,'UartBtl':baud,'IpName':ip,'IpPort':port_number,'Colour':color,'DaDianJianGe':base_point,'Opt':'create','DevId':base_numnber}
+        }else if(equipment_type=='RTK' || equipment_type=='光纤陀螺' || equipment_type=='本地声通'){
+            var terminal_number =''
+            if(equipment_type=='本地声通'){
+                var terminal_number_arr = [];
+                terminal_number = $('#terminal_number').val()
+                if(terminal_number==''){
+                    alert('编号不能为空')
+                    return
+                }else if(terminal_number<1 || terminal_number>255){
+                    alert("编号范围为1～255")
+                    return false
+                }else {
+                    $("tbody").find('tr').each(function(){
+                        terminal_number_arr.push($(this).find('td').eq(5).text())
+                    })
+                }
+                if($.inArray(terminal_number, terminal_number_arr) !=-1){
+                    alert('编号重复，请重新输入')
+                    return
+                }
+            }
+            if($("input[name='serial_port_2']:checked").val()=='uart'){
+                var interface_2='串口'
+                com= $('#com_2').val()
+                baud= $('#baud_2').val()
+                if(com==null){
+                    alert("使用端口不能为空，请插入串口线后重新打开此窗口")
+                    $('#equipment').modal('hide');
+                    return false
+                }
+                if(baud==''){
+                    alert("请输入波特率")
+                    return false
+                }
+            }else if($("input[name='serial_port_2']:checked").val()=='net'){
+                var interface_2='网口'
+                ip = $('#ip_2').val()
+                port_number = $('#port_number_2').val()
+            }else {
+                alert('请选择通讯接口')
+                return
+            }
+            $('tbody').append(' <tr>' +
+                '<td>'+equipment_name+'</td>' +
+                '<td>'+equipment_type+'</td>' +
+                '<td>'+interface_2+'</td>' +
+                '<td>'+com+ip+'</td>' +
+                '<td>'+baud+port_number+'</td>' +
+                '<td>'+terminal_number+'</td>' +
+                '<td></td>'+
+                '<td></td>'+
+                '<td><a class="edit_ship">修改</a>&nbsp;&nbsp;<a class="del_row">删除</a>' +
+                '<td><a class="connect">连接</a>&nbsp;&nbsp;<a class="details">详情</a></td>'+
+                '</td>' +
+                '</tr>')
+            if(equipment_type=='本地声通'){
+                info={'Name':equipment_name,'DevType':equipment_type,'DevCnctType':interface_2,'UartName':com,'UartBtl':baud,'IpName':ip,'IpPort':port_number,'DevId':terminal_number,'Opt':'create'}
+            }else{
+                info={'Name':equipment_name,'DevType':equipment_type,'DevCnctType':interface_2,'UartName':com,'UartBtl':baud,'IpName':ip,'IpPort':port_number,'Opt':'create'}
+            }
+
+        }else {
+            var color = $('#color').css("background-color");
+            var terminal_number_arr = [];
+            var terminal_number = $('#terminal_number').val()
+            // if($("input[name='use_environment_2']:checked").val()=='海水'){
+            //     var use_environment='海水'
+            // }else if($("input[name='use_environment_2']:checked").val()=='淡水'){
+            //     var use_environment='淡水'
+            // }else {
+            //     alert('请选择使用环境')
+            //     return
+            // }
+            if(terminal_number==''){
+                alert('编号不能为空')
+                return
+            }else if(terminal_number<1 || terminal_number>255){
+                alert("编号范围为1～255")
+                return false
+            }else {
+                $("tbody").find('tr').each(function(){
+                    terminal_number_arr.push($(this).find('td').eq(5).text())
+                })
+            }
+            if($.inArray(terminal_number, terminal_number_arr) !=-1){
+                alert('编号重复，请重新输入')
+                return
+            }
+            if(color==''){
+                alert("请选择颜色")
+                return
+            }
+            var equipment_color=[]
+            $("tbody").find('tr').each(function(){
+                equipment_color.push($(this).find('.table_color').css("background-color"))
+            })
+            if($.inArray(color, equipment_color) !=-1){
+                alert('颜色不能重复')
+                return
+            }
+
+            // var send_jg = $('#send_jg').val()
+            $('tbody').append(' <tr>'+
+                '<td>'+equipment_name+'</td>'+
+                '<td>'+equipment_type+'</td>'+
+                '<td></td>'+
+                '<td></td>'+
+                '<td></td>'+
+                '<td>'+terminal_number+'</td>' +
+                '<td><span class="table_color" style="background-color:'+color+'"></span></td>' +
+                '<td></td>'+
+                '<td><a class="edit_ship">修改</a>&nbsp;&nbsp;<a class="del_row">删除</a>' +
+                '<td><a class="details">详情</a></td>'+
+                '</td>' +
+                '</tr>')
+            info={'Name':equipment_name,'DevType':equipment_type,'DevId':terminal_number,'Colour':color,'Opt':'create'}
+        }
+        $.ajax({
+            type:'post',
+            url:"/postSmallOneDev",
+            data:info,
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+
+            },
+        });
+        $('#equipment').modal('hide');
+    })
+
+    $(document).on('click','.edit_ship',function(){
+        init_close()
+        var row_index =$(this).parent().parent().index()
+        $('#equipment').modal('show');
+        $('.equipment_name').attr("disabled",true);
+        $('#base_terminal_number').attr("disabled",true);
+        var equipment_name=$(this).parent().parent().find('td').eq(0).text()
+        var equipment_type=$(this).parent().parent().find('td').eq(1).text()
+        $('#com_1').empty()
+        $('#com_2').empty()
+        use_com_list($(this).parent().parent().find('td').eq(3).text())
+        if(equipment_type==CnstSmlBsOneFour ||equipment_type==CnstSmlBsOneSix ||equipment_type==CnstSmlBs12K){
+            $('#area_1').show()
+            $('#area_2').hide()
+            $('#area_3').hide()
+            $('.equipment_name').val(equipment_name)
+            $('#equipment_type').val(equipment_type)
+            $('#base_terminal_number').val($(this).parent().parent().find('td').eq(5).text())
+            if($(this).parent().parent().find('td').eq(2).text()=='串口'){
+                $('#now_serial').show()
+                $("input[name='serial_port_1'][value='net']").attr("checked",false)
+                $("input[name='serial_port_1'][value='uart']").attr("checked",true)
+                $('#now_com').text($(this).parent().parent().find('td').eq(3).text())
+                $('#baud_1').val($(this).parent().parent().find('td').eq(4).text())
+            }else {
+                $("input[name='serial_port_1'][value='uart']").attr("checked",false)
+                $("input[name='serial_port_1'][value='net']").attr("checked",true)
+                $('#ip_1').val($(this).parent().parent().find('td').eq(3).text())
+                $('#port_number_1').val($(this).parent().parent().find('td').eq(4).text())
+            }
+            $('#color_2').css('background-color',$(this).parent().parent().find('.table_color').css("background-color"))
+            $('#color2').val($(this).parent().parent().find('.table_color').css("background-color"))
+            $.ajax({
+                type:'post',
+                url:"/getSmallOneDev",
+                data:{'Name':equipment_name},
+                dataType:'json',
+                success:function(data){ //请求成功回调函数
+                    $('.base_point').val(data.Dev.DaDianJianGe)
+                    $('.base_terminal_number').val(data.Dev.DevId)
+                }
+            });
+        }else if(equipment_type=='RTK' || equipment_type=='光纤陀螺' || equipment_type=='本地声通'){
+            $('#area_1').hide()
+            $('#area_2').show()
+            if(equipment_type=='本地声通'){
+                $('#area_3').show()
+                $('.area_3_2').hide()
+            }else{
+                $('#area_3').hide()
+            }
+            $('.equipment_name').val(equipment_name)
+            $('#equipment_type').val(equipment_type)
+            $('#terminal_number').val($(this).parent().parent().find('td').eq(5).text())
+            if($(this).parent().parent().find('td').eq(2).text()=='串口'){
+                $('#now_serial_1').show()
+                $("input[name='serial_port_2'][value='net']").attr("checked",false)
+                $("input[name='serial_port_2'][value='uart']").attr("checked",true)
+                $('#now_com_1').text($(this).parent().parent().find('td').eq(3).text())
+                $('#baud_2').val($(this).parent().parent().find('td').eq(4).text())
+            }else {
+                $("input[name='serial_port_2'][value='uart']").attr("checked",false)
+                $("input[name='serial_port_2'][value='net']").attr("checked",true)
+                $('#ip_2').val($(this).parent().parent().find('td').eq(3).text())
+                $('#port_number_2').val($(this).parent().parent().find('td').eq(4).text())
+            }
+        }else {
+            $('#area_1').hide()
+            $('#area_2').hide()
+            $('#area_3').show()
+            $('.equipment_name').val(equipment_name)
+            $('#equipment_type').val(equipment_type)
+            $('#terminal_number').val($(this).parent().parent().find('td').eq(5).text())
+            $('#color').css('background-color',$(this).parent().parent().find('.table_color').css("background-color"))
+            $('#color1').val($(this).parent().parent().find('.table_color').css("background-color"))
+            // if($(this).parent().parent().find('td').eq(7).text()=='海水'){
+            //     $("input[name='use_environment_2'][value='淡水']").attr("checked",false)
+            //     $("input[name='use_environment_2'][value='海水']").attr("checked",true)
+            // }else {
+            //     $("input[name='use_environment_2'][value='海水']").attr("checked",false)
+            //     $("input[name='use_environment_2'][value='淡水']").attr("checked",true)
+            // }
+            // $('#send_jg').val($(this).parent().parent().find('td').eq(6).text())
+        }
+        $('.title').text('修改设备')
+        $('.modal-footer').empty()
+        $('.modal-footer').append(
+            '<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>'+
+            '<button type="button" class="btn btn-primary " onclick="edit_list('+row_index+')">修改</button>'
+        )
+    })
+
+    function edit_list(row_index) {
+        var equipment_name = $('.equipment_name').val()
+        var equipment_type =$("#equipment_type").val()
+        var tx_interface=''
+        var merge=''
+        var  com=''
+        var  baud=''
+        var  ip=''
+        var  port_number=''
+        var set_sound =''
+        var info
+        if(equipment_type==CnstSmlBsOneFour ||equipment_type==CnstSmlBsOneSix ||equipment_type==CnstSmlBs12K) {
+            var base_point=$('.base_point').val()
+            var color = $('#color_2').css("background-color");
+            var equipment_color=[]
+            $("tbody").find('tr').each(function(){
+                equipment_color.push($(this).find('.table_color').css("background-color"))
+            })
+            equipment_color.splice(row_index,1)
+            if($.inArray(color, equipment_color) !=-1){
+                alert('颜色不能重复')
+                return
+            }
+            var base_terminal_number = $('#base_terminal_number').val();
+            if(base_terminal_number<1 || base_terminal_number>255){
+                alert('编号为1~255')
+                return
+            }
+            if($("input[name='serial_port_1']:checked").val()=='uart'){
+                var interface_1='串口'
+                com= $('#com_1').val()
+                baud= $('#baud_1').val()
+                if(baud==''){
+                    alert("请输入波特率")
+                    return false
+                }
+            }else if($("input[name='serial_port_1']:checked").val()=='net'){
+                var interface_1='网口'
+                ip = $('#ip_1').val()
+                port_number = $('#port_number_1').val()
+
+            }else {
+                alert('请选择通讯接口')
+                return
+            }
+
+            $("tbody").each(function(){
+                $(this).find('tr').eq(row_index).find('td').eq(0).text(equipment_name)
+                $(this).find('tr').eq(row_index).find('td').eq(1).text(equipment_type)
+                $(this).find('tr').eq(row_index).find('td').eq(2).text(interface_1)
+                $(this).find('tr').eq(row_index).find('td').eq(3).text(com+ip)
+                $(this).find('tr').eq(row_index).find('td').eq(4).text(baud+port_number)
+                $(this).find('tr').eq(row_index).find('td').eq(5).text(base_terminal_number)
+                $(this).find('tr').eq(row_index).find('td').eq(6).empty()
+                $(this).find('tr').eq(row_index).find('td').eq(6).append('<span class="table_color" style="background-color:'+color+'"></span>')
+                $(this).find('tr').eq(row_index).find('td').eq(9).empty()
+                $(this).find('tr').eq(row_index).find('td').eq(9).append('<a class="connect">连接</a>&nbsp;&nbsp;<a class="details">详情</a>')
+            })
+            info={'Name':equipment_name,'DevType':equipment_type,'DevCnctType':interface_1,'UartName':com,'UartBtl':baud,'IpName':ip,'IpPort':port_number,'Colour':color,'DaDianJianGe':base_point,'Opt':'modify','DevId':base_terminal_number}
+        }else if(equipment_type=='RTK' || equipment_type=='光纤陀螺' || equipment_type=='本地声通'){
+            if($("input[name='serial_port_2']:checked").val()=='uart'){
+                var interface_2='串口'
+                com= $('#com_2').val()
+                baud= $('#baud_2').val()
+                if(com==null){
+                    alert("使用串口不能为空，请插入串口线后重新打开此窗口")
+                    $('#equipment').modal('hide');
+                    return false
+                }
+                if(baud==''){
+                    alert("请输入波特率")
+                    return false
+                }
+            }else if($("input[name='serial_port_2']:checked").val()=='net'){
+                var interface_2='网口'
+                ip = $('#ip_2').val()
+                port_number = $('#port_number_2').val()
+            }else {
+                alert('请选择通讯接口')
+                return
+            }
+            var terminal_number=''
+            if(equipment_type=='本地声通'){
+                var terminal_number_arr = [];
+                var terminal_number = $('#terminal_number').val()
+                if(terminal_number==''){
+                    alert('编号不能为空')
+                    return
+                }else if(terminal_number<0 || terminal_number>255){
+                    alert('编号为0~255')
+                    return
+                }else {
+                    $("tbody").find('tr').each(function(){
+                        terminal_number_arr.push($(this).find('td').eq(5).text())
+                    })
+                }
+                terminal_number_arr.splice(row_index,1)
+                if($.inArray(terminal_number, terminal_number_arr) !=-1){
+                    alert('编号重复，请重新输入')
+                    return
+                }
+                info={'Name':equipment_name,'DevType':equipment_type,'DevCnctType':interface_2,'UartName':com,'UartBtl':baud,'IpName':ip,'IpPort':port_number,'DevId':terminal_number,'Opt':'modify'}
+            }else{
+                info={'Name':equipment_name,'DevType':equipment_type,'DevCnctType':interface_2,'UartName':com,'UartBtl':baud,'IpName':ip,'IpPort':port_number,'Opt':'modify'}
+            }
+            $("tbody").each(function(){
+                $(this).find('tr').eq(row_index).find('td').eq(0).text(equipment_name)
+                $(this).find('tr').eq(row_index).find('td').eq(1).text(equipment_type)
+                $(this).find('tr').eq(row_index).find('td').eq(2).text(interface_2)
+                $(this).find('tr').eq(row_index).find('td').eq(3).text(com+ip)
+                $(this).find('tr').eq(row_index).find('td').eq(4).text(baud+port_number)
+                $(this).find('tr').eq(row_index).find('td').eq(5).text(terminal_number)
+                $(this).find('tr').eq(row_index).find('td').eq(6).text('')
+                $(this).find('tr').eq(row_index).find('td').eq(9).empty()
+                $(this).find('tr').eq(row_index).find('td').eq(9).append('<a class="connect">连接</a>&nbsp;&nbsp;<a class="details">详情</a>')
+            })
+
+        }else {
+            var color = $('#color').css("background-color");
+            var n=0
+            var terminal_number_arr = [];
+            var terminal_number = $('#terminal_number').val()
+            if(terminal_number==''){
+                alert('编号不能为空')
+                return
+            }else if(terminal_number<0 || terminal_number>255){
+                alert('编号为0~255')
+                return
+            }else {
+                $("tbody").find('tr').each(function(){
+                    terminal_number_arr.push($(this).find('td').eq(5).text())
+                })
+            }
+            terminal_number_arr.splice(row_index,1)
+            if($.inArray(terminal_number, terminal_number_arr) !=-1){
+                alert('编号重复，请重新输入')
+                return
+            }
+            var equipment_color=[]
+            $("tbody").find('tr').each(function(){
+                equipment_color.push($(this).find('.table_color').css("background-color"))
+            })
+            equipment_color.splice(row_index,1)
+            if($.inArray(color, equipment_color) !=-1){
+                alert('颜色不能重复')
+                return
+            }
+
+            // var send_jg = $('#send_jg').val()
+            $("tbody").each(function(){
+                $(this).find('tr').eq(row_index).find('td').eq(0).text(equipment_name)
+                $(this).find('tr').eq(row_index).find('td').eq(1).text(equipment_type)
+                $(this).find('tr').eq(row_index).find('td').eq(2).text(interface_1)
+                $(this).find('tr').eq(row_index).find('td').eq(3).text('')
+                $(this).find('tr').eq(row_index).find('td').eq(4).text('')
+                $(this).find('tr').eq(row_index).find('td').eq(5).text(terminal_number)
+                $(this).find('tr').eq(row_index).find('td').eq(6).empty()
+                $(this).find('tr').eq(row_index).find('td').eq(6).append('<span class="table_color" style="background-color:'+color+'"></span>')
+                $(this).find('tr').eq(row_index).find('td').eq(9).empty()
+                $(this).find('tr').eq(row_index).find('td').eq(9).append('<a class="details">详情</a>')
+            })
+            info={'Name':equipment_name,'DevType':equipment_type,'DevId':terminal_number,'Colour':color,'Opt':'modify'}
+        }
+        $.ajax({
+            type:'post',
+            url:"/postSmallOneDev",
+            data:info,
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+
+            },
+        });
+        $('#equipment').modal('hide');
+    }
+
+    $('#equipment').on('hide.bs.modal', function () {
+        $('#area_1').show()
+        $('#area_2').hide()
+        $('#area_3').hide()
+        document.getElementById("myForm").reset()
+    })
+
+    $('.add_equipment').click(function () {
+        init_close()
+        $('.title').text('添加设备')
+        $('#now_serial').hide()
+        $('#now_serial_1').hide()
+        $('.equipment_name').removeAttr("disabled");
+        $('#base_terminal_number').removeAttr("disabled");
+        $('.modal-footer').empty()
+        $('.modal-footer').append(
+            '<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>'+
+            '<button type="button" class="btn btn-primary add_list">添加</button>'
+        )
+        use_com_list(use_com)
+    })
+
+    function use_com_list(use_com){
+        $("#com_1").empty()
+        $("#com_2").empty()
+        $.ajax({
+            type:'post',
+            url:"/getUartList",
+            data:'',
+            dataType:'json',
+            success:function(data){
+                if(data.UartList){
+                    var w=''
+                    for(var i=0;i<data.UartList.length;i++){
+                        if(use_com !='' && use_com==data.UartList[i]){
+                            w+='<option value="'+data.UartList[i]+'" selected = "selected" >'+data.UartList[i]+'</option>';
+                        }else{
+                            w+='<option value="'+data.UartList[i]+'">'+data.UartList[i]+'</option>';
+                        }
+
+
+                    }
+                    $("#com_1").append(w)
+                    $("#com_2").append(w)
+                }
+            },
+        });
+    }
+
+    function init_close() {
+        $('#beacon_area').hide()
+        $('#base_area').hide()
+        $('#rtk_area').hide()
+        $('#st_area').hide()
+        clearInterval(timing_2);
+    }
+
+</script>
+
+</body>
+</html>

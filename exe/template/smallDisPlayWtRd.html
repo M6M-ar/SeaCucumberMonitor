@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>水声通讯</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="../static/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../static/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+
+    <link href="../static/css/animate.css" rel="stylesheet">
+    <link href="../static/css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../static/css/sweetalert.css" rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/style.css">
+
+</head>
+
+<body class="gray-bg">
+
+<div class="wrapper wrapper-content">
+    <div class="row">
+        <div class="col-sm-12">
+
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>水声通信</h5>
+
+                </div>
+
+                <div class="ibox-content">
+                    <div class="form-horizontal m-t" id="commentForm" novalidate="novalidate">
+                        <div class="form-group">
+                            <label class="col-sm-2 col-md-1 label-class">
+                                本地主机:
+                            </label>
+                            <div class="col-sm-2 col-md-2">
+                                <select class="input-sm form-control input-s-sm inline " id="local_id">
+
+                                </select>
+                            </div>
+                            <label class="col-sm-2 col-md-1 label-class">
+                                目标设备:
+                            </label>
+                            
+                            <div class="col-sm-3 col-md-2">
+                                <input type="radio" value="0" id="radio_select_input" name="radio_select_input" class="col-sm-2 radio_select_input" style="top:6px">
+                                <select class="form-control" id="select_target_id" style="width:80%">
+
+                                </select>
+                               
+
+                            </div>
+                            <div class="col-sm-3 col-md-2">
+                             <input type="radio" value="1" id="radio_select_input" name="radio_select_input" class="col-sm-2 radio_select_input" style="top:6px">
+                                 <input id="input_target_id" name="input_target_id" placeholder="1~255" type="text" class="form-control" style="width:80%">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 col-md-1 label-class">
+                                发送模式:
+                            </label>
+                            <div class="col-sm-2">
+                                <select class="input-sm form-control input-s-sm inline " id="pattern">
+                                    <option value="1">1-1.1kbps</option>
+                                    <option value="2">2-2.5Kbps</option>
+                                    <option value="3">3-3.8Kbps</option>
+                                    <option value="4">4-5.1Kbps</option>
+                                    <option value="5">5-8.2Kbps</option>
+                                    <option value="11">11-0.2Kbps</option>
+                                    <option value="12">12-0.5Kbps</option>
+                                </select>
+                            </div>
+                            <label class="col-sm-1 col-md-1 label-class">
+                                数据格式:
+                            </label>
+                            <div class="col-sm-2 col-md-2" style="padding-top: 4px;">
+                                <input type="radio" value="ascii" id="data_format" name="data_format" class="ascii">ASCII &nbsp;&nbsp;&nbsp;
+                                <input type="radio" value="hex" id="data_format" name="data_format" class="ascii">Hex
+                            </div>
+                            <label class="col-sm-1 col-md-1 label-class">
+                                发送指令:
+                            </label>
+                            <div class="col-sm-5 col-md-5" style="padding-top: 4px;">
+                                <input type="radio" value="0" name="work_mode" class="work_mode">$HHTXA(仅通信) &nbsp;&nbsp;&nbsp;
+                                <input type="radio" value="1" name="work_mode" class="work_mode">$HHSND(通信&定位)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 col-md-1 label-class">
+                                发送内容:
+                            </label>
+                            <div class="col-sm-7">
+                                <input id="content" name="content" placeholder="请输入要发送的数据，限制在578个字符以内" type="text" maxlength="578"
+                                       class="form-control">
+                            </div>
+                            <button class="btn btn-primary send" type="submit">发送</button>
+                            <button class="btn btn-primary ranging" type="submit">测距</button>
+                        </div>
+
+
+                        <div class="form-group">
+                            <div class="col-sm-12 textarea">
+                             
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-10" style="text-align: right;">
+                                    <span style="position: relative;top: 7px;margin-right: 15px;">起: </span><input
+                                        class="form-control layer-date" id="start" placeholder="开始日期"
+                                        onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"
+                                        autocomplete="off">
+                                    <span style="position: relative;top: 7px;margin-right: 15px;margin-left: 12px;">止: </span><input
+                                        class="form-control layer-date" id="end" placeholder="结束日期"
+                                        onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"
+                                        autocomplete="off">
+                                    <button class="btn btn-primary download" type="submit">下载当前日志</button>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 全局js -->
+<script src="../static/js/jquery.min.js?v=2.1.4"></script>
+<script src="../static/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="../static/js/plugins/layer/laydate/laydate.js"></script>
+<script src="../static/js/plugins/sweetalert/sweetalert.min.js"></script>
+<script type="text/javascript" src="../static/js/plugins/layer/layer.min.js"></script>
+<script type="text/javascript" src="../static/js/currency.js"></script>
+
+<!-- 自定义js -->
+<script src="../static/js/content.js?v=1.0.0"></script>
+<script>
+    //日期范围限制
+    var start = {
+        elem: '#start',
+        format: 'YYYY/MM/DD hh:mm:ss',
+        min: laydate.now(), //设定最小日期为当前日期
+        max: '2099-06-16 23:59:59', //最大日期
+        istime: true,
+        istoday: false,
+        choose: function (datas) {
+            end.min = datas; //开始日选好后，重置结束日的最小日期
+            end.start = datas //将结束日的初始值设定为开始日
+        }
+    };
+    var end = {
+        elem: '#end',
+        format: 'YYYY/MM/DD hh:mm:ss',
+        min: laydate.now(),
+        max: '2099-06-16 23:59:59',
+        istime: true,
+        istoday: false,
+        choose: function (datas) {
+            start.max = datas; //结束日选好后，重置开始日的最大日期
+        }
+    };
+    laydate(start);
+    laydate(end);
+
+    var info={}
+
+
+    var q = ''
+    var i
+    var msg_type=''
+    var data_content=''
+    var DestIdModel=''
+    $(function () {
+        load()
+        message()
+    })
+
+
+    $("#target_id").bind('input propertychange', function () {
+        var num = $("#target_id").val();
+        if (num > 255) {
+            alert('信标设置不能超过255')
+            $("#target_id").val('');
+            return false
+        }
+        if (num < 0) {
+            alert('信标设置不能小于1')
+            $("#target_id").val('');
+            return false
+        }
+        if (!(/(^[0-9]\d*$)/.test(num))) {
+            alert('输入的不是正整数');
+            $("#target_id").val('');
+            return false;
+        }
+    })
+
+    $("#pattern").bind('input propertychange', function () {
+        var pattern = $("#pattern").val()
+        pattern_msg(pattern)
+    })
+
+    function pattern_msg(pattern){
+        switch (pattern) {
+            case '1':
+                $("#content").attr('placeholder','请输入要发送的数据，限制在578个字符以内')
+                $("#content").attr('maxlength','578')
+                break;
+            case '2':
+                $("#content").attr('placeholder','请输入要发送的数据，限制在1250个字符以内')
+                $("#content").attr('maxlength','1250')
+                break;
+            case '3':
+                $("#content").attr('placeholder','请输入要发送的数据，限制在1922个字符以内')
+                $("#content").attr('maxlength','1922')
+                break;
+            case '4':
+                $("#content").attr('placeholder','请输入要发送的数据，限制在2594个字符以内')
+                $("#content").attr('maxlength','2594')
+                break;
+            case '5':
+                $("#content").attr('placeholder','请输入要发送的数据，限制在3938个字符以内')
+                $("#content").attr('maxlength','3938')
+                break;
+            case '11':
+                $("#content").attr('placeholder','请输入要发送的数据，限制在98个字符以内')
+                $("#content").attr('maxlength','98')
+                break;
+            case '12':
+                $("#content").attr('placeholder','请输入要发送的数据，限制在258个字符以内')
+                $("#content").attr('maxlength','258')
+                break;
+        }
+    }
+    
+  
+ 
+    $("input[name='radio_select_input']").change(function(){
+        var radio_value = $("input[name='radio_select_input']:checked").val();
+        if(radio_value=='0'){
+          $('#input_target_id').attr('disabled',true)
+          $('#select_target_id').attr('disabled',false)
+        }else{
+           $('#input_target_id').attr('disabled',false)
+          $('#select_target_id').attr('disabled',true)
+        }
+      });
+
+
+
+    $('.send').click(function () {
+      var target_id = ''
+      
+        var pattern = $('#pattern').val()
+        var flag = ''
+        var content = $('#content').val()
+        var work_mode=$("input[name='work_mode']:checked").val()
+        if(work_mode==undefined){
+          layer_tc('提示', '请选择发送指令！')
+          return
+        }
+        var radio_select_input=$("input[name='radio_select_input']:checked").val()
+        if(radio_select_input=='0'){
+          target_id=$('#select_target_id').val()
+        }else{
+          target_id=$('#input_target_id').val()
+        }
+        if(target_id==''){
+          layer_tc('提示', '请输入目标设备！')
+          return
+        }
+ 
+        if ($("input[name='data_format']:checked").val() == 'ranging') {
+            flag = $("input[name='data_format']:checked").val()
+        } else if ($("input[name='data_format']:checked").val() == 'ascii') {
+            flag = $("input[name='data_format']:checked").val()
+        } else {
+            flag = $("input[name='data_format']:checked").val()
+        }
+
+
+        var local_id= $('#local_id').val()
+        var url = "/postSmallCmctnSent"
+        info={'DstId':target_id,'ScrId':local_id,'SentModel': pattern,'ChosType': flag,'SentMsgAsc': content,'GongZuoMoShi':work_mode,'DestIdModel':radio_select_input}
+        var type = 'send'
+        request_ajax(url,info,type)
+
+    })
+    
+    $('.ranging').click(function () {
+      layer_tc('提示', '功能正在完善！')
+    })
+
+    //消息回显
+    function message() {
+        var url = "/getSmallCmctnRecord"
+        request_ajax(url,info,'msg')
+    }
+
+    function load() {
+      request_ajax("/getSmallCmctnClearRecord",info,'load_one')
+        request_ajax("/getCmctnCfg",info,'load_config')
+        request_ajax("/getSmallCmctnBeforeRecord",info,'load_record')
+    }
+    
+    function request_ajax(url,info,type) {
+      msg_type=''
+        $.ajax({
+            type: 'post',
+            url: url,
+            data: info,
+            dataType: 'json',
+            success: function (data) { //请求成功回调函数             
+                if(type=='send'){
+                  var w=''
+                  if (data.DataType=='devErr' || data.DataType=='paraErr') {            
+                    data_content=data.Ptf
+                    }else{
+                    data_content=data.Data
+                    }
+                  if(data.IfRcvAll=='1'){
+                      msg_type ='部分解析' 
+                    }
+                 if(data.SentOrRcv=='1'){
+                     w = '<div class="left-message"><div class="msg-head"><p><span>'+timestampToTime(data.Time)+'</span></p>'+
+                          '<p><span>'+data.SrcStg+'<i style="position: relative;top: -1px;">--</i>&gt;'+data.DstStg+'</span></p><p><span style="color: red">'+msg_type+'</span></p></div> <div class="msg_content">'+data_content+'</div></div></div>';
+                      }else{
+                            w = '<div class="left-message fromme"><div class="msg-head"><p><span>'+timestampToTime(data.Time)+'</span></p>'+
+                                  '<p><span>'+data.SrcStg+'<i style="position: relative;top: -1px;">--</i>&gt;'+data.DstStg+'</span></p><p><span style="color: red">'+msg_type+'</span></p></div> <div class="msg_content right-message">'+data_content+'</div></div></div>';
+                          }
+                        $(".textarea").append(w);
+                        var lenght = $(".left-message", ".textarea").length
+                        if (lenght > 100) {
+                            $(".textarea .left-message:first-child").remove()
+                        }
+                        var textarea_offset = $(".textarea")[0].scrollHeight;
+                        $('.textarea').scrollTop(textarea_offset)
+                }
+                if(type=='msg'){
+                    var w = ''
+                    if (data.Data == null) {
+
+                    } else {
+                        for (i = 0; i < data.Data.length; i++) {
+                         if(data.Data[i].DataType=='rvErr'){
+                        data_content ='收到错误信息:'+data.Data[i].Head
+                            if(data.Data[i].SentOrRcv=='1'){
+                             w += '<div class="left-message"><div class="msg-head"><p><span>'+timestampToTime(data.Data[i].Time)+'</span></p>'+
+                                  '<p><span>'+data.Data[i].SrcStg+'<i style="position: relative;top: -1px;">--</i>&gt;'+data.Data[i].DstStg+'</span></p><p><span style="color: red">'+msg_type+'</span></p></div> <div class="msg_content">'+data_content+'</div></div></div>';
+                          }else{
+                            w += '<div class="left-message fromme"><div class="msg-head"><p><span>'+timestampToTime(data.Data[i].Time)+'</span></p>'+
+                                  '<p><span>'+data.Data[i].SrcStg+'<i style="position: relative;top: -1px;">--</i>&gt;'+data.Data[i].DstStg+'</span></p><p><span style="color: red">'+msg_type+'</span></p></div> <div class="msg_content right-message">'+data_content+'</div></div></div>';
+                          }
+                      }else if(data.Data[i].DataType=='ascii' || data.Data[i].DataType=='hex'){
+                         if(data.Data[i].IfRcvAll=='1'){
+                            msg_type ='部分解析' 
+                          }
+                          data_content=data.Data[i].Data
+                           if(data.Data[i].SentOrRcv=='1'){
+                             w += '<div class="left-message"><div class="msg-head"><p><span>'+timestampToTime(data.Data[i].Time)+'</span></p>'+
+                                  '<p><span>'+data.Data[i].SrcStg+'<i style="position: relative;top: -1px;">--</i>&gt;'+data.Data[i].DstStg+'</span></p><p><span style="color: red">'+msg_type+'</span></p></div> <div class="msg_content">'+data_content+'</div></div></div>';
+                          }else{
+                            w += '<div class="left-message fromme"><div class="msg-head"><p><span>'+timestampToTime(data.Data[i].Time)+'</span></p>'+
+                                  '<p><span>'+data.Data[i].SrcStg+'<i style="position: relative;top: -1px;">--</i>&gt;'+data.Data[i].DstStg+'</span></p><p><span style="color: red">'+msg_type+'</span></p></div> <div class="msg_content right-message">'+data_content+'</div></div></div>';
+                          }
+                      }    
+
+                        }
+                        $(".textarea").append(w);
+                        var lenght = $(".left-message", ".textarea").length
+                        if (lenght > 100) {
+                            $(".textarea .left-message:first-child").remove()
+                        }
+                        var textarea_offset = $(".textarea")[0].scrollHeight;
+                        $('.textarea').scrollTop(textarea_offset)
+                    }
+                    setTimeout(message, 2000)
+                }
+                if(type=='load_config'){
+                    DestIdModel=data.DestIdModel
+                           if(data.MuBiaoIdList){
+                       var w=''
+                        for(i=0;i<data.MuBiaoIdList.length; i++){
+                          w += '<option value="'+data.MuBiaoIdList[i].DevId+'">' + data.MuBiaoIdList[i].Name+'-'+data.MuBiaoIdList[i].DevId+ '</option>';
+                        }
+                        $('#select_target_id').append(w);
+                    }
+                     $('#input_target_id').val(data.DstId)  
+                   if(DestIdModel !='1'){
+                    $("input[name='radio_select_input'][value='0']").prop("checked", true)
+                      $('#input_target_id').attr('disabled',true)
+                      $('#select_target_id').attr('disabled',false)
+               
+                    }else{  
+                    $("input[name='radio_select_input'][value='1']").prop("checked", true)   
+                      $('#input_target_id').attr('disabled',false)
+                      $('#select_target_id').attr('disabled',true)                                     
+                                
+                    }
+                    if (data.BenDiIdList) {
+                       var w=''
+                        for(i=0;i<data.BenDiIdList.length; i++){
+                          w += '<option value="'+data.BenDiIdList[i].DevId+'">' + data.BenDiIdList[i].Name+'-'+data.BenDiIdList[i].DevId+ '</option>';
+                        }
+                        $('#local_id').append(w);
+                    }
+              
+                    if (data.SentModel) {
+                        $('#pattern').val(data.SentModel)
+                        pattern_msg(data.SentModel)
+                    }
+
+                    if (data.ChosType == 'ranging') {
+                        $("input[name='data_format'][value='ranging']").prop("checked", true)
+                        $('#content').attr("disabled", true);
+                        $('#content').attr("disabled", true);
+                    } else if (data.ChosType == 'ascii') {
+                        $("input[name='data_format'][value='ascii']").prop("checked", true)
+                        $('#content').val(data.SentMsgAsc)
+                        $('#content').val(data.SentMsgHex)
+                    } else {
+                        $("input[name='data_format'][value='hex']").prop("checked", true)
+                        $('#content').val(data.SentMsgHex)
+                        $('#content').val(data.SentMsgAsc)
+                    }
+                    $("input[name='work_mode'][value='"+data.GongZuoMoShi+"']").prop("checked", true)
+                }
+
+                if(type=='load_record'){
+                    var w = ''
+                    if (data.Data == null) {
+
+                    } else {
+                     for (i = 0; i < data.Data.length; i++) {
+                      if(data.Data[i].DataType=='rvErr'){
+                        data_content ='收到错误信息:'+data.Data[i].Head
+                              if(data.Data[i].SentOrRcv=='1'){
+                             w += '<div class="left-message"><div class="msg-head"><p><span>'+timestampToTime(data.Data[i].Time)+'</span></p>'+
+                                  '<p><span>'+data.Data[i].SrcStg+'<i style="position: relative;top: -1px;">--</i>&gt;'+data.Data[i].DstStg+'</span></p><p><span style="color: red"></span></p></div> <div class="msg_content">'+data_content+'</div></div></div>';
+                          }else{
+                            w += '<div class="left-message fromme"><div class="msg-head"><p><span>'+timestampToTime(data.Data[i].Time)+'</span></p>'+
+                                  '<p><span>'+data.Data[i].SrcStg+'<i style="position: relative;top: -1px;">--</i>&gt;'+data.Data[i].DstStg+'</span></p><p><span style="color: red"></span></p></div> <div class="msg_content right-message">'+data_content+'</div></div></div>';
+                          }
+                      }else if(data.Data[i].DataType=='ascii' || data.Data[i].DataType=='hex'){
+                        msg_type=''
+                         if(data.Data[i].IfRcvAll=='1'){
+                            msg_type ='部分解析' 
+                          }
+                          data_content=data.Data[i].Data
+                          console.log(data_content)
+                           if(data.Data[i].SentOrRcv=='1'){
+                             w += '<div class="left-message"><div class="msg-head"><p><span>'+timestampToTime(data.Data[i].Time)+'</span></p>'+
+                                  '<p><span>'+data.Data[i].SrcStg+'<i style="position: relative;top: -1px;">--</i>&gt;'+data.Data[i].DstStg+'</span></p><p><span style="color: red">'+msg_type+'</span></p></div> <div class="msg_content">'+data_content+'</div></div></div>';
+                          }else{
+                            w += '<div class="left-message fromme"><div class="msg-head"><p><span>'+timestampToTime(data.Data[i].Time)+'</span></p>'+
+                                  '<p><span>'+data.Data[i].SrcStg+'<i style="position: relative;top: -1px;">--</i>&gt;'+data.Data[i].DstStg+'</span></p><p><span style="color: red">'+msg_type+'</span></p></div> <div class="msg_content right-message">'+data_content+'</div></div></div>';
+                          }
+                      }                                   
+                        }
+                        $(".textarea").append(w);
+                        var lenght = $(".left-message", ".textarea").length
+                        if (lenght > 100) {
+                            $(".textarea .left-message:first-child").remove()
+                        }
+                        var textarea_offset = $(".textarea")[0].scrollHeight;
+                        $('.textarea').scrollTop(textarea_offset)
+                    }
+                }
+
+            }
+            
+        });
+    }
+
+    function timestampToTime(timestamp) {
+        var date = new Date(timestamp * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+        var Y = date.getFullYear() + '-';
+        var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+        var D = date.getDate() + ' ';
+        var h = date.getHours() + ':';
+        var m = date.getMinutes() + ':';
+        var s = date.getSeconds();
+        // return Y + M + D + h + m + s;
+        return  h + m + s;
+    }
+
+
+    $(".download").click(function () {
+        var start = $('#start').val()
+        console.log(start)
+        var end = $('#end').val()
+        if (start == '' || end == '') {
+            swal({
+                title: "请输入起止时间",
+            });
+        } else {
+            var url = '/getSmallCmctnDownload'
+            window.location.href = url + "?start=" + start + "&&end=" + end;
+        }
+
+    });
+</script>
+
+
+</body>
+</html>

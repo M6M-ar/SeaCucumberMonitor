@@ -1,0 +1,1493 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>水声通信</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link href="../static/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../static/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../static/css/animate.css" rel="stylesheet">
+    <link href="../static/css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../static/css/sweetalert.css" rel="stylesheet">
+    <script type="text/javascript" src="../static/js/calculation.js"></script>
+    <script type="text/javascript" src="../static/js/quanju.js"></script>
+    <script src="../static/js/plugins/sweetalert/sweetalert.min.js"></script>
+
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>配置 (<span id="banbenhao"></span>)</h5>
+                </div>
+                <div class="ibox-content">
+                    <div class="tabs-container">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a data-toggle="tab" href="#tab-1" aria-expanded="true"> 平台配置</a>
+                            </li>
+                            <li class=""><a data-toggle="tab" href="#tab-2" aria-expanded="true"> 服务器配置</a>
+                            </li>
+                             <li class=""><a data-toggle="tab" href="#tab-3" aria-expanded="true"> UDP转发服务器</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div id="tab-1" class="tab-pane active">
+                                <div class="panel-body" style="height: auto;">
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label"> 串口配置</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-12 m-b" style="position: relative;left: 29px;">
+                                            <label class="checkbox-inline" style="padding-left: 40px;top: 7px;">
+                                                <input type="checkbox" value="option1" name="auto" id="auto_1" class="xyz auto" style="top: -2px;">使用</label>
+                                                     <div class="set-com" style=" padding-left: 15px;">
+                                                    <span style="top: 7px;position: relative;">串口_1：</span>
+                                                </div>
+                                                <input id="port" name="port" placeholder="输入串口" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                                <div class="set-com" style=" padding-left: 15px;">
+                                                    <span style="top: 7px;position: relative;">波特率_1：</span>
+                                                </div>
+                                                <input id="baud" name="baud" placeholder="输入波特率" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                        </div>
+                                        <div class="col-sm-12 m-b" style="position: relative;left: 29px;">
+                                            <label class="checkbox-inline" style="padding-left: 40px;top: 7px;">
+                                                <input type="checkbox" value="option2" name="auto" id="auto_2" class="xyz auto" style="top: -2px;">使用</label>
+                                            <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">串口_2：</span>
+                                            </div>
+                                            <input id="port_2" name="port_2" placeholder="输入串口" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                            <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">波特率_2：</span>
+                                            </div>
+                                            <input id="baud_2" name="baud_2" placeholder="输入波特率" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                        </div>
+                                       <div class="col-sm-12 m-b" style="position: relative;left: 29px;">
+                                            <label class="checkbox-inline" style="padding-left: 40px;top: 7px;">
+                                                <input type="checkbox" value="option9" name="auto" id="auto_9" class="xyz auto" style="top: -2px;">使用</label>
+                                            <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">串口_3：</span>
+                                            </div>
+                                            <input id="port_3" name="port_3" placeholder="输入串口" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                            <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">波特率_3：</span>
+                                            </div>
+                                            <input id="baud_3" name="baud_3" placeholder="输入波特率" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                        </div>
+                                        
+                                        <div class="col-sm-12 m-b" style="position: relative;left: 29px;">
+                                            <label class="checkbox-inline" style="padding-left: 40px;top: 7px;">
+                                                <input type="checkbox" value="option3" name="auto" id="auto_3" class="xyz auto" style="top: -2px;">自动运行
+                                            </label>
+                                            <button class="btn btn-primary send" style="left: 42px;position: relative;top:4px;">
+                                                确定
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-12 control-label">串口动作</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <button class="btn btn-primary send_2" style="left: 42px;position: relative;top:4px;">
+                                            运行
+                                        </button>
+                                         <button class="btn btn-primary stop" style="left: 42px;position: relative;top:4px;">
+                                            停止
+                                        </button>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-12 control-label">串口状态</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-12 all" style="position: relative;left: 8px;padding: 16px;">
+                                            <div class="checkbox-inline" style="padding-left:18px;float:left;">
+                                                串口1运行情况：</div>
+                                            <div style="width:85px;float:left;" id="msg1"></div>
+                                            <div id="time1"></div>
+                                        </div>
+                                        <div class="col-sm-12 all" style="position: relative;left: 8px;padding: 16px;">
+                                            <div class="checkbox-inline" style="padding-left:18px;float:left;">
+                                                串口2运行情况：</div>
+                                            <div style="width:85px;float:left;" id="msg2"></div>
+                                            <div id="time2"></div>
+                                        </div>
+                                         <div class="col-sm-12 all" style="position: relative;left: 8px;padding: 16px;">
+                                            <div class="checkbox-inline" style="padding-left:18px;float:left;">
+                                                串口3运行情况：</div>
+                                            <div style="width:85px;float:left;" id="msg3"></div>
+                                            <div id="time3"></div>
+                                        </div>
+                                    </div>
+                                     <div class="form-group">
+                                        <label class="col-sm-12 control-label">原点设置:修改经纬度声速后,请重启后台服务软件</label>
+                                    </div>
+                                   <div class="form-group">
+                                            <div class="col-sm-12 m-b" style="position: relative;left: 29px;">
+                                            <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">经度：</span>
+                                            </div>
+                                            <input id="yd_lng" name="baud" placeholder="输入经度" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                            <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">纬度：</span>
+                                            </div>
+                                            <input id="yd_lat" name="baud" placeholder="输入纬度" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                            <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">声速：</span>
+                                            </div>
+                                            <input id="speed" name="speed" placeholder="输入声速" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                            <button class="btn btn-primary send_set" style="left: 42px;position: relative;">
+                                            设置
+                                        </button>
+                                        </div>
+                                    </div>                    
+                                    <div class="form-group">    
+                                        <label class="col-sm-12 control-label" style="border-top: 2px dashed #c9c3c3;margin-bottom: 27px;margin-top: 20px;">
+                                   
+                                        </label>                                 
+                                        <label class="col-sm-12 control-label">
+                                        浮标和链路设置
+                                        </label>
+                                    </div>
+                                    <div class="form-group">
+                                      <div class="col-sm-12 m-b" style="position: relative;left: 29px;">                             
+                                            <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">浮标ID：</span>
+                                            </div>
+                                            <input id="fubiaoid_0" name="port" placeholder="输入浮标ID" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                           <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">经度：</span>
+                                            </div>
+                                            <input id="fubiaoid_0_lng_0" name="baud" placeholder="输入经度" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                            <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">纬度：</span>
+                                            </div>
+                                            <input id="fubiaoid_0_lat_0" name="baud" placeholder="输入纬度" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                     </div>
+                                     <div class="col-sm-12 m-b" style="position: relative;left: 29px;">                             
+                                            <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">浮标ID：</span>
+                                            </div>
+                                            <input id="fubiaoid_1" name="port" placeholder="输入浮标ID" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                           <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">经度：</span>
+                                            </div>
+                                            <input id="fubiaoid_1_lng_0" name="baud" placeholder="输入经度" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                            <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">纬度：</span>
+                                            </div>
+                                            <input id="fubiaoid_1_lat_0" name="baud" placeholder="输入纬度" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                     </div>
+                                     <div class="col-sm-12 m-b" style="position: relative;left: 29px;">                             
+                                            <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">浮标ID：</span>
+                                            </div>
+                                            <input id="fubiaoid_2" name="port" placeholder="输入浮标ID" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                           <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">经度：</span>
+                                            </div>
+                                            <input id="fubiaoid_2_lng_0" name="baud" placeholder="输入经度" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                            <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">纬度：</span>
+                                            </div>
+                                            <input id="fubiaoid_2_lat_0" name="baud" placeholder="输入纬度" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                     </div>
+                                    </div>         
+                                    <div class="form-group">
+                                        <label class="col-sm-12 control-label">链路0
+                                        <label class="checkbox-inline" style="padding-left: 40px;">
+                                                <input type="checkbox" value="option1" name="auto" id="auto_4" class="xyz auto" style="top: -2px;">使用</label>
+                                        </label>
+                                        
+                                    </div>
+                
+                                    <div class="form-group">
+                                        <div class="col-sm-12 m-b" style="position: relative;left: 29px;">                             
+                                            <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">T0_ID：</span>
+                                            </div>
+                                            <input id="t0_id_0" name="baud" placeholder="输入T0_ID" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                                  <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">经度：</span>
+                                            </div>
+                                            <input id="t0_lng_0" name="baud" placeholder="输入经度" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                            <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">纬度：</span>
+                                            </div>
+                                            <input id="t0_lat_0" name="baud" placeholder="输入纬度" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                                                                  <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">深度：</span>
+                                            </div>
+                                            <input id="t0_depth_0" name="baud" placeholder="输入深度" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                        </div>     
+                                        <div class="col-sm-12 m-b" style="position: relative;left: 29px;">                             
+                                            <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">T1_ID：</span>
+                                            </div>
+                                            <input id="t1_id_0" name="baud" placeholder="输入T1_ID" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                                  <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">经度：</span>
+                                            </div>
+                                            <input id="t1_lng_0" name="baud" placeholder="输入经度" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                            <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">纬度：</span>
+                                            </div>
+                                            <input id="t1_lat_0" name="baud" placeholder="输入纬度" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                                                                  <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">深度：</span>
+                                            </div>
+                                            <input id="t1_depth_0" name="baud" placeholder="输入深度" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                        </div>       
+                                       <div class="col-sm-12 m-b" style="position: relative;left: 29px;">                             
+                                            <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">T2_ID：</span>
+                                            </div>
+                                            <input id="t2_id_0" name="baud" placeholder="输入T2_ID" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                                  <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">经度：</span>
+                                            </div>
+                                            <input id="t2_lng_0" name="baud" placeholder="输入经度" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                            <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">纬度：</span>
+                                            </div>
+                                            <input id="t2_lat_0" name="baud" placeholder="输入纬度" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                                                                  <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">深度：</span>
+                                            </div>
+                                            <input id="t2_depth_0" name="baud" placeholder="输入深度" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                        </div>                                      
+                                    </div>
+                             
+                                      <div class="form-group">
+                                        <label class="col-sm-12 control-label">链路1
+                                        <label class="checkbox-inline" style="padding-left: 40px;">
+                                                <input type="checkbox" value="option1" name="auto" id="auto_5" class="xyz auto" style="top: -2px;">使用</label>
+                                        </label>
+                                        
+                                    </div>                           
+                                    <div class="form-group">
+                                        <div class="col-sm-12 m-b" style="position: relative;left: 29px;">                             
+                                            <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">T0_ID：</span>
+                                            </div>
+                                            <input id="t0_id_1" name="baud" placeholder="输入T0_ID" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                                  <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">经度：</span>
+                                            </div>
+                                            <input id="t0_lng_1" name="baud" placeholder="输入经度" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                            <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">纬度：</span>
+                                            </div>
+                                            <input id="t0_lat_1" name="baud" placeholder="输入纬度" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                                                                  <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">深度：</span>
+                                            </div>
+                                            <input id="t0_depth_1" name="baud" placeholder="输入深度" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                        </div>     
+                                        <div class="col-sm-12 m-b" style="position: relative;left: 29px;">                             
+                                            <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">T1_ID：</span>
+                                            </div>
+                                            <input id="t1_id_1" name="baud" placeholder="输入T1_ID" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                                  <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">经度：</span>
+                                            </div>
+                                            <input id="t1_lng_1" name="baud" placeholder="输入经度" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                            <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">纬度：</span>
+                                            </div>
+                                            <input id="t1_lat_1" name="baud" placeholder="输入纬度" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                                                                  <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">深度：</span>
+                                            </div>
+                                            <input id="t1_depth_1" name="baud" placeholder="输入深度" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                        </div>       
+                                       <div class="col-sm-12 m-b" style="position: relative;left: 29px;">                             
+                                            <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">T2_ID：</span>
+                                            </div>
+                                            <input id="t2_id_1" name="baud" placeholder="输入T2_ID" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                                  <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">经度：</span>
+                                            </div>
+                                            <input id="t2_lng_1" name="baud" placeholder="输入经度" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                            <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">纬度：</span>
+                                            </div>
+                                            <input id="t2_lat_1" name="baud" placeholder="输入纬度" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                                                                  <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">深度：</span>
+                                            </div>
+                                            <input id="t2_depth_1" name="baud" placeholder="输入深度" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                        </div>                                      
+                                    </div>
+                                 
+                                    <div class="form-group">
+                                        <label class="col-sm-12 control-label">链路2
+                                        <label class="checkbox-inline" style="padding-left: 40px;">
+                                                <input type="checkbox" value="option1" name="auto" id="auto_6" class="xyz auto" style="top: -2px;">使用</label>
+                                        </label>
+                                        
+                                    </div>
+     
+                                    <div class="form-group">
+                                        <div class="col-sm-12 m-b" style="position: relative;left: 29px;">                             
+                                            <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">T0_ID：</span>
+                                            </div>
+                                            <input id="t0_id_2" name="baud" placeholder="输入T0_ID" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                                  <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">经度：</span>
+                                            </div>
+                                            <input id="t0_lng_2" name="baud" placeholder="输入经度" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                            <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">纬度：</span>
+                                            </div>
+                                            <input id="t0_lat_2" name="baud" placeholder="输入纬度" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                                                                  <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">深度：</span>
+                                            </div>
+                                            <input id="t0_depth_2" name="baud" placeholder="输入深度" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                        </div>     
+                                        <div class="col-sm-12 m-b" style="position: relative;left: 29px;">                             
+                                            <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">T1_ID：</span>
+                                            </div>
+                                            <input id="t1_id_2" name="baud" placeholder="输入T1_ID" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                                  <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">经度：</span>
+                                            </div>
+                                            <input id="t1_lng_2" name="baud" placeholder="输入经度" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                            <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">纬度：</span>
+                                            </div>
+                                            <input id="t1_lat_2" name="baud" placeholder="输入纬度" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                                                                  <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">深度：</span>
+                                            </div>
+                                            <input id="t1_depth_2" name="baud" placeholder="输入深度" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                        </div>       
+                                       <div class="col-sm-12 m-b" style="position: relative;left: 29px;">                             
+                                            <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">T2_ID：</span>
+                                            </div>
+                                            <input id="t2_id_2" name="baud" placeholder="输入T2_ID" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                                  <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">经度：</span>
+                                            </div>
+                                            <input id="t2_lng_2" name="baud" placeholder="输入经度" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                            <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">纬度：</span>
+                                            </div>
+                                            <input id="t2_lat_2" name="baud" placeholder="输入纬度" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                                                                  <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">深度：</span>
+                                            </div>
+                                            <input id="t2_depth_2" name="baud" placeholder="输入深度" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                        </div>                                      
+                                    </div>
+                                    
+                                     <div class="form-group">
+                                        <label class="col-sm-12 control-label">链路3
+                                        <label class="checkbox-inline" style="padding-left: 40px;">
+                                                <input type="checkbox" value="option1" name="auto" id="auto_7" class="xyz auto" style="top: -2px;">使用</label>
+                                        </label>
+                                        
+                                    </div>
+                        
+                                    <div class="form-group">
+                                        <div class="col-sm-12 m-b" style="position: relative;left: 29px;">                             
+                                            <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">T0_ID：</span>
+                                            </div>
+                                            <input id="t0_id_3" name="baud" placeholder="输入T0_ID" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                                  <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">经度：</span>
+                                            </div>
+                                            <input id="t0_lng_3" name="baud" placeholder="输入经度" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                            <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">纬度：</span>
+                                            </div>
+                                            <input id="t0_lat_3" name="baud" placeholder="输入纬度" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                                                                  <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">深度：</span>
+                                            </div>
+                                            <input id="t0_depth_3" name="baud" placeholder="输入深度" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                        </div>     
+                                        <div class="col-sm-12 m-b" style="position: relative;left: 29px;">                             
+                                            <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">T1_ID：</span>
+                                            </div>
+                                            <input id="t1_id_3" name="baud" placeholder="输入T1_ID" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                                  <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">经度：</span>
+                                            </div>
+                                            <input id="t1_lng_3" name="baud" placeholder="输入经度" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                            <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">纬度：</span>
+                                            </div>
+                                            <input id="t1_lat_3" name="baud" placeholder="输入纬度" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                                                                  <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">深度：</span>
+                                            </div>
+                                            <input id="t1_depth_3" name="baud" placeholder="输入深度" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                        </div>       
+                                       <div class="col-sm-12 m-b" style="position: relative;left: 29px;">                             
+                                            <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">T2_ID：</span>
+                                            </div>
+                                            <input id="t2_id_3" name="baud" placeholder="输入T2_ID" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                                  <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">经度：</span>
+                                            </div>
+                                            <input id="t2_lng_3" name="baud" placeholder="输入经度" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                            <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">纬度：</span>
+                                            </div>
+                                            <input id="t2_lat_3" name="baud" placeholder="输入纬度" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                                                                  <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">深度：</span>
+                                            </div>
+                                            <input id="t2_depth_3" name="baud" placeholder="输入深度" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                        </div>                                      
+                                    </div>
+                                    
+                                     <div class="form-group">
+                                        <label class="col-sm-12 control-label">链路4
+                                        <label class="checkbox-inline" style="padding-left: 40px;">
+                                                <input type="checkbox" value="option1" name="auto" id="auto_8" class="xyz auto" style="top: -2px;">使用</label>
+                                        </label>
+                                        
+                                    </div>
+                     
+                                    <div class="form-group">
+                                        <div class="col-sm-12 m-b" style="position: relative;left: 29px;">                             
+                                            <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">T0_ID：</span>
+                                            </div>
+                                            <input id="t0_id_4" name="baud" placeholder="输入T0_ID" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                                  <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">经度：</span>
+                                            </div>
+                                            <input id="t0_lng_4" name="baud" placeholder="输入经度" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                            <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">纬度：</span>
+                                            </div>
+                                            <input id="t0_lat_4" name="baud" placeholder="输入纬度" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                                                                  <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">深度：</span>
+                                            </div>
+                                            <input id="t0_depth_4" name="baud" placeholder="输入深度" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                        </div>     
+                                        <div class="col-sm-12 m-b" style="position: relative;left: 29px;">                             
+                                            <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">T1_ID：</span>
+                                            </div>
+                                            <input id="t1_id_4" name="baud" placeholder="输入T1_ID" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                                  <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">经度：</span>
+                                            </div>
+                                            <input id="t1_lng_4" name="baud" placeholder="输入经度" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                            <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">纬度：</span>
+                                            </div>
+                                            <input id="t1_lat_4" name="baud" placeholder="输入纬度" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                                                                  <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">深度：</span>
+                                            </div>
+                                            <input id="t1_depth_4" name="baud" placeholder="输入深度" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                        </div>       
+                                       <div class="col-sm-12 m-b" style="position: relative;left: 29px;">                             
+                                            <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">T2_ID：</span>
+                                            </div>
+                                            <input id="t2_id_4" name="baud" placeholder="输入T2_ID" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                                  <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">经度：</span>
+                                            </div>
+                                            <input id="t2_lng_4" name="baud" placeholder="输入经度" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                            <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">纬度：</span>
+                                            </div>
+                                            <input id="t2_lat_4" name="baud" placeholder="输入纬度" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                                                                  <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">深度：</span>
+                                            </div>
+                                            <input id="t2_depth_4" name="baud" placeholder="输入深度" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                        </div>                                      
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <button class="btn btn-primary send_3" style="left: 42px;position: relative;top:4px;">
+                                            确定
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="tab-2" class="tab-pane">
+                                <div class="panel-body" style="height: auto;">
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label"> 服务器配置</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-12 m-b" style="position: relative;left: 29px;">
+                                            <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">IP：</span>
+                                            </div>
+                                            <input id="ip" name="ip" placeholder="输入IP" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                            <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">端口号：</span>
+                                            </div>
+                                            <input id="server_port" name="server_port" placeholder="输入端口号" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                        </div>
+                                        <div class="col-sm-12 m-b" style="position: relative;left: 29px;">
+                                            <label class="checkbox-inline" style="padding-left: 40px;top: 7px;">
+                                                <input type="checkbox" value="server_option" name="auto" id="server_option" class="xyz auto" style="top: -2px;">自动运行
+                                            </label>
+                                            <button class="btn btn-primary server_send_start" style="left: 42px;position: relative;top:4px;">
+                                                确定
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-12 control-label">服务器动作</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <button class="btn btn-primary server_send" style="left: 42px;position: relative;top:4px;">
+                                            运行
+                                        </button>
+                                        <button class="btn btn-primary server_stop" style="left: 42px;position: relative;top:4px;">
+                                            停止
+                                        </button>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-12 control-label">动作状态</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-12 all" style="position: relative;left: 8px;padding: 16px;">
+                                            <div class="checkbox-inline" style="padding-left:18px;float:left;">
+                                                动作运行情况：</div>
+                                            <div style="width:85px;float:left;" id="server_msg"></div>
+                                            <div id="server_time"></div>
+                                        </div>
+                                    </div>
+                                    
+                                     <div class="form-group">
+                                        <label class="col-sm-2 control-label"> 算法服务器配置</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-12 m-b" style="position: relative;left: 29px;">
+                                            <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">IP：</span>
+                                            </div>
+                                            <input id="ip_2" name="ip_2" placeholder="输入IP" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                            <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">端口号：</span>
+                                            </div>
+                                            <input id="server_port_2" name="server_port_2" placeholder="输入端口号" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                        </div>
+                                        <div class="col-sm-12 m-b" style="position: relative;left: 29px;">
+                                            <label class="checkbox-inline" style="padding-left: 40px;top: 7px;">
+                                                <input type="checkbox" value="server_option_2" name="auto" id="server_option_2" class="xyz auto" style="top: -2px;">自动运行
+                                            </label>
+                                            <button class="btn btn-primary server_send_start_2" style="left: 42px;position: relative;top:4px;">
+                                                确定
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-12 control-label">算法服务器动作</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <button class="btn btn-primary server_send_2" style="left: 42px;position: relative;top:4px;">
+                                            运行
+                                        </button>
+                                        <button class="btn btn-primary server_stop_2" style="left: 42px;position: relative;top:4px;">
+                                            停止
+                                        </button>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-12 control-label">算法服务器动作状态</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-12 all" style="position: relative;left: 8px;padding: 16px;">
+                                            <div class="checkbox-inline" style="padding-left:18px;float:left;">
+                                                动作运行情况：</div>
+                                            <div style="width:85px;float:left;" id="server_msg_2"></div>
+                                            <div id="server_time_2"></div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div id="tab-3" class="tab-pane">
+                            <div class="panel-body" style="height: auto;">
+                            <div class="form-group">
+                                        <label class="col-sm-2 control-label"> UDP客户端配置</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-12 m-b" style="position: relative;left: 29px;">
+                                        <label class="checkbox-inline" style="padding-left: 40px;top: 7px;">
+                                                <input type="checkbox" value="option1" name="auto" id="udp_auto" class="xyz auto" style="top: -2px;">使用</label>
+                                            <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">IP：</span>
+                                            </div>
+                                            <input id="udp_ip" name="udp_ip" placeholder="输入IP" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                            <div class="set-com" style=" padding-left: 15px;">
+                                                <span style="top: 7px;position: relative;">端口号：</span>
+                                            </div>
+                                            <input id="udp_port" name="udp_port" placeholder="输入端口号" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                        </div>
+                                        <div class="col-sm-12 m-b" style="position: relative;left: 29px;">
+                                            <label class="checkbox-inline" style="padding-left: 40px;top: 7px;">
+                                                <input type="checkbox" value="udp_option" name="auto" id="udp_option" class="xyz auto" style="top: -2px;">自动运行
+                                            </label>
+                                            <button class="btn btn-primary udp_send_start" style="left: 42px;position: relative;top:4px;">
+                                                确定
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-12 control-label">UDP客户端动作</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <button class="btn btn-primary udp_send" style="left: 42px;position: relative;top:4px;">
+                                            运行
+                                        </button>
+                                        <button class="btn btn-primary udp_stop" style="left: 42px;position: relative;top:4px;">
+                                            停止
+                                        </button>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-12 control-label">UDP客户端动作状态</label>
+                                    </div>
+                                    <div class="form-group">
+                                      <div class="col-sm-12 all" style="position: relative;left: 8px;padding: 16px;">
+                                            <div class="checkbox-inline" style="padding-left:18px;float:left;">
+                                                动作运行情况：</div>
+                                            <div style="width:85px;float:left;" id="udp_msg"></div>
+                                            <div id="udp_time"></div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" style="padding-top: 67px;margin-top: 81px;position: relative;ss">
+                                        <label class="col-sm-12 control-label">UDP服务消息</label>
+                                    </div>
+                                    <div class="form-group">
+                                      <div class="col-sm-12 all" style="position: relative;left: 8px;padding: 16px;">                                      
+                                            <div>服务IP/端口：<span id='SerIp_Port'></span></div>   
+                                        </div>
+                                       <div class="col-sm-12 all" style="position: relative;left: 8px;padding: 16px;"> 
+                                      <div>是否使用：<span id="ShiFouShiYong"></span></div> 
+                                      </div>
+                                        <div class="col-sm-12 all" style="position: relative;left: 8px;padding: 16px;"> 
+                                      <div>监听状态： <span id="LstMsg"></span></div>
+                                      </div>
+                                        <div class="col-sm-12 all" style="position: relative;left: 8px;padding: 16px;"> 
+                                      <div>收到数据包：<span id="Num"></span></div>
+                                      </div>
+                                    </div>
+                            </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<!-- 全局js -->
+<script src="../static/js/jquery.min.js?v=2.1.4"></script>
+<script src="../static/js/bootstrap.min.js?v=3.3.6"></script>
+<!-- 自定义js -->
+<script src="../static/js/content.js?v=1.0.0"></script>
+<script src="../static/js/plugins/sweetalert/sweetalert.min.js"></script>
+<script type="text/javascript" src="../static/js/plugins/layer/layer.min.js"></script>
+<script type="text/javascript" src="../static/js/currency.js"></script>
+<style>
+.layui-layer-btn .layui-layer-btn0{
+    background-color: #f1f1f1;
+    border-color: #f1f1f1;
+    color:#333
+}
+.layui-layer-btn .layui-layer-btn1{
+  background-color: #1e9fff;
+    border-color: #1e9fff;
+  
+}
+</style>
+<script>
+    $(function(){
+        load_1()
+        load_2()
+        load_3()
+        load_4()
+        load_5()
+        load_6()
+        load_7()
+        load_8()
+        load_9()
+        load_10()
+        load_11()
+    })
+    $('.send').click(function () {
+        var port=$('#port').val()
+        var baud=$('#baud').val()
+        var port_2=$('#port_2').val()
+        var baud_2=$('#baud_2').val()
+        var port_3=$('#port_3').val()
+        var baud_3=$('#baud_3').val()
+        var auto_1=$('#auto_1').is(':checked')
+        var auto_2=$('#auto_2').is(':checked')
+        var auto_3=$('#auto_3').is(':checked')
+        var auto_9=$('#auto_9').is(':checked')
+        if(auto_3==true){
+              $('.send_2').prop('disabled',true)
+              $('.stop').prop('disabled',true)
+            }else{
+              $('.send_2').prop('disabled',false)
+              $('.stop').prop('disabled',false)
+            }
+        $.ajax({
+            type:'post',
+            url:"/postCfg",
+            data:{'UartName1':port,'UartBtv1':baud,'UartWantUse1':auto_1,'UartName2':port_2,'UartBtv2':baud_2,'UartWantUse2':auto_2,'UartName3':port_3,'UartBtv3':baud_3,'UartWantUse3':auto_9,'ZiDongYunXing':auto_3},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+               
+            }
+        });
+    })
+
+    $('.server_send_start').click(function () {
+        var ip=$('#ip').val()
+        var server_port=$('#server_port').val()
+        var server_option=$('#server_option').is(':checked')
+        if(auto_3==true){
+            $('.server_send').prop('disabled',true)
+            $('.server_stop').prop('disabled',true)
+        }else{
+            $('.server_send').prop('disabled',false)
+            $('.server_stop').prop('disabled',false)
+        }
+        $.ajax({
+            type:'post',
+            url:"/postUdpCfg",
+            data:{'SerIp':ip,'SerPort':server_port,'ZiDongYunXing':server_option},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+
+            }
+        });
+    })
+    
+    $('.udp_send_start').click(function () {
+        var ip=$('#udp_ip').val()
+        var udp_port=$('#udp_port').val()
+        var udp_option=$('#udp_option').is(':checked')
+        var udp_auto=$('#udp_auto').is(':checked')
+        if(udp_option==true){
+            $('.udp_send').prop('disabled',true)
+            $('.udp_stop').prop('disabled',true)
+        }else{
+            $('.udp_send').prop('disabled',false)
+            $('.udp_stop').prop('disabled',false)
+        }
+        $.ajax({
+            type:'post',
+            url:"/postZ_cCfg",
+            data:{'SerIp':ip,'SerPort':udp_port,'ZiDongYunXing':udp_option,'ShiFouShiYong':udp_auto},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+              
+            }
+        });
+    })
+    
+      $('.server_send_start_2').click(function () {
+        var ip=$('#ip_2').val()
+        var server_port=$('#server_port_2').val()
+        var server_option=$('#server_option_2').is(':checked')
+        if(auto_3==true){
+            $('.server_send_2').prop('disabled',true)
+            $('.server_stop_2').prop('disabled',true)
+        }else{
+            $('.server_send_2').prop('disabled',false)
+            $('.server_stop_2').prop('disabled',false)
+        }
+        $.ajax({
+            type:'post',
+            url:"/postTcpCfg",
+            data:{'SerIp':ip,'SerPort':server_port,'ZiDongYunXing':server_option},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+
+            }
+        });
+    })
+
+    $('.send_2').click(function () {
+         layer.open({
+                    title: ['提示'],
+                    type: 1,
+                    area:  ['300px','200px'],
+                    content: '<div style="padding: 15px;text-align:center;margin-top: 29px;font-size: 22px;color: #6c2312;">是否运行 </div>'
+                    ,btn: [ '取消','确定'],
+                    yes: function(index, layero){
+                        layer.closeAll();
+                    }
+                    ,btn2: function(index, layero){
+                         $.ajax({
+                              type:'post',
+                              url:"/postOptUart",
+                              data:{'Opt':'connect'},
+                              dataType:'json',
+                              success:function(data){ //请求成功回调函数
+                                  $('#msg1').text(data.StatusOne.Msg)
+                                  $('#time1').text(data.StatusOne.GetMsgNum)
+                                  $('#msg2').text(data.StatusTwo.Msg)
+                                  $('#time2').text(data.StatusTwo.GetMsgNum)
+                                  $('#msg3').text(data.StatusThr.Msg)
+                                  $('#time3').text(data.StatusThr.GetMsgNum)
+                              }
+                          });
+                    }
+                });
+
+
+  
+    })
+    
+   
+    
+      $('.stop').click(function () {
+             layer.open({
+                    title: ['提示'],
+                    type: 1,
+                    area:  ['300px','200px'],
+                    content: '<div style="padding: 15px;text-align:center;margin-top: 29px;font-size: 22px;color: #6c2312;">是否停止 </div>'
+                    ,btn: [ '取消','确定'],
+                    btnClass: ['layui-btn-primary','layui-btn-normal'],
+                    btn1: function(index, layero){
+                        layer.closeAll();
+                    }
+                    ,btn2: function(index, layero){
+                       $.ajax({
+                          type:'post',
+                          url:"/postOptUart",
+                          data:{'Opt':'disconnect'},
+                          dataType:'json',
+                          success:function(data){ //请求成功回调函数
+                              $('#msg1').text(data.StatusOne.Msg)
+                              $('#time1').text(data.StatusOne.GetMsgNum)
+                              $('#msg2').text(data.StatusTwo.Msg)
+                              $('#time2').text(data.StatusTwo.GetMsgNum)
+                              $('#msg3').text(data.StatusThr.Msg)
+                              $('#time3').text(data.StatusThr.GetMsgNum)
+                          }
+                      });
+                    }
+                    
+                });
+
+    })
+    
+        $('.udp_send').click(function () {
+         layer.open({
+                    title: ['提示'],
+                    type: 1,
+                    area:  ['300px','200px'],
+                    content: '<div style="padding: 15px;text-align:center;margin-top: 29px;font-size: 22px;color: #6c2312;">是否运行 </div>'
+                    ,btn: [ '取消','确定'],
+                    yes: function(index, layero){
+                        layer.closeAll();
+                    }
+                    ,btn2: function(index, layero){
+                         $.ajax({
+                              type:'post',
+                              url:"/postOptZ_c",
+                              data:{'Opt':'connect'},
+                              dataType:'json',
+                              success:function(data){ //请求成功回调函数
+                                  $('#udp_msg').text(data.StatusOne.Msg)
+                                  $('#udp_time').text(data.StatusOne.GetMsgNum)
+                               
+                              }
+                          });
+                    }
+                });
+
+
+  
+    })
+    
+   
+    
+      $('.udp_stop').click(function () {
+             layer.open({
+                    title: ['提示'],
+                    type: 1,
+                    area:  ['300px','200px'],
+                    content: '<div style="padding: 15px;text-align:center;margin-top: 29px;font-size: 22px;color: #6c2312;">是否停止 </div>'
+                    ,btn: [ '取消','确定'],
+                    btnClass: ['layui-btn-primary','layui-btn-normal'],
+                    btn1: function(index, layero){
+                        layer.closeAll();
+                    }
+                    ,btn2: function(index, layero){
+                       $.ajax({
+                          type:'post',
+                          url:"/postOptZ_c",
+                          data:{'Opt':'disconnect'},
+                          dataType:'json',
+                          success:function(data){ //请求成功回调函数
+                              $('#udp_msg').text(data.StatusOne.Msg)
+                              $('#udp_time').text(data.StatusOne.GetMsgNum)
+                            
+                          }
+                      });
+                    }
+                    
+                });
+
+    })
+
+    $('.server_send').click(function () {
+        layer.open({
+            title: ['提示'],
+            type: 1,
+            area:  ['300px','200px'],
+            content: '<div style="padding: 15px;text-align:center;margin-top: 29px;font-size: 22px;color: #6c2312;">是否运行 </div>'
+            ,btn: [ '取消','确定'],
+            yes: function(index, layero){
+                layer.closeAll();
+            }
+            ,btn2: function(index, layero){
+                $.ajax({
+                    type:'post',
+                    url:"/postOptUdp",
+                    data:{'Opt':'connect'},
+                    dataType:'json',
+                    success:function(data){ console.log(data)
+                        $('#server_msg').text(data.StatusOne.Msg)
+                        $('#server_time').text(data.StatusOne.GetMsgNum)
+
+                    }
+                });
+            }
+        });
+
+
+
+    })
+
+
+
+    $('.server_stop').click(function () {
+        layer.open({
+            title: ['提示'],
+            type: 1,
+            area:  ['300px','200px'],
+            content: '<div style="padding: 15px;text-align:center;margin-top: 29px;font-size: 22px;color: #6c2312;">是否停止 </div>'
+            ,btn: [ '取消','确定'],
+            btnClass: ['layui-btn-primary','layui-btn-normal'],
+            btn1: function(index, layero){
+                layer.closeAll();
+            }
+            ,btn2: function(index, layero){
+                $.ajax({
+                    type:'post',
+                    url:"/postOptUdp",
+                    data:{'Opt':'disconnect'},
+                    dataType:'json',
+                    success:function(data){ //请求成功回调函数
+                        $('#server_msg').text(data.StatusOne.Msg)
+                        $('#server_time').text(data.StatusOne.GetMsgNum)
+                    }
+                });
+            }
+
+        });
+
+    })
+    
+        $('.server_send_2').click(function () {
+        layer.open({
+            title: ['提示'],
+            type: 1,
+            area:  ['300px','200px'],
+            content: '<div style="padding: 15px;text-align:center;margin-top: 29px;font-size: 22px;color: #6c2312;">是否运行 </div>'
+            ,btn: [ '取消','确定'],
+            yes: function(index, layero){
+                layer.closeAll();
+            }
+            ,btn2: function(index, layero){
+                $.ajax({
+                    type:'post',
+                    url:"/postOptTcp",
+                    data:{'Opt':'connect'},
+                    dataType:'json',
+                    success:function(data){ console.log(data)
+                        $('#server_msg_2').text(data.StatusOne.Msg)
+                        $('#server_time_2').text(data.StatusOne.GetMsgNum)
+
+                    }
+                });
+            }
+        });
+
+
+
+    })
+
+
+
+    $('.server_stop_2').click(function () {
+        layer.open({
+            title: ['提示'],
+            type: 1,
+            area:  ['300px','200px'],
+            content: '<div style="padding: 15px;text-align:center;margin-top: 29px;font-size: 22px;color: #6c2312;">是否停止 </div>'
+            ,btn: [ '取消','确定'],
+            btnClass: ['layui-btn-primary','layui-btn-normal'],
+            btn1: function(index, layero){
+                layer.closeAll();
+            }
+            ,btn2: function(index, layero){
+                $.ajax({
+                    type:'post',
+                    url:"/postOptTcp",
+                    data:{'Opt':'disconnect'},
+                    dataType:'json',
+                    success:function(data){ //请求成功回调函数
+                        $('#server_msg_2').text(data.StatusOne.Msg)
+                        $('#server_time_2').text(data.StatusOne.GetMsgNum)
+                    }
+                });
+            }
+
+        });
+
+    })
+    
+       $('.send_set').click(function () {
+        var yd_lng=$('#yd_lng').val()
+        var yd_lat=$('#yd_lat').val()
+        var speed=$('#speed').val()
+        $.ajax({
+            type:'post',
+            url:"/postOrg",
+            data:{'JinDu':yd_lng,'WeiDu':yd_lat,'ShengSu':speed},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+
+            }
+        });
+    })
+
+    $('.send_3').click(function () {
+        var fubiaoid_0=$('#fubiaoid_0').val()
+        var fubiaoid_0_lng=$('#fubiaoid_0_lng_0').val()
+        var fubiaoid_0_lat=$('#fubiaoid_0_lat_0').val()
+        var t0_id_0=$('#t0_id_0').val()
+        var t0_lng_0=$('#t0_lng_0').val()
+        var t0_lat_0=$('#t0_lat_0').val()
+        var t0_depth_0=$('#t0_depth_0').val()
+
+        var t1_id_0=$('#t1_id_0').val()
+        var t1_lng_0=$('#t1_lng_0').val()
+        var t1_lat_0=$('#t1_lat_0').val()
+        var t1_depth_0=$('#t1_depth_0').val()
+
+        var t2_id_0=$('#t2_id_0').val()
+        var t2_lng_0=$('#t2_lng_0').val()
+        var t2_lat_0=$('#t2_lat_0').val()
+        var t2_depth_0=$('#t2_depth_0').val()
+
+        var fubiaoid_1=$('#fubiaoid_1').val()
+        var fubiaoid_1_lng=$('#fubiaoid_1_lng_0').val()
+        var fubiaoid_1_lat=$('#fubiaoid_1_lat_0').val()
+        var t0_id_1=$('#t0_id_1').val()
+        var t0_lng_1=$('#t0_lng_1').val()
+        var t0_lat_1=$('#t0_lat_1').val()
+        var t0_depth_1=$('#t0_depth_1').val()
+
+        var t1_id_1=$('#t1_id_1').val()
+        var t1_lng_1=$('#t1_lng_1').val()
+        var t1_lat_1=$('#t1_lat_1').val()
+        var t1_depth_1=$('#t1_depth_1').val()
+
+        var t2_id_1=$('#t2_id_1').val()
+        var t2_lng_1=$('#t2_lng_1').val()
+        var t2_lat_1=$('#t2_lat_1').val()
+        var t2_depth_1=$('#t2_depth_1').val()
+        
+
+        var fubiaoid_2=$('#fubiaoid_2').val()
+        var fubiaoid_2_lng=$('#fubiaoid_2_lng_0').val()
+        var fubiaoid_2_lat=$('#fubiaoid_2_lat_0').val()
+        var t0_id_2=$('#t0_id_2').val()
+        var t0_lng_2=$('#t0_lng_2').val()
+        var t0_lat_2=$('#t0_lat_2').val()
+        var t0_depth_2=$('#t0_depth_2').val()
+
+        var t1_id_2=$('#t1_id_2').val()
+        var t1_lng_2=$('#t1_lng_2').val()
+        var t1_lat_2=$('#t1_lat_2').val()
+        var t1_depth_2=$('#t1_depth_2').val()
+
+        var t2_id_2=$('#t2_id_2').val()
+        var t2_lng_2=$('#t2_lng_2').val()
+        var t2_lat_2=$('#t2_lat_2').val()
+        var t2_depth_2=$('#t2_depth_2').val()
+
+    
+        var t0_id_3=$('#t0_id_3').val()
+        var t0_lng_3=$('#t0_lng_3').val()
+        var t0_lat_3=$('#t0_lat_3').val()
+        var t0_depth_3=$('#t0_depth_3').val()
+
+        var t1_id_3=$('#t1_id_3').val()
+        var t1_lng_3=$('#t1_lng_3').val()
+        var t1_lat_3=$('#t1_lat_3').val()
+        var t1_depth_3=$('#t1_depth_3').val()
+
+        var t2_id_3=$('#t2_id_3').val()
+        var t2_lng_3=$('#t2_lng_3').val()
+        var t2_lat_3=$('#t2_lat_3').val()
+        var t2_depth_3=$('#t2_depth_3').val()
+
+
+        var t0_id_4=$('#t0_id_4').val()
+        var t0_lng_4=$('#t0_lng_4').val()
+        var t0_lat_4=$('#t0_lat_4').val()
+        var t0_depth_4=$('#t0_depth_4').val()
+
+        var t1_id_4=$('#t1_id_4').val()
+        var t1_lng_4=$('#t1_lng_4').val()
+        var t1_lat_4=$('#t1_lat_4').val()
+        var t1_depth_4=$('#t1_depth_4').val()
+
+        var t2_id_4=$('#t2_id_4').val()
+        var t2_lng_4=$('#t2_lng_4').val()
+        var t2_lat_4=$('#t2_lat_4').val()
+        var t2_depth_4=$('#t2_depth_4').val()
+        
+
+        var auto_4=$('#auto_4').is(':checked')
+        var auto_5=$('#auto_5').is(':checked')
+        var auto_6=$('#auto_6').is(':checked')
+        var auto_7=$('#auto_7').is(':checked')
+        var auto_8=$('#auto_8').is(':checked')
+
+        var info={'ShiFouShiYong_0':auto_4,'FuBiaoId_0':fubiaoid_0,'FuBiaoId_0':fubiaoid_0,'FuBiao_JinDu_0':fubiaoid_0_lng,'FuBiao_WeiDu_0':fubiaoid_0_lat,'T0_Id_0':t0_id_0,'T0_JinDu_0':t0_lng_0,'T0_WeiDu_0':t0_lat_0,'T0_ShenDu_0':t0_depth_0,'T1_Id_0':t1_id_0,
+                'T1_JinDu_0':t1_lng_0,'T1_WeiDu_0':t1_lat_0,'T1_ShenDu_0':t1_depth_0,'T2_Id_0':t2_id_0,'T2_JinDu_0':t2_lng_0,'T2_WeiDu_0':t2_lat_0,'T2_ShenDu_0':t2_depth_0,
+                'ShiFouShiYong_1':auto_5,'FuBiaoId_1':fubiaoid_1,'FuBiao_JinDu_1':fubiaoid_1_lng,'FuBiao_WeiDu_1':fubiaoid_1_lat,'T0_Id_1':t0_id_1,'T0_JinDu_1':t0_lng_1,'T0_WeiDu_1':t0_lat_1,'T0_ShenDu_1':t0_depth_1,'T1_Id_1':t1_id_1,
+                'T1_JinDu_1':t1_lng_1,'T1_WeiDu_1':t1_lat_1,'T1_ShenDu_1':t1_depth_1,'T2_Id_1':t2_id_1,'T2_JinDu_1':t2_lng_1,'T2_WeiDu_1':t2_lat_1,'T2_ShenDu_1':t2_depth_1,
+                'ShiFouShiYong_2':auto_6,'FuBiaoId_2':fubiaoid_2,'FuBiao_JinDu_2':fubiaoid_2_lng,'FuBiao_WeiDu_2':fubiaoid_2_lat,'T0_Id_2':t0_id_2,'T0_JinDu_2':t0_lng_2,'T0_WeiDu_2':t0_lat_2,'T0_ShenDu_2':t0_depth_2,'T1_Id_2':t1_id_2,
+                'T1_JinDu_2':t1_lng_2,'T1_WeiDu_2':t1_lat_2,'T1_ShenDu_2':t1_depth_2,'T2_Id_2':t2_id_2,'T2_JinDu_2':t2_lng_2,'T2_WeiDu_2':t2_lat_2,'T2_ShenDu_2':t2_depth_2,
+                'ShiFouShiYong_3':auto_7,'T0_Id_3':t0_id_3,'T0_JinDu_3':t0_lng_3,'T0_WeiDu_3':t0_lat_3,'T0_ShenDu_3':t0_depth_3,'T1_Id_3':t1_id_3,
+                'T1_JinDu_3':t1_lng_3,'T1_WeiDu_3':t1_lat_3,'T1_ShenDu_3':t1_depth_3,'T2_Id_3':t2_id_3,'T2_JinDu_3':t2_lng_3,'T2_WeiDu_3':t2_lat_3,'T2_ShenDu_3':t2_depth_3,
+                'ShiFouShiYong_4':auto_8,'T0_Id_4':t0_id_4,'T0_JinDu_4':t0_lng_4,'T0_WeiDu_4':t0_lat_4,'T0_ShenDu_4':t0_depth_4,'T1_Id_4':t1_id_4,
+                'T1_JinDu_4':t1_lng_4,'T1_WeiDu_4':t1_lat_4,'T1_ShenDu_4':t1_depth_4,'T2_Id_4':t2_id_4,'T2_JinDu_4':t2_lng_4,'T2_WeiDu_4':t2_lat_4,'T2_ShenDu_4':t2_depth_4,
+                
+        }
+        $.ajax({
+            type:'post',
+            url:"/postLianLu",
+            data:info,
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+
+            }
+        });
+    })
+
+
+
+    function load_1(){
+        var url="/getCfg"
+        get_ajax(url,1)
+    }
+
+    function load_2(){
+        var url="/getOrg"
+        get_ajax(url,2)
+    }
+
+    function load_3(){
+        var url="/getLianLu"
+        get_ajax(url,3)
+    }
+
+    function load_5(){
+        var url="/getCfgUdp"
+        get_ajax(url,5)
+    }
+
+    function load_6(){
+        var url="/getUdpStatus"
+        get_ajax(url,6)
+    }
+    
+   function load_7(){
+        var url="/getCfgTcp"
+        get_ajax(url,7)
+    }
+
+    function load_8(){
+        var url="/getTcpStatus"
+        get_ajax(url,8)
+    }
+    
+      function load_9(){
+        var url="/getUdpSerMsg"
+        get_ajax(url,9)
+    }
+
+    function get_ajax(url,para){
+        $.ajax({
+            type:'post',
+            url:url,
+            data:{},
+            dataType:'json',
+            success:function(data){
+                if(para==1){
+                    $('#port').val(data.UartName1)
+                    $('#baud').val(data.UartBtv1)
+                    $('#port_2').val(data.UartName2)
+                    $('#baud_2').val(data.UartBtv2)
+                    $('#port_3').val(data.UartName3)
+                    $('#baud_3').val(data.UartBtv3)
+                    $('#auto_1').prop('checked',data.UartWantUse1)
+                    $('#auto_2').prop('checked',data.UartWantUse2)
+                    $('#auto_9').prop('checked',data.UartWantUse3)
+                    $('#auto_3').prop('checked',data.ZiDongYunXing)
+                    if(data.ZiDongYunXing==true){
+                      $('.send_2').prop('disabled',true)
+                      $('.stop').prop('disabled',true)
+                    }else{
+                      $('.send_2').prop('disabled',false)
+                      $('.stop').prop('disabled',false)
+                    }
+                }
+                if(para==2){
+                    $('#yd_lat').val(data.WeiDu)
+                    $('#yd_lng').val(data.JinDu)
+                    $('#speed').val(data.ShengSu)
+                }
+                 if(para==4){
+                    $('#msg1').text(data.StatusOne.Msg)
+                    $('#time1').text(data.StatusOne.GetMsgNum)
+                    $('#msg2').text(data.StatusTwo.Msg)
+                    $('#time2').text(data.StatusTwo.GetMsgNum)
+                    $('#msg3').text(data.StatusThr.Msg)
+                    $('#time3').text(data.StatusThr.GetMsgNum)
+                    dingshi()
+                }
+                if(para==3){
+                    $('#fubiaoid_0').val(data.Fb[0].FuBiaoId)
+                    $('#fubiaoid_0_lng_0').val(data.Fb[0].FuBiao_JinDu)
+                    $('#fubiaoid_0_lat_0').val(data.Fb[0].FuBiao_WeiDu)
+                    $('#t0_id_0').val(data.LianLu[0].T0_Id)
+                    $('#t0_lng_0').val(data.LianLu[0].T0_JinDu)
+                    $('#t0_lat_0').val(data.LianLu[0].T0_WeiDu)
+                    $('#t0_depth_0').val(data.LianLu[0].T0_ShenDu)
+
+                    $('#t1_id_0').val(data.LianLu[0].T1_Id)
+                    $('#t1_lng_0').val(data.LianLu[0].T1_JinDu)
+                    $('#t1_lat_0').val(data.LianLu[0].T1_WeiDu)
+                    $('#t1_depth_0').val(data.LianLu[0].T1_ShenDu)
+
+                    $('#t2_id_0').val(data.LianLu[0].T2_Id)
+                    $('#t2_lng_0').val(data.LianLu[0].T2_JinDu)
+                    $('#t2_lat_0').val(data.LianLu[0].T2_WeiDu)
+                    $('#t2_depth_0').val(data.LianLu[0].T2_ShenDu)
+
+                    $('#fubiaoid_1').val(data.Fb[1].FuBiaoId)
+                     $('#fubiaoid_1_lng_0').val(data.Fb[1].FuBiao_JinDu)
+                    $('#fubiaoid_1_lat_0').val(data.Fb[1].FuBiao_WeiDu)
+                    $('#t0_id_1').val(data.LianLu[1].T0_Id)
+                    $('#t0_lng_1').val(data.LianLu[1].T0_JinDu)
+                    $('#t0_lat_1').val(data.LianLu[1].T0_WeiDu)
+                    $('#t0_depth_1').val(data.LianLu[1].T0_ShenDu)
+
+                    $('#t1_id_1').val(data.LianLu[1].T1_Id)
+                    $('#t1_lng_1').val(data.LianLu[1].T1_JinDu)
+                    $('#t1_lat_1').val(data.LianLu[1].T1_WeiDu)
+                    $('#t1_depth_1').val(data.LianLu[1].T1_ShenDu)
+
+                    $('#t2_id_1').val(data.LianLu[1].T2_Id)
+                    $('#t2_lng_1').val(data.LianLu[1].T2_JinDu)
+                    $('#t2_lat_1').val(data.LianLu[1].T2_WeiDu)
+                    $('#t2_depth_1').val(data.LianLu[1].T2_ShenDu)
+
+                    $('#fubiaoid_2').val(data.Fb[2].FuBiaoId)
+                    $('#fubiaoid_2_lng_0').val(data.Fb[2].FuBiao_JinDu)
+                    $('#fubiaoid_2_lat_0').val(data.Fb[2].FuBiao_WeiDu)
+                    $('#t0_id_2').val(data.LianLu[2].T0_Id)
+                    $('#t0_lng_2').val(data.LianLu[2].T0_JinDu)
+                    $('#t0_lat_2').val(data.LianLu[2].T0_WeiDu)
+                    $('#t0_depth_2').val(data.LianLu[2].T0_ShenDu)
+
+                    $('#t1_id_2').val(data.LianLu[2].T1_Id)
+                    $('#t1_lng_2').val(data.LianLu[2].T1_JinDu)
+                    $('#t1_lat_2').val(data.LianLu[2].T1_WeiDu)
+                    $('#t1_depth_2').val(data.LianLu[2].T1_ShenDu)
+
+                    $('#t2_id_2').val(data.LianLu[2].T2_Id)
+                    $('#t2_lng_2').val(data.LianLu[2].T2_JinDu)
+                    $('#t2_lat_2').val(data.LianLu[2].T2_WeiDu)
+                    $('#t2_depth_2').val(data.LianLu[2].T2_ShenDu)
+
+   
+                    $('#t0_id_3').val(data.LianLu[3].T0_Id)
+                    $('#t0_lng_3').val(data.LianLu[3].T0_JinDu)
+                    $('#t0_lat_3').val(data.LianLu[3].T0_WeiDu)
+                    $('#t0_depth_3').val(data.LianLu[3].T0_ShenDu)
+
+                    $('#t1_id_3').val(data.LianLu[3].T1_Id)
+                    $('#t1_lng_3').val(data.LianLu[3].T1_JinDu)
+                    $('#t1_lat_3').val(data.LianLu[3].T1_WeiDu)
+                    $('#t1_depth_3').val(data.LianLu[3].T1_ShenDu)
+
+                    $('#t2_id_3').val(data.LianLu[3].T2_Id)
+                    $('#t2_lng_3').val(data.LianLu[3].T2_JinDu)
+                    $('#t2_lat_3').val(data.LianLu[3].T2_WeiDu)
+                    $('#t2_depth_3').val(data.LianLu[3].T2_ShenDu)
+
+                
+                    $('#t0_id_4').val(data.LianLu[4].T0_Id)
+                    $('#t0_lng_4').val(data.LianLu[4].T0_JinDu)
+                    $('#t0_lat_4').val(data.LianLu[4].T0_WeiDu)
+                    $('#t0_depth_4').val(data.LianLu[4].T0_ShenDu)
+
+                    $('#t1_id_4').val(data.LianLu[4].T1_Id)
+                    $('#t1_lng_4').val(data.LianLu[4].T1_JinDu)
+                    $('#t1_lat_4').val(data.LianLu[4].T1_WeiDu)
+                    $('#t1_depth_4').val(data.LianLu[4].T1_ShenDu)
+
+                    $('#t2_id_4').val(data.LianLu[4].T2_Id)
+                    $('#t2_lng_4').val(data.LianLu[4].T2_JinDu)
+                    $('#t2_lat_4').val(data.LianLu[4].T2_WeiDu)
+                    $('#t2_depth_4').val(data.LianLu[4].T2_ShenDu)
+
+                    $('#auto_4').prop('checked',data.LianLu[0].ShiFouShiYong)
+                    $('#auto_5').prop('checked',data.LianLu[1].ShiFouShiYong)
+                    $('#auto_6').prop('checked',data.LianLu[2].ShiFouShiYong)
+                    $('#auto_7').prop('checked',data.LianLu[3].ShiFouShiYong)
+                    $('#auto_8').prop('checked',data.LianLu[4].ShiFouShiYong)
+                }
+
+                if(para==5){
+                    $('#ip').val(data.SerIp)
+                    $('#server_port').val(data.SerPort)
+                    $('#server_option').prop('checked',data.ZiDongYunXing)
+                    if(data.ZiDongYunXing==true){
+                        $('.server_send').prop('disabled',true)
+                        $('.server_stop').prop('disabled',true)
+                    }else{
+                        $('.server_send').prop('disabled',false)
+                        $('.server_stop').prop('disabled',false)
+                    }
+                }
+
+                if(para==6){
+                    $('#server_msg').text(data.StatusOne.Msg)
+                    $('#server_time').text(data.StatusOne.GetMsgNum)
+                    dingshi2()
+                }
+                
+                if(para==7){
+                    $('#ip_2').val(data.SerIp)
+                    $('#server_port_2').val(data.SerPort)
+                    $('#server_option_2').prop('checked',data.ZiDongYunXing)
+                    if(data.ZiDongYunXing==true){
+                        $('.server_send_2').prop('disabled',true)
+                        $('.server_stop_2').prop('disabled',true)
+                    }else{
+                        $('.server_send_2').prop('disabled',false)
+                        $('.server_stop_2').prop('disabled',false)
+                    }
+                }
+
+                if(para==8){
+                    $('#server_msg_2').text(data.StatusOne.Msg)
+                    $('#server_time_2').text(data.StatusOne.GetMsgNum)
+                    dingshi3()
+                }
+                if(para==9){
+                    $('#SerIp_Port').text(data.SerIp_Port)
+                    $('#ShiFouShiYong').text(data.ShiFouShiYong)
+                    $('#LstMsg').text(data.LstMsg)
+                    $('#Num').text(data.Num)
+                    dingshi4()
+                }
+                if(para==10){
+                    $('#udp_ip').val(data.SerIp)
+                    $('#udp_port').val(data.SerPort)
+                    $('#udp_auto').prop('checked',data.ShiFouShiYong)
+                    $('#udp_option').prop('checked',data.ZiDongYunXing)                 
+                    if(data.ZiDongYunXing==true){
+                      $('.udp_send').prop('disabled',true)
+                      $('.udp_stop').prop('disabled',true)
+                    }else{
+                      $('.udp_send').prop('disabled',false)
+                      $('.udp_stop').prop('disabled',false)
+                    }               
+                }
+                if(para==11){
+                    $('#udp_msg').text(data.StatusOne.Msg)
+                    $('#udp_time').text(data.StatusOne.GetMsgNum)                
+                    dingshi5()
+                }
+
+            }
+        });
+    }
+    
+     function dingshi(){
+      setTimeout(load_4, 5000); 
+    }
+
+    function dingshi2(){
+        setTimeout(load_6, 5000);
+    }
+    
+    function dingshi3(){
+        setTimeout(load_8, 5000);
+    }
+    
+    function dingshi4(){
+        setTimeout(load_9, 5000);
+    }
+    
+    function dingshi5(){
+        setTimeout(load_11, 5000);
+    }
+    
+    function load_4(){
+        var url="/getUtStatus"
+        get_ajax(url,4)
+    }
+    
+    function load_10(){
+        var url="/getCfgZ_c"
+        get_ajax(url,10)
+    }
+    
+    function load_11(){
+        var url="/getZ_cStatus"
+        get_ajax(url,11)
+    }
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>历史记录</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <link href="../static/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../static/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../static/css/animate.css" rel="stylesheet">
+    <link href="../static/css/style.css?v=4.1.0" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../static/css/jquery.bigcolorpicker.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/ionicons.min.css" />
+    <!-- 全局js -->
+    <script src="../static/js/jquery.min.js?v=2.1.4"></script>
+    <script src="../static/js/bootstrap.min.js?v=3.3.6"></script>
+    <script  src="../static/js/jquery.bigcolorpicker.min.js"></script>
+    <script type="text/javascript" src="../static/js/echarts.min.js"></script>
+    <script src="../static/js/plugins/layer/laydate/laydate.js"></script>
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content">
+        <div class="row">
+            <div class="col-sm-2 sidebar">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>历史记录查询</h5>
+                        </div>
+                    <div class="ibox-content mailbox-content">
+                            <div class="row">
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <select class="form-control" name="" id="ls">
+
+                                        </select>
+                                    </div>
+                                     <div class="col-sm-12">
+                                        <select class="form-control" name="" id="zbdw">
+                                          <option value='off'>以xy为坐标单位</option>
+                                          <option value='on'>以经纬度为坐标单位</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group line-h">
+                                    <div class="col-sm-12">按时间筛选结果
+                                        <div class="switch-line">
+                                            <div class="btn_fath clearfix off" onclick="toogle(this)"><div class="move" data-state="off"></div>
+                                                <div class="btnSwitch btn1">on</div><div class="btnSwitch btn2 ">off</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group yc">
+                                    <div class="col-sm-12">
+                                        起<input class="form-control layer-date" id="start" placeholder="开始日期" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
+                                        止<input class="form-control layer-date" id="end" placeholder="结束日期" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
+                                    </div>
+                                </div>
+                                <div class="form-group line-h">
+                                    <div class="col-sm-12">
+                                        <button class="btn btn-primary query" type="submit" >查询</button>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-sm-7 gj" style="height: 800px;">
+                <div id="container" style="height: 100%;"></div>
+            </div>
+            <div class="col-sm-3 sd" style="height: 800px;">
+                <div id="shendu" style="height: 100%;"></div>
+            </div>
+            <a class="testbtn"></a>
+        </div>
+    </div>
+
+
+    <script>
+        //日期范围限制
+        var start = {
+            elem: '#start',
+            format: 'YYYY/MM/DD hh:mm:ss',
+            min: laydate.now(), //设定最小日期为当前日期
+            max: '2099-06-16 23:59:59', //最大日期
+            istime: true,
+            istoday: false,
+            choose: function (datas) {
+                end.min = datas; //开始日选好后，重置结束日的最小日期
+                end.start = datas //将结束日的初始值设定为开始日
+            }
+        };
+        var end = {
+            elem: '#end',
+            format: 'YYYY/MM/DD hh:mm:ss',
+            min: laydate.now(),
+            max: '2099-06-16 23:59:59',
+            istime: true,
+            istoday: false,
+            choose: function (datas) {
+                start.max = datas; //结束日选好后，重置开始日的最大日期
+            }
+        };
+        laydate(start);
+        laydate(end);
+        var w=''
+        var i
+
+        $('.testbtn').on('click',function () {
+            $('.testbtn').toggleClass('btnc');
+            $('.sidebar').toggleClass('side');
+            $('.gj').toggleClass('col-sm-9');
+            $('.gj').toggleClass('col-sm-7');
+            myChart.resize();
+        })
+
+        function toogle(th){
+            var ele = $(th).children(".move");
+            var value ='StopCycle';
+            var dataSoure = [];
+            if(ele.attr("data-state") == "on"){
+                ele.animate({left: "0"}, 200, function(){
+                    ele.attr("data-state", "off");
+                });
+                $(th).removeClass("on").addClass("off");
+                $('.yc').hide()
+                $('.layer-date').val('')
+            }else if(ele.attr("data-state") == "off"){
+                ele.animate({left: '20px'}, 200, function(){
+                    $(this).attr("data-state", "on");
+
+                });
+                $(th).removeClass("off").addClass("on");
+                value ='StartCycle';
+                $('.yc').show()
+
+            }
+        }
+
+
+
+        function task_name(){
+                $.ajax({
+                type:'post',
+                url:"/postGetAllTaskName",
+                data:{},
+                dataType:'json',
+                success:function(data){ //请求成功回调函数
+                    if(data){console.log(data.Data[0])
+                        for(i=0;i<data.Data[0].Task.length;i++){
+                           w+="<option>"+data.Data[0].Task[i]+"</option>"
+                        }                      
+                         $("#ls").append(w);
+                       
+                      
+                    }
+                },
+            });
+        }
+
+        $(function () {
+            task_name()
+            $('.yc').hide()
+            myChart = echarts.init(dom);
+            myChart.setOption(option);
+            shendu = echarts.init(dom1);
+            shendu.setOption(option1, true);
+            window.addEventListener("resize", function () {
+                myChart.resize();
+                shendu.resize();
+            });
+        })
+
+        var dom = document.getElementById("container");
+        var myChart;
+        var app = {};
+        option = null;
+        var symbolSize = 10;
+        option = {
+            tooltip: {
+                trigger: 'item',
+                formatter: function (params) {
+               if(params.data[3]==1 && params.data[4]==1 && params.data[5]==1){
+                  return 'id:'+params.seriesId+'<br/>名称:'+params.seriesName+'<br/>坐标点:(' + params.data[7] + ',' + params.data[8]+ ')<br/>GPS坐标:'+params.data[15]+':'+params.data[16]+ ',' +params.data[13]+':'+ params.data[14]+ '<br>时间: ' + params.data[17];
+                }else if(params.data[3]==1 && params.data[4]==0 && params.data[5]==1){
+                  return 'id:'+params.seriesId+'<br/>名称:'+params.seriesName+'<br/>坐标点:(' + params.data[7] + ',' + params.data[8]+ ')<br/>GPS坐标:'+params.data[15]+':'+params.data[16]+ ',' +params.data[13]+':'+ params.data[14]+ '<br>时间: ' + params.data[17];
+                }else if(params.data[3]==1 && params.data[4]==0 && params.data[5]==0){
+                  return 'id:'+params.seriesId+'<br/>名称:'+params.seriesName+'<br/>坐标点:(' + params.data[7] + ',' + params.data[8]+ ')<br>时间: ' + params.data[17];
+                }else if(params.data[3]==0 && params.data[4]==0 && params.data[5]==1){
+                  return 'id:'+params.seriesId+'<br/>名称:'+params.seriesName+'<br/>GPS坐标:'+params.data[15]+':'+params.data[16]+ ',' +params.data[13]+':'+ params.data[14]+ '<br>时间: ' + params.data[17];
+                }else if(params.data.length<3){
+                  return 'id:'+params.seriesId+'<br/>名称:'+params.seriesName+'<br/>GPS坐标:'+params.data[0]+ ',' + params.data[1];
+                }
+
+                }
+            },
+            toolbox: {
+            },
+            grid: {
+                backgroundColor: '#deebf7',
+                show: true,
+                right:30,
+            },
+            legend:{
+                textStyle:{color:'#fff'}
+                // data:['3','4','5','6']
+            },
+            xAxis: {
+                splitNumber : 10,  //设置网格间距
+                min: -100,
+                max: 100,
+                type: 'value',
+                axisLabel: {formatter: '{value} m',
+                    textStyle: {
+                        fontSize : 12      //更改坐标轴文字大小
+                    }
+                },
+                axisLine: {
+                    onZero: false,
+                    lineStyle:{
+                        color:'#fff',
+                    }
+                },
+                splitLine :{    //网格线
+                    lineStyle:{
+                        type:'dotted'    //设置网格线类型 dotted：虚线   solid:实线
+                    },
+                },
+                splitArea:{
+                    areaStyle:{
+                        color:'#000'
+                    }
+                }
+            },
+            yAxis: {
+                splitNumber : 10,
+                min: -100,
+                max: 100,
+                type: 'value',
+                axisLabel: {formatter: '{value} m',
+                    textStyle: {
+                        fontSize : 12      //更改坐标轴文字大小
+                    }
+                },
+                axisLine: {
+                    onZero: false,
+                    lineStyle:{
+                        color:'#fff',
+                    }
+                },
+                splitLine :{    //网格线
+                    lineStyle:{
+                        type:'dotted'    //设置网格线类型 dotted：虚线   solid:实线
+                    },
+                },
+
+
+            },
+            dataZoom: [
+                {
+                    type: 'inside',
+                    xAxisIndex: 0,
+                    filterMode: 'none',
+                    start:0,
+                    end:100
+                },
+                {
+                    type: 'inside',
+                    yAxisIndex: 0,
+                    filterMode: 'none',
+                    start:0
+                }
+            ],
+            series: [
+            ]
+        };
+
+        var dom1 = document.getElementById("shendu");
+        var shendu;
+        option1 = {
+            // backgroundColor:'#9e9e9e',
+            title: {
+                text: '深度',
+            },
+            grid: {
+                backgroundColor: new echarts.graphic.LinearGradient(
+                    0, 0, 0, 1,
+                    [
+                        {offset: 0, color: '#d3ddf1'},
+                        {offset: 1, color: '#4e79c7'}
+                    ]
+                ),
+                show: true,
+                right:30,
+            },
+            legend:{
+                textStyle:{color:'#fff'},
+                width:'80%',
+                // data:['3','4','5','6']
+            },
+            xAxis: {
+                type: 'category',
+                splitLine: {show: false},
+                axisLine: {
+                    onZero: false,
+                    lineStyle:{
+                        color:'#fff',
+                    }
+                },
+
+            },
+            tooltip: {
+                trigger: 'item',
+                axisPointer: {
+                    type: 'cross',
+                    label: {
+                        backgroundColor: '#6a7985'
+                    }
+                },
+                formatter: '名称 {a} <br/>{b} : 深度 {c}m'
+            },
+            yAxis: {
+                axisLine: {
+                    onZero: false,
+                    lineStyle:{
+                        color:'#fff',
+                    }
+                },
+                axisLabel: {formatter: '{value} m'}
+            },
+            series: []
+        };
+
+
+
+        $('.query').click(function () {
+            var ls = $('#ls').val()
+            var start = $('#start').val()
+            var end = $('#end').val()
+            var zbdw = $('#zbdw').val()
+
+            $.ajax({
+                type:'post',
+                url:"/postSiteOneBefore",
+                data:{'TaskName':ls,'Start':start,'End':end,'IsGpsHave':zbdw},
+                dataType:'json',
+                success:function(data){ //请求成功回调函数
+                    console.log(data)
+                    // if(data.Data[0].error==0){
+                    let xIndexstart = myChart.getOption().dataZoom[0].startValue;
+                    let xIndexend = myChart.getOption().dataZoom[0].endValue;
+                    let yIndexstart = myChart.getOption().dataZoom[1].startValue;
+                    let yIndexend = myChart.getOption().dataZoom[1].endValue;
+                    // console.log(data.xz_max)
+                    if(data.Data[0].Target !=null){
+                    one_point(data.Data[0],data.Data[0].MaxX,data.Data[0].MinX,data.Data[0].MaxY,data.Data[0].MinY,xIndexstart,xIndexend,yIndexstart,yIndexend)
+                    one_depth(data.Data[0])
+                    }else {
+                        option.series=[]
+                        myChart.setOption(option,true);
+                        option1.series=[]
+                        shendu.setOption(option1,true);
+                    }
+
+                    // }
+                    // anchor_point()
+                },
+            });
+        })
+        function one_point(data,xz_max,xz_min,yz_max,yz_min,xIndexstart,xIndexend,yIndexstart,yIndexend) {
+            var arr =[];
+            var tempSeries=[]
+            var big=[]
+            console.log(data)
+            var color =[]
+            var maodian=[]
+
+            if(data.Fixed !=null){
+            for(var i=0;i<data.Fixed.length;i++){
+                var m={
+                    id: data.Fixed[i].NameId,
+                    name:data.Fixed[i].Name,
+                    type: 'line',
+                    smooth: true,
+                    symbolSize: [30,30],
+                    // symbolRotate:parseInt(-Math.random() * 100 ),
+                    symbol:"image://../static/image/mao.png",
+                    zlevel:9999,
+                    data: [[data.Fixed[i].JinDu,data.Fixed[i].WeiDu]],
+                }
+                tempSeries.push(m)
+            }
+          }
+          
+            for (var j=0;j<data.Target.length;j++){
+                var o ={
+                    id:data.Target[j].MdmId,
+                    name:data.Target[j].TargetName,
+                    type:'scatter',
+                    // smooth:true,
+                    symbolSize:12,
+                    symbol:'circle',
+                    data:data.Target[j].Site,
+                    itemStyle:
+                        {
+                            color: data.Target[j].TargetColour,
+                            // lineStyle: {color: color[j]}
+                        },
+                }
+                color.push(data.Target[j].TargetColour)
+                big.push(data.Target[j].NewSite)
+                arr.push(''+data.Target[j].TargetName+'')
+                tempSeries.push(o)
+            }
+
+            option.series=[
+                {
+                    type: 'effectScatter',
+                    symbolSize: 20,
+                    rippleEffect: {
+                        color: "rgba(8, 192, 248, 1)"
+                    },
+                    itemStyle: {
+                        borderColor: "rgba(8, 192, 248, 1)"
+                    },
+                    // zlevel:99999,
+                    data: big,
+                    itemStyle: {
+                        normal: {
+                            color: (params,index) =>  {
+                                return params.color=color[params.dataIndex];
+                            }
+                        }
+                    }
+                }
+            ];
+            console.log(color)
+            option.legend.data=arr
+            option.series=option.series.concat(tempSeries)
+            if(data.IsGpsHave=='on'){
+         option.yAxis.max=data.MaxWeiDu;
+            option.yAxis.min=data.MinWeiDu;
+            option.xAxis.max=data.MaxJinDu;
+            option.xAxis.min=data.MinJinDu;  
+             
+                option.xAxis.axisLabel.formatter='{value} °';
+                option.yAxis.axisLabel.formatter='{value} °';
+            }else {
+                option.xAxis.max=xz_max;
+                option.xAxis.min=xz_min;
+                option.yAxis.max=yz_max;
+                option.yAxis.min=yz_min;
+                option.xAxis.axisLabel.formatter='{value} m';
+                option.yAxis.axisLabel.formatter='{value} m';
+            }
+            // console.log(option);
+                 console.log('kaishi')
+            console.log(option)
+             console.log('end')
+            myChart.setOption(option,true);
+          
+        }
+        function one_depth(data) {
+            var tempSeries=[]
+            var arr =[];
+            option1.series=[]
+            for (var j=0;j<data.Target.length;j++){
+                var o ={
+                    id:data.Target[j].MdmId,
+                    name:data.Target[j].TargetName,
+                    type:'line',
+                    smooth:true,
+                    symbolSize:10,
+                    data:data.Target[j].Deep,
+                    itemStyle:
+                        {normal:
+                                {
+                                    color: data.Target[j].DeepColour,
+                                    // lineStyle: {color: color[j]}
+                                }
+                        },
+                }
+                arr.push(''+data.Target[j].TargetName+'')
+                tempSeries.push(o)
+            }
+            option1.legend.data=arr
+            option1.series=option1.series.concat(tempSeries)
+            shendu.setOption(option1,true);
+            console.log(option1)
+        }
+
+    </script>
+
+
+
+
+
+
+    
+    
+
+</body>
+
+</html>

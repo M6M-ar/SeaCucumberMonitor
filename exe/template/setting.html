@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>接口配置</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <link rel="shortcut icon" href="favicon.ico"> <link href="../static/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../static/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+
+    <link href="../static/css/animate.css" rel="stylesheet">
+    <link href="../static/css/style.css?v=4.1.0" rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/style.css">
+
+
+</head>
+
+<body class="gray-bg">
+
+    <div class="wrapper wrapper-content animated fadeInUp">
+        <div class="row">
+            <div class="col-sm-10">
+
+                <div class="ibox">
+                    <div class="ibox-title">
+                        <h5>接口配置</h5>
+
+                    </div>
+                    <div class="ibox-content">
+                        <h4>水声通信/定位设备</h4>
+                        <h4>接口类型</h4>
+                        <div class="ibox-content">
+                            <div class="form-horizontal m-t" id="commentForm" novalidate="novalidate">
+                                      <div class="form-group">
+                                        <label class="col-sm-1 control-label">协议</label>
+                                             <div class="col-sm-4">
+                                        <select class="input-sm form-control input-s-sm inline " id="xy">
+                                            <option value="sealinx">Sealinx</option>
+                                            <option value="dsp">Dsp</option>
+                                            <option value="SealinxRoute">SealinxRoute</option>
+                                            <option value="SealinxBeacon">SealinxBeacon</option>
+                                            
+                                        </select>
+                                    </div>
+                                </div>
+                               <div class="form-group">
+                                    <label class="col-sm-1">
+                                        <input type="radio"  value="uart" id="serial_port" name="serial_port">串口
+                                    </label>
+                                    <label class="col-sm-1 control-label">串口设备名：</label>
+                                    <div class="col-sm-5">
+                                        <input id="com" name="com" disabled="true" placeholder="输入端口号" type="text" class="form-control" required="" aria-required="true">
+                                    </div>
+                                    <label class="col-sm-1 control-label">波特率：</label>
+                                    <div class="col-sm-3">
+                                        <input id="baud" name="baud" disabled="true" placeholder="输入波特率" type="text" class="form-control" required="" aria-required="true">
+                                    </div>
+                                    <label class="control-label">bps</label>
+                                
+                                </div>
+                         
+                                
+                                <div class="form-group">
+                                    <label class="col-sm-1">
+                                        <input type="radio"  value="net" id="serial_port" name="serial_port">网口
+                                    </label>
+                                    <label class="col-sm-1 control-label">IP：</label>
+                                    <div class="col-sm-5">
+                                        <input id="ip" name="ip" disabled="true" placeholder="输入主机IP地址" type="text" class="form-control" required="" aria-required="true">
+                                    </div>
+                                    <label class="col-sm-1 control-label">端口：</label>
+                                    <div class="col-sm-3">
+                                        <input id="port_number" disabled="true" name="port_number" placeholder="输入端口号" type="text" class="form-control" required="" aria-required="true">
+                                    </div>
+                                </div>
+                                <div class="form-group jk">
+                                        <button class="btn btn-primary connect1" type="submit">连接</button>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <h4>是否启用GPS坐标系，启动GPS坐标系请连接GPS设备</h4>
+                        <h4>接口类型</h4>
+                        <div class="ibox-content">
+                            <div class="form-horizontal m-t" id="gps" novalidate="novalidate">
+                                <div class="form-group">
+                                    <label class="col-sm-1">
+                                        <input type="radio" checked="" value="option1" id="gps_serial_port" name="gps_serial_port">串口
+                                    </label>
+                                    <label class="col-sm-1 control-label">端口：</label>
+                                    <div class="col-sm-5">
+                                        <input id="gps_com" name="com" placeholder="输入端口号" type="text" class="form-control" required="" aria-required="true" disabled="true">
+                                    </div>
+                                    <label class="col-sm-1 control-label">波特率：</label>
+                                    <div class="col-sm-3">
+                                        <input id="gps_baud" name="baud" placeholder="输入波特率" type="text" class="form-control" required="" aria-required="true" disabled="true">
+                                    </div>
+                                    <label class="control-label">bps</label>
+                                </div>
+
+                                <div class="form-group gps_jk">
+                                    <div class="gps_switch"><div class="btn_fath clearfix off" onclick="toogle(this)"><div class="move gps_move" data-state="off"></div><div class="btnSwitch btn1">on</div><div class="btnSwitch btn2 ">off</div></div></div>
+                                    <button class="btn btn-primary connect2" type="submit" style="display: none" >连接</button>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        </div>
+                    </div>
+                </div>
+            <div class="col-sm-10 two">
+
+                <div class="ibox">
+                    <div class="ibox-title">
+                        <h5>设备配置</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <h4>水声通信参数</h4>
+                        <h4>接口类型</h4>
+                        <div class="ibox-content">
+                            <div class="form-horizontal m-t"  novalidate="novalidate">
+                                <div class="form-group set_id">
+                                    <label class="col-sm-2 control-label">本机ID:</label>
+                                    <div class="col-sm-2">
+                                        <input id="id" name="id"  type="text" class="form-control" placeholder="输入本机ID" disabled="true" >
+                                    </div>
+                                    <div class="col-sm-2">
+                                    <button class="btn btn-primary bj_id" type="submit">自定义</button>
+                                    <button class="btn btn-primary bj_sx" type="submit">刷新</button>
+                                    </div>
+                                  
+                                    <label class="col-sm-6 control-label bj_msg"></label>
+                                </div>
+                                <div class="form-group set_power">
+                                    <label class="col-sm-2 control-label">发送功率:</label>
+                                    <div class="col-sm-2">
+                                        <input id="power" name="power"  type="text" class="form-control"  aria-required="true" disabled="true">
+                                    </div>
+                                    <div class="col-sm-2">
+                                     <button class="btn btn-primary confirm" type="submit">自定义</button>
+                                    <button class="btn btn-primary confirm_sx" type="submit">刷新</button>
+                                    </div>
+                                   <label class="col-sm-6 control-label confirm_msg"></label>
+                                </div>
+                                <label style="color: #7d7b79">输入相对发送功率，单位dB，最大功率时设为0，最小为-20</label>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                            <h4>水声定位参数</h4>
+                            <div class="form-horizontal m-t"  novalidate="novalidate">
+                                <div class="form-group set_velocity">
+                                    <label class="col-sm-8 control-label">声速:</label>
+                                    <div class="col-sm-2">
+                                        <input id="sound_velocity" disabled="true" name="sound_velocity"  type="text" class="form-control"  aria-required="true">
+                                    </div>
+                                    <label class="control-label">m/s</label>
+                                    <button class="btn btn-primary sound_velocity" type="submit">自定义</button>
+
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">定位数据输出</label>
+                                    <div class="col-sm-10 all">
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" value="option1" name="inlineCheckbox1" id="inlineCheckbox1" class="xyz">xyz坐标</label>
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" value="option2" name="inlineCheckbox1" id="inlineCheckbox1" class="location">北/东/深坐标</label>
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" value="option3" name="inlineCheckbox1" id="inlineCheckbox1" class="gps" disabled="true">GPS坐标</label>
+                                    </div>
+                                </div>
+                                <label style="color: #7d7b79">选择需要在定位点上显示的位置坐标类型</label>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">在地图上显示参考船体</label>
+                                    <div class="switch ship"><div class="btn_fath clearfix off" onclick="toogle3(this)"><div class="move" data-state="off"></div><div class="btnSwitch btn1">on</div><div class="btnSwitch btn2 ">off</div></div></div>
+                                </div>
+                                <div class="form-group ship_1">
+                                    <label class="col-sm-2 control-label">设备位置偏移量</label>
+                                        <label class="col-lg-2 control-label">x(m):</label>
+                                        <div class="col-lg-1">
+                                            <input type="text" class="form-control"  name="xz" id="xz">
+                                        </div>
+                                        <label class="col-lg-2 control-label">y(m):</label>
+                                        <div class="col-lg-1">
+                                            <input type="text" class="form-control" name="yz" id="yz">
+                                        </div>
+                                    <label class="col-lg-2 control-label">z(m):</label>
+                                    <div class="col-lg-1">
+                                        <input type="text" class="form-control" name="zz" id="zz">
+                                    </div>
+                                    
+                                    <label class="control-label" style="color: #7d7b79">输入USBL主机在以GPS天线安装位置为原点的坐标参考系下的坐标值</label>
+                                </div>
+                                <div class="form-group ship_1">
+                                    <label class="col-sm-2 control-label">设备角度偏移量</label>
+                                    <label class="col-lg-2 control-label">roll(°):</label>
+                                    <div class="col-lg-1">
+                                        <input type="text" class="form-control"  name="equipment_roll" id="equipment_roll">
+                                    </div>
+                                    <label class="col-lg-2 control-label">pitch(°):</label>
+                                    <div class="col-lg-1">
+                                        <input type="text" class="form-control" name="equipment_pitch" id="equipment_pitch">
+                                    </div>
+                                    <label class="col-lg-2 control-label">yaw(°):</label>
+                                    <div class="col-lg-1">
+                                        <input type="text" class="form-control" name="equipment_yaw" id="equipment_yaw">
+                                    </div>
+                                    <button class="btn btn-primary equipment_determine" type="submit">确定</button>
+                                    <label class="control-label" style="color: #7d7b79">输入USBL主机在母船坐标参考系下的角度偏移</label>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+
+                    </div>
+                </div>
+
+            <div class="col-sm-10 two">
+
+                <div class="ibox">
+                    <div class="ibox-title">
+                        <h5>设备信息</h5>
+                         <button class="btn btn-primary sb_sx" type="submit">刷新</button>
+                    </div>
+                     <div class="form-group">
+                    <label class="col-sm-6 control-label base_msg"></label>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-horizontal m-t"  novalidate="novalidate">
+                        <div class="form-group">
+                            <label class="col-sm-8 control-label">硬件型号</label>
+                            <label class="col-sm-4 control-label yjxh">A5M025N</label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-8 control-label">设备类型</label>
+                            <label class="col-sm-4 control-label sblx">一体式水声通信机</label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-8 control-label">序列号</label>
+                            <label class="col-sm-4 control-label xlh">GYUUI546546546462788</label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-8 control-label">固件版本</label>
+                            <label class="col-sm-4 control-label gjbb">V1.98.8.1616</label>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+            </div>
+            </div>
+            </div>
+        </div>
+
+    <!-- 全局js -->
+    <script src="../static/js/jquery.min.js?v=2.1.4"></script>
+    <script src="../static/js/bootstrap.min.js?v=3.3.6"></script>
+
+
+<script>
+    var clock=''
+    var confirm_time =''
+    var mdmid=''
+    var mdmpower=''
+    var base=''
+    var base_time=''
+  
+    $(document).on('click','#serial_port',function () {
+     if($("input[name='serial_port']:checked").val()=='uart'){
+          $('#com').removeAttr("disabled");
+           $('#baud').removeAttr("disabled");
+          $('#ip').attr("disabled",true);
+           $('#port_number').attr("disabled",true);
+        }else {
+           $('#ip').removeAttr("disabled");
+           $('#port_number').removeAttr("disabled");
+          $('#com').attr("disabled",true);
+           $('#baud').attr("disabled",true);
+        }
+    })
+    
+    $('.connect1').click(function () {
+        $(".connect1").hide();
+        $(".jk").append(
+            '<div class="sk-spinner sk-spinner-fading-circle load">'+
+            '<div class="sk-circle1 sk-circle"></div>'+
+             '<div class="sk-circle2 sk-circle"></div>'+
+             '<div class="sk-circle3 sk-circle"></div>'+
+              '<div class="sk-circle4 sk-circle"></div>'+
+             '<div class="sk-circle5 sk-circle"></div>'+
+             '<div class="sk-circle6 sk-circle"></div>'+
+              '<div class="sk-circle7 sk-circle"></div>'+
+              '<div class="sk-circle8 sk-circle"></div>'+
+              '<div class="sk-circle9 sk-circle"></div>'+
+              '<div class="sk-circle10 sk-circle"></div>'+
+              '<div class="sk-circle11 sk-circle"></div>'+
+              '<div class="sk-circle12 sk-circle"></div>'+
+              '</div>'
+    )
+        var xy = $('#xy').val()
+        if($("input[name='serial_port']:checked").val()=='uart'){
+            var interface='uart'
+            var  com = $('#com').val()
+            var  baud = $('#baud').val()
+            var data ={'DevPtl':xy,'DevType':interface,'DevName':com,'Btl':baud}
+        }else {
+            var interface='net'
+            var  ip = $('#ip').val()
+            var  port_number = $('#port_number').val()
+            var data ={'DevPtl':xy,'DevType':interface,'Ip':ip,'Port':port_number}
+        }
+        /**状态标签,ajax 请求以后的状态
+        $(".load").hide();
+        $(".jk").append(
+        '<span class="label label-success status">已连接</span>'
+        )
+        $(".jk").append(
+            '<span class="label label-danger status">连接错误</span>'
+        )
+        **/
+        //水声通信/定位设备
+        $.ajax({
+            type:'post',
+            url:"/postSetUartOrNet",
+            data:data,
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+                console.log(data.data[0])
+                if(data.data[0].IsOk==1){
+                  $(".load").hide();
+                  $(".jk").append(
+                  '<span class="label label-success status">已连接</span>'
+                  )
+                    $(".jk").append(
+                        '<button class="btn btn-primary close1" type="submit">关闭</button>'
+                    )
+                }else{
+                  $(".load").hide();
+                  $(".jk").append(
+                  '<span class="label label-danger status">连接错误</span>'
+                  )
+                  setTimeout(function(){
+                    $(".status").hide();
+                    $(".connect1").show();
+                  },3000);
+                  
+                }
+
+            },
+        });
+    })
+
+    $(document).on('click','.close1',function () {
+      var xy = $('#xy').val()
+        if($("input[name='serial_port']:checked").val()=='uart'){
+            var interface='uart'
+            var  com = $('#com').val()
+            var  baud = $('#baud').val()
+            var data ={'DevPtl':xy,'DevType':interface,'DevName':com,'Btl':baud}
+        }else {
+            var interface='net'
+            var  ip = $('#ip').val()
+            var  port_number = $('#port_number').val()
+            var data ={'DevPtl':xy,'DevType':interface,'Ip':ip,'Port':port_number}
+        }
+        $.ajax({
+            type:'post',
+            url:"/postCloseUartOrNet",
+            data:data,
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+                console.log(data)
+                if(data.data[0].IsOk==0){
+                  $('.close1').hide()
+                  $('.status').hide()
+                  $('.connect1').show()
+                }
+            },
+        });
+    })
+
+    $('.connect2').click(function () {
+        $(".connect2").hide();
+        $(".gps_jk").append(
+            '<div class="sk-spinner sk-spinner-fading-circle load">'+
+            '<div class="sk-circle1 sk-circle"></div>'+
+            '<div class="sk-circle2 sk-circle"></div>'+
+            '<div class="sk-circle3 sk-circle"></div>'+
+            '<div class="sk-circle4 sk-circle"></div>'+
+            '<div class="sk-circle5 sk-circle"></div>'+
+            '<div class="sk-circle6 sk-circle"></div>'+
+            '<div class="sk-circle7 sk-circle"></div>'+
+            '<div class="sk-circle8 sk-circle"></div>'+
+            '<div class="sk-circle9 sk-circle"></div>'+
+            '<div class="sk-circle10 sk-circle"></div>'+
+            '<div class="sk-circle11 sk-circle"></div>'+
+            '<div class="sk-circle12 sk-circle"></div>'+
+            '</div>'
+        )
+            var datastate = $('.gps_move').attr("data-state")
+            var com = $('#gps_com').val()
+            var baud = $('#gps_baud').val()
+            var data ={'DevName':com,'Btl':baud}
+       
+        /**状态标签,ajax 请求以后的状态
+         $(".load").hide();
+         $(".gps_jk").append(
+         '<span class="label label-success status">已连接</span>'
+         )
+         $(".gps_jk").append(
+         '<span class="label label-danger status">连接错误</span>'
+         )
+         **/
+        //启用外接GPS设备
+        $.ajax({
+            type:'post',
+            url:"/postSetGps",
+            data:data,
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+              if(data.data[0].IfOpen=="1"){
+              $(".load").hide();
+               $(".gps_jk").append(
+               '<span class="label label-success status gpsstatus">已连接</span>'
+               )
+              }else{
+                $(".load").hide();
+                 $(".gps_jk").append(
+                 '<span class="label label-danger status gpsstatus">连接错误</span>'
+                 )
+              }
+
+
+
+            },
+        });
+    })
+
+    $('.connect3').click(function () {
+        $(".connect3").hide();
+        $(".imu_jk").append(
+            '<div class="sk-spinner sk-spinner-fading-circle load">'+
+            '<div class="sk-circle1 sk-circle"></div>'+
+            '<div class="sk-circle2 sk-circle"></div>'+
+            '<div class="sk-circle3 sk-circle"></div>'+
+            '<div class="sk-circle4 sk-circle"></div>'+
+            '<div class="sk-circle5 sk-circle"></div>'+
+            '<div class="sk-circle6 sk-circle"></div>'+
+            '<div class="sk-circle7 sk-circle"></div>'+
+            '<div class="sk-circle8 sk-circle"></div>'+
+            '<div class="sk-circle9 sk-circle"></div>'+
+            '<div class="sk-circle10 sk-circle"></div>'+
+            '<div class="sk-circle11 sk-circle"></div>'+
+            '<div class="sk-circle12 sk-circle"></div>'+
+            '</div>'
+        )
+        if($("input[name='imu_serial_port']:checked").val()=='option1'){
+            var interface='option1'
+            var  com = $('#imu_com').val()
+            var  baud = $('#imu_baud').val()
+            var data ={'interface':interface,'com':com,'baud':baud}
+        }else {
+            var interface='option2'
+            var  ip = $('#imu_ip').val()
+            var  port_number = $('#imu_port_number').val()
+            var data ={'interface':interface,'ip':ip,'port_number':port_number}
+        }
+        /**状态标签,ajax 请求以后的状态
+         $(".load").hide();
+         $(".gps_jk").append(
+         '<span class="label label-success status">已连接</span>'
+         )
+         $(".gps_jk").append(
+         '<span class="label label-danger status">连接错误</span>'
+         )
+         **/
+        //启用外接船载IMU
+        $.ajax({
+            type:'post',
+            url:"",
+            data:data,
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+
+
+
+
+            },
+        });
+    })
+
+    $('.bj_id').click(function () {
+        $('#id').removeAttr("disabled");
+        $('.bj_id').hide();
+        $(".bj_id").before(
+            '<a class="hook sethook_id"><i class="fa fa-check"></i></a><a class="cross setcross_id"><i class="fa fa-close"></i></a>'
+        )
+    })
+
+    //本机ID
+    $(document).on('click','.sethook_id',function(){
+        var id =$('#id').val()
+        var power =''
+        $.ajax({
+            type:'post',
+            url:"/postSetMdmID",
+            data:{'MyId':id,'SentPower':power},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+                $('.bj_id').show();
+                $('.sethook_id').remove();
+                $('.setcross_id').remove();
+                $('#id').attr("disabled","disabled");
+                if(data.data[0].IsOk=="2"){
+                  SetMdmID()
+                }else{
+                   $('.bj_msg').text(data.data[0].Ptf)
+                }
+                
+
+            },
+        });
+    })
+      
+    function SetMdmID(){  
+          $.ajax({
+            type:'post',
+            url:"/postAnswerSetMdmID",
+            data:{},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+              if(data.data[0].IsOk=="2"){
+                $('.bj_sx').attr("disabled","disabled");
+                 mdmid = setTimeout(SetMdmID, 2000); 
+                
+              }else{
+                clearInterval(mdmid);
+                $('.bj_sx').removeAttr("disabled");
+                 $('.bj_msg').text(data.data[0].Ptf)
+                $('#id').val(data.data[0].MyId)
+              }
+              
+            },
+        });
+    }
+
+
+    $(document).on('click','.setcross_id',function(){
+        $('.bj_id').show();
+        $('.sethook_id').hide();
+        $('.setcross_id').hide();
+        $('#id').attr("disabled","disabled");
+    })
+
+    $('.confirm').click(function () {
+        $('#power').removeAttr("disabled");
+        $('.confirm').hide();
+        $(".confirm").before(
+            '<a class="hook sethook_power"><i class="fa fa-check"></i></a><a class="cross setcross_power"><i class="fa fa-close"></i></a>'
+        )
+    })
+    
+    $('.bj_sx').click(function(){
+           $.ajax({
+            type:'post',
+            url:"/postGetMdmID",
+            data:{},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+                 if(data.data[0].IsOk=="2"){
+                    bj_settime()
+                }else{
+                   $('.bj_msg').text(data.data[0].Ptf)
+                }
+               
+            },
+        });
+    
+    })
+    
+    function bj_settime(){  
+          $.ajax({
+            type:'post',
+            url:"/postAnswerGetMdmID",
+            data:{},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+              if(data.data[0].IsOk=="2"){
+                $('.bj_sx').attr("disabled","disabled");
+                 clock = setTimeout(bj_settime, 2000); 
+                
+              }else if(data.data[0].IsOk=="4"){
+                  clearInterval(clock);
+              }else{
+                clearInterval(clock);
+                $('.bj_sx').removeAttr("disabled");
+                 $('.bj_msg').text(data.data[0].Ptf)
+                $('#id').val(data.data[0].MyId)
+              }
+              
+            },
+        });
+    }
+
+    //发送功率
+    $(document).on('click','.sethook_power',function(){
+        var power =$('#power').val()
+        var id =''
+        $.ajax({
+            type:'post',
+            url:"/postSetMdmPower",
+            data:{'SentPower':power,'MyId':id},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+                $('.confirm').show();
+                $('.sethook_power').remove();
+                $('.setcross_power').remove();
+                $('#power').attr("disabled","disabled");
+                if(data.data[0].IsOk=="2"){
+                   MdmPower()
+                }else{
+                  $('.confirm_msg').text(data.data[0].Ptf)
+                }
+               
+
+            },
+        });
+    })
+
+   function MdmPower(){  
+          $.ajax({
+            type:'post',
+            url:"/postAnswerSetMdmPower",
+            data:{},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+              if(data.data[0].IsOk=="2"){
+                $('.confirm_sx').attr("disabled","disabled");
+                 mdmpower = setTimeout(MdmPower, 2000); 
+                
+              }else{
+                clearInterval(mdmpower);
+                $('.confirm_sx').removeAttr("disabled");
+                $('.confirm_msg').text(data.data[0].Ptf)
+                $('#power').val(data.data[0].SentPower)
+              }
+              
+            },
+        });
+    }  
+
+    $(document).on('click','.setcross_power',function(){
+        $('.confirm').show();
+        $('.sethook_power').hide();
+        $('.setcross_power').hide();
+        $('#power').attr("disabled","disabled");
+    })
+
+    $('.sound_velocity').click(function () {
+        $('#sound_velocity').removeAttr("disabled");
+        $('.sound_velocity').hide();
+        $(".sound_velocity").before(
+            '<a class="hook sethook_velocity"><i class="fa fa-check"></i></a><a class="cross setcross_velocity"><i class="fa fa-close"></i></a>'
+        )
+    })
+
+     $('.confirm_sx').click(function(){
+        $.ajax({
+            type:'post',
+            url:"/postGetMdmPower",
+            data:{},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+               if(data.data[0].IsOk=="2"){
+                confirm_settime()
+              }else{
+                $('.confirm_msg').text(data.data[0].Ptf)
+              }
+            },
+        });
+         
+    })
+    
+       function confirm_settime(){  
+          $.ajax({
+            type:'post',
+            url:"/postAnswerGetMdmPower",
+            data:{},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+              if(data.data[0].IsOk=="2"){
+                $('.confirm_sx').attr("disabled","disabled");
+                 confirm_time = setTimeout(confirm_settime, 2000); 
+                
+              }else{
+                clearInterval(confirm_time);
+                $('.confirm_sx').removeAttr("disabled");
+                $('.confirm_msg').text(data.data[0].Ptf)
+                $('#power').val(data.data[0].SentPower)
+              }
+              
+            },
+        });
+    }
+
+    //声速
+    $(document).on('click','.sethook_velocity',function(){
+        var sound_velocity =$('#sound_velocity').val()
+        $.ajax({
+            type:'post',
+            url:"/postSetSpeed",
+            data:{'Speed':sound_velocity},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+                $('.sound_velocity').show();
+                $('.sethook_velocity').remove();
+                $('.setcross_velocity').remove();
+                $('#sound_velocity').attr("disabled","disabled");
+
+            },
+        });
+    })
+    $(document).on('click','.setcross_velocity',function(){
+        $('.sound_velocity').show();
+        $('.sethook_velocity').css('display','none');
+        $('.setcross_velocity').css('display','none');
+        $('#sound_velocity').attr("disabled","disabled");
+    })
+
+    $(document).on('click','#inlineCheckbox1',function(){
+        var arr = new Array();
+        var xyz ="off"
+         var site = "off"
+        var gps = "off"
+        $('input[name="inlineCheckbox1"]:checked').each(function(i){
+            arr[i] = $(this).val();
+            console.log(arr[i])
+            if( arr[i]=='option1'){
+              xyz = "on"
+            }
+            else if(arr[i]=='option2')
+            {
+              site = 'on'
+            }
+             else if(arr[i]=='option3')
+            {
+              gps = 'on'
+            }
+
+        });
+        var vals = arr.join(",");
+        console.log(xyz+'---'+site+'===='+gps)
+        //定位数据输出
+        $.ajax({
+            type:'post',
+            url:"/postSiteOutType",
+            data:{'Ifxyz':xyz,'Iflocation':site,'Ifgps':gps},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+
+            },
+        });
+    })
+
+    //设备位置偏移量
+    $('.offset').click(function () {
+        var x_axis =$('#xz').val()
+        var y_axis =$('#yz').val()
+        var z_axis =$('#zz').val()
+        $.ajax({
+            type:'post',
+            url:"",
+            data:{'x_axis':x_axis,'y_axis':y_axis,'z_axis':z_axis},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+
+            },
+        });
+    })
+
+    //设备角度偏移量
+    $('.equipment_determine').click(function () {
+        var ship = $('.ship').children().children("div:first").attr("data-state")
+        var x_axis =$('#xz').val()
+        var y_axis =$('#yz').val()
+        var z_axis =$('#zz').val()
+        var equipment_roll =$('#equipment_roll').val()
+        var equipment_pitch =$('#equipment_pitch').val()
+        var equipment_yaw =$('#equipment_yaw').val()
+        $.ajax({
+            type:'post',
+            url:"/postDisplayShip",
+            data:{'IfDisplayShip':ship,'DevStieX':x_axis,'DevStieY':y_axis,'DevStieZ':z_axis,'DevAngleX':equipment_roll,'DevAngleY':equipment_pitch,'DevAngleZ':equipment_yaw},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+
+            },
+        });
+    })
+
+    //船载IMU角度偏移量
+    $('.ship_determine').click(function () {
+        var ship_roll =$('#ship_roll').val()
+        var ship_pitch =$('#ship_pitch').val()
+        var ship_yaw =$('#ship_yaw').val()
+        $.ajax({
+            type:'post',
+            url:"",
+            data:{'ship_roll':ship_roll,'ship_pitch':ship_pitch,'ship_yaw':ship_yaw},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+
+            },
+        });
+    })
+
+    function toogle(th){
+      $(".gpsstatus").hide()
+        var ele = $(th).children(".move");
+        var value ='off';
+        var dataSoure = [];
+        if(ele.attr("data-state") == "on"){
+            ele.animate({left: "0"}, 200, function(){
+                ele.attr("data-state", "off");
+            });
+            $(th).removeClass("on").addClass("off");
+            $('.connect2').css('display','none');
+            $('#gps_com').attr("disabled",true);
+            $('#gps_baud').attr("disabled",true);
+            $('.gps').attr("disabled",true);
+        }else if(ele.attr("data-state") == "off"){
+            ele.animate({left: '20px'}, 200, function(){
+                $(this).attr("data-state", "on");
+
+            });
+            $(th).removeClass("off").addClass("on");
+            value ='on';
+            $('#gps_com').removeAttr("disabled");
+            $('#gps_baud').removeAttr("disabled");
+            $('#gps_ip').removeAttr("disabled");
+            $('#gps_port_number').removeAttr("disabled");
+            $('.gps').removeAttr("disabled");
+            $('.connect2').css('display','block');
+        }
+        console.log(value)
+           $.ajax({
+            type:'post',
+            url:"/postSetOnOffGps",
+            data:{'WantUse':value},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+
+            },
+        });
+        
+    }
+
+    function toogle2(th){
+        var ele = $(th).children(".move");
+        var value ='StopCycle';
+        var dataSoure = [];
+        if(ele.attr("data-state") == "on"){
+            ele.animate({left: "0"}, 200, function(){
+                ele.attr("data-state", "off");
+            });
+            $(th).removeClass("on").addClass("off");
+            $('.connect3').css('display','none');
+
+        }else if(ele.attr("data-state") == "off"){
+            ele.animate({left: '20px'}, 200, function(){
+                $(this).attr("data-state", "on");
+
+            });
+            $(th).removeClass("off").addClass("on");
+            value ='StartCycle';
+            $('#imu_com').removeAttr("disabled");
+            $('#imu_baud').removeAttr("disabled");
+            $('#imu_ip').removeAttr("disabled");
+            $('#imu_port_number').removeAttr("disabled");
+            $('.connect3').css('display','block');
+
+        }
+    }
+    function toogle3(th){
+        var ele = $(th).children(".move");
+        var value ='off';
+        var dataSoure = [];
+        if(ele.attr("data-state") == "on"){
+            ele.animate({left: "0"}, 200, function(){
+                ele.attr("data-state", "off");
+            });
+            $(th).removeClass("on").addClass("off");
+            $('.ship_1').hide()
+        }else if(ele.attr("data-state") == "off"){
+            ele.animate({left: '20px'}, 200, function(){
+                $(this).attr("data-state", "on");
+
+            });
+            $(th).removeClass("off").addClass("on");
+            value ='on';
+            $('.ship_1').show()
+        }
+       
+        //在地图上显示参考船体
+        $.ajax({
+            type:'post',
+            url:"/postOnOffDisplayShip",
+            data:{'IfDisplayShip':value},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+
+            },
+        });
+    }
+    
+    $('.sb_sx').click(function(){
+           $.ajax({
+            type:'post',
+            url:"/postGetMdmSoftVer",
+            data:{},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+              base_set()
+            },
+        });
+      
+    })
+    
+    function base_set(){
+         $.ajax({
+            type:'post',
+            url:"/postAnswerGetMdmSoftVer",
+            data:{},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+              if(data.data[0].IsOk=="2"){
+                 $('.base_msg').text(data.data[0].Ptf)              
+                 base = setTimeout(base_set, 2000); 
+               
+              }else{
+                clearInterval(base);
+                $('.base_msg').removeAttr("disabled");
+                 $('.base_msg').empty()
+                 $('.yjxh').text(data.data[0].HwType)
+                 $('.sblx').text(data.data[0].DevType)
+                 $('.xlh').text(data.data[0].SerialNumber)
+                 $('.gjbb').text(data.data[0].SoftVer)
+               
+              }
+              
+            },
+        });
+    }
+
+    $(function () {
+       load_1()
+      load_2()
+      load_3()
+      load_4()
+      load_5()
+      load_6()
+      load_7()
+      load_3_1()
+    })
+    
+    function load_1(){
+            $.ajax({
+            type:'post',
+            url:"/getCfgUartOrNet",
+            data:{},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+                //console.log(data)
+                 if(data.data[0].DevPtl){
+                  $("#xy").find("option[value='"+data.data[0].DevPtl+"']").attr("selected",true);
+                }
+                if(data.data[0].DevType=='uart'){
+                  $("input[name='serial_port'][value='uart']").attr("checked",true)
+                  $('#com').val(data.data[0].DevName)
+                  $('#baud').val(data.data[0].Btl)
+                  $('#ip').attr("disabled",true);
+                  $('#port_number').attr("disabled",true);
+                  $('#com').removeAttr("disabled");
+                  $('#baud').removeAttr("disabled");
+                }
+                if(data.data[0].DevType=='net'){
+                  $("input[name='serial_port'][value='net']").attr("checked",true)
+                  $('#ip').val(data.data[0].Ip)
+                  $('#port_number').val(data.data[0].Port)
+                  $('#ip').removeAttr("disabled");
+                  $('#port_number').removeAttr("disabled");
+                  $('#com').attr("disabled",true);
+                  $('#baud').attr("disabled",true);
+                }
+                if(data.data[0].IsOk=='1'){
+                    $(".jk").append(
+                        '<span class="label label-success status">已连接</span>'
+                    )
+                    $(".jk").append(
+                        '<button class="btn btn-primary close1" type="submit">关闭</button>'
+                    )
+                }
+                
+            },
+        });
+    }
+    
+        function load_2(){
+            $.ajax({
+            type:'post',
+            url:"/getSetGps",
+            data:{},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+                $('#gps_com').val(data.data[0].DevName)
+                $('#gps_baud').val(data.data[0].Btl)               
+                if(data.data[0].WantUse=='off'){
+                  $('.gps_switch').children().first().removeClass("on");
+                  $('.gps_switch').children().first().addClass("off");
+                  $('.move').attr("data-state","off");
+                  $(".move").css("left","0px");
+                }else if(data.data[0].WantUse=='on'){
+                  $('.gps_switch').children().first().removeClass("off");
+                   $('.gps_switch').children().first().addClass("on");
+                  $('.move').attr("data-state","on");
+                  $(".move").css("left","20px");
+                  $('#gps_com').removeAttr("disabled");
+                  $('#gps_baud').removeAttr("disabled");
+                  $('.gps').removeAttr("disabled");
+                  $('.gps').attr("checked",'true');    
+                  if(data.data[0].IfOpen=='1'){
+                      $(".gps_jk").append(
+               '<span class="label label-success status gpsstatus">已连接</span>'
+               )
+                  }else{
+                     $('.connect2').css('display','block');
+                  }
+                }
+                
+            },
+        });
+    }
+    
+        function load_3(){
+            $.ajax({
+            type:'post',
+            url:"/getCfgIdOfMdm",
+            data:{},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+                $('#id').val(data.data[0].MyId)
+               
+            },
+        });
+    }
+    
+      function load_3_1(){
+            $.ajax({
+            type:'post',
+            url:"/getCfgPowerOfMdm",
+            data:{},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+                $('#power').val(data.data[0].SentPower)
+            },
+        });
+    }
+    
+        function load_4(){
+            $.ajax({
+            type:'post',
+            url:"/getSetSpeed",
+            data:{},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+                $('#sound_velocity').val(data.data[0].Speed)
+            },
+        });
+    }
+    
+      function load_5(){
+            $.ajax({
+            type:'post',
+            url:"/getSiteOutType",
+            data:{},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+               
+                if(data.data[0].Ifxyz=='off'){
+                  $(".xyz").prop("checked",false);
+                }else{
+                  $(".xyz").prop("checked",true);
+                }
+                if(data.data[0].Iflocation=='off'){
+                  $(".location").prop("checked",false);
+                }else{
+                  $(".location").prop("checked",true);
+                }
+                if(data.data[0].Ifgps=='off'){
+                  $(".gps").prop("checked",false);
+                }else{
+                  $(".gps").prop("checked",true);
+                }
+                
+            },
+        });
+    }
+    
+      function load_6(){
+            $.ajax({
+            type:'post',
+            url:"/getCfgMdmSoftVer",
+            data:{},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+                $('.yjxh').text(data.data[0].HwType)
+                 $('.sblx').text(data.data[0].DevType)
+                 $('.xlh').text(data.data[0].SerialNumber)
+                 $('.gjbb').text(data.data[0].SoftVer)
+            },
+        });
+    }
+    
+    function load_7(){
+            $.ajax({
+            type:'post',
+            url:"/getDisplayShip",
+            data:{},
+            dataType:'json',
+            success:function(data){ //请求成功回调函数
+              // console.log(data)
+              if(data.data[0].IfDisplayShip=='on'){
+                $('.ship').children("div:first").addClass("on")
+                $('.ship').children("div:first").removeClass("off")
+                $('.ship').children().children("div:first").attr("data-state","on")
+                $('.ship').children().children("div:first").css("left","20px")
+                $('#xz').val(data.data[0].DevStieX)  
+                $('#yz').val(data.data[0].DevStieY)
+                $('#zz').val(data.data[0].DevStieZ)    
+                $('#equipment_roll').val(data.data[0].DevAngleX)
+                $('#equipment_pitch').val(data.data[0].DevAngleY)
+                $('#equipment_yaw').val(data.data[0].DevAngleZ)         
+                $('.ship_1').show()
+              }else{
+                $('.ship_1').hide()
+                  $('.ship').children("div:first").addClass("off")
+                  $('.ship').children("div:first").removeClass("on")
+                  $('.ship').children().children("div:first").attr("data-state","off")
+                  $('.ship').children().children("div:first").css("left","0px")
+              }
+              
+            },
+        });
+    }
+
+</script>
+
+
+    </body>
+</html>

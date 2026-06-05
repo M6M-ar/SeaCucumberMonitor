@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>定位系统</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <link href="../static/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../static/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <script type="text/javascript" src="../static/js/quanju.js"></script>
+    <link href="../static/css/animate.css" rel="stylesheet">
+    <link href="../static/css/style.css?v=4.1.0" rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/style.css">
+
+
+</head>
+
+<body class="gray-bg">
+
+<div class="wrapper wrapper-content animated fadeInUp">
+    <div class="row">
+        <div class="col-sm-12 ">
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h3>配置工具</h3>
+                </div>
+                <div class="ibox-content">
+                    <div class="form-horizontal m-t" novalidate="novalidate">
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <div style="padding-right: 51px;float: left;">
+                                    <div class="set-com" style=" top: 2px;position: relative;padding-right: 4px;">
+                                        <input type="radio" value="串口" id="serial_port_1" name="serial_port_1" >
+                                        </div>
+                                    <div class="set-com"><h3>串口：</h3></div>
+                                    <select class="input-sm form-control input-s-sm inline col-sm-6" id="com" style="width: auto">
+
+                                    </select>
+
+                                    <div class="set-com" style="padding-left: 15px;">
+                                        <h3>通讯波特率：</h3>
+                                    </div>
+                                    <select class="input-sm form-control input-s-sm inline col-sm-6" id="baud" style="width: auto">
+                                        <option value="115200">115200</option>
+                                        <option value="9600">9600</option>
+                                    </select>
+
+                                </div>
+                                <div>
+                                    <div class="set-com" style=" top: 2px;position: relative;padding-right: 4px;">
+                                        <input type="radio" value="网口" id="serial_port_1" name="serial_port_1" >
+                                    </div>
+                                    <div class="set-com"><h3>IP：</h3></div>
+                                    <input id="ip_1" name="ip"  placeholder="输入主机IP地址" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+
+                                    <div class="set-com" style=" padding-left: 15px;">
+                                        <h3>端口：</h3>
+                                    </div>
+                                    <input id="port_number_1"  name="port_number" placeholder="输入端口号" type="text" class="form-control" required="" aria-required="true" style="width: auto;float: left;">
+                                </div>
+                                <div class="col-sm-2">
+                                    <button class="btn btn-info block" id="open_com">
+                                        打开
+                                    </button>
+                                    <button class="btn btn-info onoffswitch-checkbox" id="close_com">
+                                        关闭
+                                    </button>
+                                </div>
+
+                            </div>
+
+                            <div class="col-sm-11 equit_detail">
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="col-sm-12 base onoffswitch-checkbox">
+            <div class="set_env_top">
+                <div class="form-horizontal m-t" novalidate="novalidate">
+                    <div class="form-group">
+                        <div class="col-sm-10">
+                            <div class="equit_detail">
+                                <h3>基本信息:</h3>
+                            </div>
+                            <div class="row detail-lineheight">
+                                <div class="col-sm-3 detail_left">
+                                    <div>产品类型：<span id="small_product_type">USBL基站（小型定位）</span></div>
+                                </div>
+                                <div class="col-sm-3 detail_left">
+                                    <div>SN：<span id="small_sn">2112-B5L201S7-001</span></div>
+                                </div>
+                                <div class="col-sm-3 detail_left">
+                                    <div>软件版本：<span id="small_version">XXXXX</span></div>
+                                </div>
+                                <div class="col-sm-3 detail_left id_set">
+                                    <div>设备ID：<input id="small_id" name="small_id" placeholder="1~255" type="number"
+                                                     class="set_input" style="position: fixed"></div>
+                                </div>
+                                <div class="col-sm-3 detail_left equipment_time_set onoffswitch-checkbox">
+                                    <div>设备时间：<span id="equipment_time"></span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 small-positioning onoffswitch-checkbox">
+            <div class="set_env_top">
+                <div class="form-horizontal m-t" novalidate="novalidate">
+                    <div class="form-group">
+                        <div class="col-sm-10">
+                            <div class="equit_detail">
+                                <h3>环境参数:</h3>
+                            </div>
+                            <div class="row detail-lineheight">
+                                <div class="col-sm-1 detail_left">
+                                    <div>使用环境:</div>
+                                </div>
+
+                                <div class="col-sm-5 detail_left">
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" value="1" id="smallradio1" name="small_env_radio"
+                                                   class="small_env_radio">
+                                            <span class="radio_name">淡水</span>
+                                        </label>
+                                    </div>
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" value="0" id="smallradio2" name="small_env_radio"
+                                                   class="small_env_radio">
+                                            <span class="radio_name">海水</span>
+                                        </label>
+                                        <label class="radio_name">盐度：<input id="small_salinity_id" placeholder="0~255"
+                                                                            type="number" class="set_input" min="0"
+                                                                            max="255"></label>
+                                        <label class="radio_name"> PPT</label>
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-1 detail_left">
+                                    <div>水声声速:</div>
+                                </div>
+                                <div class="col-sm-5 detail_left">
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" value="ON" id="small_sound_radio1"
+                                                   name="small_sound_radio">
+                                            <span class="radio_name">自动计算</span>
+                                        </label>
+                                    </div>
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" value="OFF" id="small_sound_radio2"
+                                                   name="small_sound_radio">
+                                            <span class="radio_name">手动计算</span>
+                                        </label>
+                                        <label class="radio_name">声速：<input id="sound_value" placeholder="300~1700"
+                                                                            type="number" class="set_input" min="300"
+                                                                            max="1700" style="width: 122px;"></label>
+                                        <label class="radio_name"> m/s</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 small-positioning onoffswitch-checkbox">
+            <div class="set_env_top">
+                <div class="form-horizontal m-t" novalidate="novalidate">
+                    <div class="form-group">
+                        <div class="col-sm-10">
+                            <div class="equit_detail">
+                                <h3>定位参数:</h3>
+                            </div>
+                            <div class="row detail-lineheight">
+                                <div class="col-sm-2 detail_left">
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" value="1" id="small_model1" name="small_model" disabled='disabled'>
+                                            <span class="radio_name">同步模式</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 detail_left">
+                                    <div>配对信标ID：<input id="small_pair_id" placeholder="0~99" type="number"
+                                                       class="set_input" style="position: fixed" min="0" max="99" ></div>
+                                </div>
+                                <div class="col-sm-3 detail_left">
+                                    <div>定位时间间隔：<input id="small_positioning_interval" placeholder="2~255" type="number"
+                                                       class="set_input" min="2" max="255" >&nbsp;&nbsp;s
+                                    </div>
+                                </div>
+                                <div class="col-sm-3 detail_left">
+                                    <div>同步时间间隔：<input id="small_syn_id" placeholder="30~255" type="number"
+                                                       class="set_input" min="30" max="255" style="width:10rem;">&nbsp;&nbsp;min
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row detail-lineheight">
+                                <div class="col-sm-2 detail_left">
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" value="0" id="small_model2" name="small_model" disabled='disabled'>
+                                            <span class="radio_name">问答模式</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 detail_left">
+                                    <div>工作范围：<input id="small_range" placeholder="10~1000" type="number"
+                                                     class="set_input" min="10" max="1000" style="width:10rem;">&nbsp;&nbsp;m
+                                    </div>
+                                </div>
+                                <div class="col-sm-3 detail_left">
+                                    <div>轮询间隔：<input id="small_polling_interval" placeholder="0~65535" type="number"
+                                                     class="set_input" min="0" max="65535" >&nbsp;&nbsp;s
+                                    </div>
+                                </div>
+                                <div class="col-sm-3 detail_left">
+                                    <div>轮询信标ID：<input id="small_polling_id" size="20" placeholder="ID用;间隔，最多输入20个"
+                                                       type="text" class="set_input" style="position: fixed" ></div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 one-six-positioning onoffswitch-checkbox">
+            <div class="set_env_top">
+                <div class="form-horizontal m-t" novalidate="novalidate">
+                    <div class="form-group">
+                        <div class="col-sm-10">
+                            <div class="equit_detail">
+                                <h3>环境参数:</h3>
+                            </div>
+                            <div class="row detail-lineheight">
+                                <div class="col-sm-4 detail_left">
+                                    <div>工作深度：<input id="one_six_depth" placeholder="" type="number" class="set_input">&nbsp;&nbsp;m
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 detail_left">
+                                    <div>声速：<input id="one_six_sound" placeholder="300~1700" type="number"
+                                                   class="set_input" min="300" max="1700" style="width: 133px;">&nbsp;&nbsp;m/s
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 one-six-positioning onoffswitch-checkbox">
+            <div class="set_env_top">
+                <div class="form-horizontal m-t" novalidate="novalidate">
+                    <div class="form-group">
+                        <div class="col-sm-10">
+                            <div class="equit_detail">
+                                <h3>工作参数:</h3>
+                            </div>
+                            <div class="row detail-lineheight">
+                                <div class="col-sm-4 detail_left">
+                                    <div>工作范围：<input id="one_six_range" placeholder="1~3500" type="number"
+                                                     class="set_input" min="1" max="3500">&nbsp;&nbsp;m
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 detail_left">
+                                    <div>轮询间隔：<input id="one_six_polling" placeholder="0~65535" type="number"
+                                                     class="set_input" min="0" max="65535">&nbsp;&nbsp;s
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 detail_left">
+                                    <div>轮询信标ID：<input id="one_six_beacons_id" placeholder="ID用;间隔,最多输入20个" type="text"
+                                                       class="set_input"></div>
+                                </div>
+                           <div class="col-sm-4 detail_left">
+                                    <div>发送模式：<input id="one_six_model"  type="number" class="set_input" min="1" max="3500">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 beacon_setting onoffswitch-checkbox">
+            <div class="set_env_top">
+                <div class="form-horizontal m-t" novalidate="novalidate">
+                    <div class="form-group">
+                        <div class="col-sm-10">
+                            <div class="equit_detail">
+                                <h3>定位参数:</h3>
+                            </div>
+                            <div class="row detail-lineheight">
+                                <div class="col-sm-12 detail_left">
+                                    <div>基站ID：<input id="base_id" placeholder="100~199" type="text" class="set_input">
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 detail_left">
+                                    <div class="beacon_title">定位模式：</div>
+                                    <div class="col-sm-8">
+                                        <div class="location_model">
+                                            <input type="radio" value="1" id="beacon_syn_model" name="beacon_model" >
+                                            <span style="top: -1px;">同步模式</span>
+                                        </div>
+                                        <div class="location_model">
+                                            <input type="radio" value="0" id="beacon_asyn_model" name="beacon_model" >
+                                            <span style="top: -1px;">问答模式</span>
+                                        </div>
+                                   
+                                    </div>
+                                </div>
+                                 <div class="col-sm-12 detail_left">
+                                    <div class="beacon_title">自动休眠：</div>
+                                    <div class="col-sm-8">
+                                        <div class="location_model">
+                                            <input type="radio" value="1" id="xiumiankaiguan" name="xiumiankaiguan" >
+                                            <span style="top: -1px;">开启</span>
+                                        </div>
+                                        <div class="location_model">
+                                            <input type="radio" value="0" id="xiumiankaiguan" name="xiumiankaiguan" >
+                                            <span style="top: -1px;">关闭</span>
+                                        </div>
+                                   
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 detail_left">
+                                    <div>无操作休眠时间：<input id="no_ops_time" placeholder="20~65535" type="text" class="set_input">S
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 one-six_beacon_public onoffswitch-checkbox">
+            <div class="set_env_top">
+                <div class="form-horizontal m-t" novalidate="novalidate">
+                    <div class="form-group">
+                        <div class="col-sm-10">
+                            <div class="equit_detail">
+                                <h3>通讯参数:</h3>
+                            </div>
+                            <div class="row detail-lineheight">
+                                <div class="col-sm-3 detail_left">
+                                    <div>屏蔽非目标ID的数据：
+                                        <select class="input-sm set_input input-s-sm inline " id="shield">
+                                            <option value="1">否</option>
+                                            <option value="0">是</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3 detail_left">
+                                    <div>发射功率：
+                                        <select class="input-sm set_input input-s-sm inline " id="send_power">
+                                            <option value="0">0dB</option>
+                                            <option value="-3">-3dB</option>
+                                            <option value="-6">-6dB</option>
+                                            <option value="-9">-9dB</option>
+                                            <option value="-12">-12dB</option>
+                                            <option value="-15">-15dB</option>
+                                            <option value="-18">-18dB</option>
+                                            <option value="-20">-20dB</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3 detail_left">
+                                    <div>串口波特率：
+                                        <select class="input-sm set_input input-s-sm inline " id="public_baud">
+                                            <option value="115200">115200</option>
+                                            <option value="9600">9600</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3 detail_left">
+                                    <div>数据块保护间隔：
+                                        <select class="input-sm set_input input-s-sm inline " id="protection_interval">
+                                            <option value="50">50ms</option>
+                                            <option value="100">100ms</option>
+                                            <option value="150">150ms</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group mini_beacon onoffswitch-checkbox">
+                        <div class="col-sm-10">
+                            <div class="equit_detail">
+                                <h3>其他:</h3>
+                            </div>
+                            <div class="row detail-lineheight">
+                                <div class="col-sm-12 detail_left">
+                                    <div>设备时间：
+                                        <span id="eq_time">20220809  16:22:30 </span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 detail_left">
+                                    <label><input type="checkbox" id="system_time"><span style="padding-left: 7px;margin-top: -1px;position: absolute;">把当前系统时间写入设备</span></label>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 st_one_to_one_setting onoffswitch-checkbox">
+            <div class="set_env_top">
+                <div class="form-horizontal m-t" novalidate="novalidate">
+                    <div class="form-group">
+                        <div class="col-sm-10">
+                            <div class="equit_detail">
+                                <h3>通讯参数:</h3>
+                            </div>
+                            <div class="row detail-lineheight">
+                                <div class="col-sm-4 detail_left">
+                                    <div>本机ID地址：<input id="st_local_id" placeholder="1~255" type="number"
+                                                       class="set_input" min="1" max="255"></div>
+                                </div>
+                                <div class="col-sm-4 detail_left">
+                                    <div>目标声通ID地址：<input id="st_sound_id" placeholder="1~255" type="number"
+                                                         class="set_input" min="1" max="255">
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 detail_left">
+                                    <div>屏蔽非目标ID的数据：
+                                        <select class="input-sm set_input input-s-sm inline " id="st_shield">
+                                            <option value="0">否</option>
+                                            <option value="1">是</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 detail_left">
+                                    <div>发射功率：
+                                        <select class="input-sm set_input input-s-sm inline " id="st_power">
+                                            <option value="0">0dB</option>
+                                            <option value="-3">-3dB</option>
+                                            <option value="-6">-6dB</option>
+                                            <option value="-9">-9dB</option>
+                                            <option value="-12">-12dB</option>
+                                            <option value="-15">-15dB</option>
+                                            <option value="-18">-18dB</option>
+                                            <option value="-20">-20dB</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 detail_left">
+                                    <div>数据块保护间隔：
+                                        <select class="input-sm set_input input-s-sm inline " id="st_inteval">
+                                            <option value="50">50ms</option>
+                                            <option value="100">100ms</option>
+                                            <option value="150">150ms</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 detail_left">
+                                    <div>串口波特率：
+                                        <select class="input-sm set_input input-s-sm inline " id="st_baud">
+                                            <option value="115200">115200</option>
+                                            <option value="9600">9600</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+<!--                    <div class="form-group">
+                        <div class="col-sm-10">
+                            <div class="equit_detail">
+                                <h3>其他:</h3>
+                            </div>
+                            <div class="row detail-lineheight">
+                                <div class="col-sm-4 detail_left">
+                                    <label><input type="checkbox" id="st_system_time"><span style="padding-left: 7px;margin-top: -1px;position: absolute;">把当前系统时间写入设备</span></label>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>-->
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 ">
+            <div class="set-bottom">
+                    <span class="set-bottom-style">
+                        <button class="btn btn-info" id="read">读配置</button>
+                    </span>
+                <span class="set-bottom-style">
+                      <button class="btn btn-info" id="write">写入</button>
+                    </span>
+                <span class="set-bottom-style ">
+                        <button class="btn btn-info onoffswitch-checkbox" id="import">导入默认配置</button>
+                    </span>
+                <span class="set-bottom-style one_six_network_port">
+                      <button class="btn btn-info " id="one_six_network_port">切换成网口模式</button>
+                </span>
+                <span class="set-bottom-style st_tc onoffswitch-checkbox">
+                      <button class="btn btn-info " id="st_tc">切换成透传模式</button>
+                </span>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- 全局js -->
+
+<script src="../static/js/jquery.min.js?v=2.1.4"></script>
+<script src="../static/js/bootstrap.min.js?v=3.3.6"></script>
+<script type="text/javascript" src="../static/js/plugins/layer/layer.min.js"></script>
+<script type="text/javascript" src="../static/js/currency.js"></script>
+<script type="text/javascript" src="../static/js/setup_tool.js"></script>
+
+<script>
+    var read_1
+    var DevType = ''
+    $(function () {
+        use_com_list()
+    })
+    
+    var LocationMode=''
+
+    function use_com_list() {
+        $("#com").empty()
+        $.ajax({
+            type: 'post',
+            url: "/getUartList",
+            data: '',
+            dataType: 'json',
+            success: function (data) {
+                if (data.UartList) {
+                    var w = ''
+                    for (var i = 0; i < data.UartList.length; i++) {
+                        w += '<option value="' + data.UartList[i] + '">' + data.UartList[i] + '</option>';
+
+                    }
+                    $("#com").append(w)
+                }
+                gg("/getSmlCfgUart", '', 'load_1')
+            },
+        });
+    }
+
+    function gg(url, info, type) {
+        $.ajax({
+            type: 'post',
+            url: url,
+            data: info,
+            dataType: 'json',
+            success: function (data) {
+                if (type == 'load_1') {
+                    if(data.DevCnctType=='串口'){
+                        $("input[name='serial_port_1'][value='网口']").attr("checked",false)
+                        $("input[name='serial_port_1'][value='串口']").attr("checked",true)
+                       if (data.UartName) {
+                        $('#com').val(data.UartName)
+                        }
+                        $('#ip_1').attr('disabled',true)
+                        $('#port_number_1').attr('disabled',true)
+                        $('#com').attr('disabled',false)
+                        $('#baud').attr('disabled',false)
+                    }else {
+                        $("input[name='serial_port_1'][value='串口']").attr("checked",false)
+                        $("input[name='serial_port_1'][value='网口']").attr("checked",true)
+                        $('#com').attr('disabled',true)
+                        $('#baud').attr('disabled',true)
+                        $('#ip_1').attr('disabled',false)
+                        $('#port_number_1').attr('disabled',false)
+                        $('#ip_1').val(data.IpName)
+                        $('#port_number_1').val(data.IpPort)
+                    }
+                    if (data.IsCnct == '0') {
+                        $('#open_com').show()
+                        $('#close_com').hide()
+                    } else {
+                        $('#open_com').hide()
+                        $('#close_com').show()
+                    }
+                   
+                }
+                if (type == 'close_com') {
+                    close_all_area()
+                    remove_class()
+                }
+
+
+            },
+
+        });
+    }
+    
+   $("input:radio[name='serial_port_1']").change(function (){
+            if($(this).val()=='串口'){
+              $('#ip_1').attr('disabled',true)
+              $('#port_number_1').attr('disabled',true)
+               $('#com').removeAttr('disabled')
+              $('#baud').removeAttr('disabled')
+            }
+            if($(this).val()=='网口'){
+              $('#com').attr('disabled',true)
+              $('#baud').attr('disabled',true)
+               $('#ip_1').removeAttr('disabled')
+              $('#port_number_1').removeAttr('disabled')
+            }
+       
+    });
+
+    $('#open_com').click(function () {
+        close_all_area()
+        var info=''
+        if($("input[name='serial_port_1']:checked").val()=='串口'){
+            var com = $('#com').val()
+            var baud = $('#baud').val()
+            info={'UartName': com, 'UartBtl': baud, 'Opt': 'connect','DevCnctType':'串口'}
+        }else if($("input[name='serial_port_1']:checked").val()=='网口'){
+            ip = $('#ip_1').val()
+            port_number = $('#port_number_1').val()
+            info={'IpName': ip, 'IpPort': port_number, 'Opt': 'connect','DevCnctType':'网口'}
+        }else if($("input[name='serial_port_1']:checked").val()==undefined){
+            layer_tc('提示', '请选择通讯接口,再打开')
+        }      
+        if(info!=''){
+            $.ajax({
+             type: 'post',
+             url: "/postSmlCfgOptUart",
+             data: info,
+             dataType: 'json',
+             beforeSend: function () {
+                 loading = showLoad();
+             },
+             success: function (data) { //请求成功回调函数
+                 if (data.IsOK == 1) {
+                     $('#open_com').hide()
+                    $('#close_com').show()
+                     closeLoad(loading)
+                 } else {
+                     layer_tc('提示', data.Msg)
+                 }
+             },
+             error: function (data) {
+                 layer_tc('提示', '后台服务未开启，请开启服务以后再试！')
+             }
+         });
+        }
+       
+
+    })
+
+    $('#one_six_network_port').click(function () {
+         $.ajax({
+                type: 'post',
+                url: '/postSmlCfgSetNetOrUart',
+                data: {'ParaOne':2},
+                dataType: 'json',
+                success: function (data) {
+                    layer_tc('提示', '已切换成网口模式.如需切回串口模式,请关闭串口重新打开串口.')
+                },
+            });
+    })
+    
+   $('#st_tc').click(function () {
+      var url ='/postSmlCfgSet'
+      var data={'Cmd':'HHCTD','ActionStatus': 'askForAndGet'}
+      loop_ajax(url, data)
+    })
+    
+    function loop_ajax(url, info){
+       $.ajax({
+            type: 'post',
+            url: url,
+            data: info,
+            dataType: 'json',
+            beforeSend: function () {
+                loading = showLoad();
+            },
+            success: function (data) {
+                if (data.IsAskAgain == "1") {
+                    var info = {'ActionStatus': 'onlyGet'}
+                    read_1 = setTimeout(function () {
+                        loop_ajax('/postSmlCfgSet', info)
+                    }, 2000)
+                } else {
+                    closeLoad(loading)
+                    if (data.Status == "1") {
+                       layer_tc('提示', data.Msg)
+                    } else if((data.Status == "5")){
+                        layer_tc('提示', data.Msg)
+                    }
+                }
+            },
+        });
+    }
+
+    $('#close_com').click(function () {
+        var com = $('#com').val()
+        var baud = $('#baud').val()
+        var info = {'UartName': com, 'UartBtl': baud, 'Opt': 'disconnect'}
+        gg("/postSmlCfgOptUart", info, 'close_com')
+    })
+
+    $(document).on('click', '#read', function () {
+        var url = '/postSmlCfgGetType'
+        var data = {'ActionStatus': 'askForAndGet'}
+        var type = 'read_1'
+        read_write_once(url, data, type)
+    })
+
+    function read_write_once(url, info, type) {
+        $.ajax({
+            type: 'post',
+            url: url,
+            data: info,
+            dataType: 'json',
+            beforeSend: function () {
+                loading = showLoad();
+            },
+            success: function (data) {
+                if (data.IsAskAgain == "1") {
+                    var info = {'ActionStatus': 'onlyGet'}
+                    read_1 = setTimeout(function () {
+                        read_write_once('/postSmlCfgGetType', info, type)
+                    }, 2000)
+                } else {
+                    closeLoad(loading)
+                    if (data.Status == "1") {
+                        var url = ''
+                        if (type == 'read_1') {
+                            url = '/postSmlCfgRd'
+                        } else {
+                            url = '/postSmlCfgWt'
+                        }
+                        DevType = data.DataTwo
+                        var info = {'DevNumType': DevType, 'ActionStatus': 'askForAndGet'}
+                        one_ajax(url, info, type)
+                    } else {
+                        layer_tc('提示', data.Msg)
+                    }
+                }
+            },
+        });
+    }
+
+    function one_ajax(url, info, type) {
+        var info = info
+        $.ajax({
+            type: 'post',
+            url: url,
+            data: info,
+            dataType: 'json',
+            beforeSend: function () {
+                loading = showLoad();
+            },
+            success: function (data) {
+                if (data.IsAskAgain == "1") {
+                    var new_info = {'DevNumType': DevType, 'ActionStatus': 'onlyGet'}
+                    setTimeout(function () {
+                        one_ajax(url, new_info, type)
+                    }, 2000)
+                } else {
+                    closeLoad(loading)
+                    if (data.Status == "1") {
+                        if (type == 'read_1') {
+                            type_display(data.DevStgType)
+                            request_read(data.DevStgType, data)
+                        }
+
+                    } else {
+                        layer_tc('提示', data.Msg)
+                    }
+                }
+            },
+        });
+    }
+
+    $(document).on('click', '#write', function () {
+        if ($("#write").hasClass("small_write")) {
+            request_write('small_write')
+        } else if ($("#write").hasClass("one_six_write")) {
+            request_write('one_six_write')
+        } else if ($("#write").hasClass("beacon_write")) {
+            request_write('beacon_write')
+        }else if ($("#write").hasClass("beacon_one_six_write")) {
+            request_write('beacon_one_six_write')
+        }else if ($("#write").hasClass("st_write")) {
+            request_write('st_write')
+        }else if ($("#write").hasClass("mini_write")) {
+            request_write('mini_write')
+        }else {
+            layer_tc('提示', '请先读设备配置！')
+        }
+
+    })
+
+    $(document).on('click', '#import', function () {
+        if ($("#import").hasClass("small_import")) {
+            import_read('small_import')
+        }
+        if ($("#import").hasClass("one_six_import")) {
+            import_read('one_six_import')
+        }
+        if ($("#import").hasClass("beacon_import")) {
+            import_read('beacon_import')
+        }
+        if ($("#import").hasClass("st_import")) {
+            import_read('st_import')
+        }
+    })
+
+
+    function request_write(type) {
+        var rtn = Validator(type)
+        console.log(rtn)
+        if (rtn) {
+            $.ajax({
+                type: 'post',
+                url: '/postSmlCfgWt',
+                data: rtn,
+                dataType: 'json',
+                success: function (data) {
+                    layer_tc('提示', data.Msg)
+                },
+            });
+        }
+
+    }
+
+    $('.small_env_radio').change(function () {
+        if ($("input[name='small_env_radio']:checked").val() == '1') {
+            $('#small_salinity_id').attr('disabled', 'disabled')
+            $('#small_salinity_id').val('0')
+        } else {
+            $('#small_salinity_id').removeAttr('disabled')
+
+        }
+    })
+
+
+</script>
+
+
+</body>
+</html>
